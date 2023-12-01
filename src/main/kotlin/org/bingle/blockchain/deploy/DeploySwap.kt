@@ -1,7 +1,7 @@
-package org.unknown.comms.blockchain.deploy
+package org.bingle.blockchain.deploy
 
-import org.unknown.comms.blockchain.AlgoOps
-import org.unknown.comms.interfaces.IKeyProvider
+import org.bingle.blockchain.AlgoOps
+import org.bingle.interfaces.IKeyProvider
 
 class DeploySwap(keyProvider: IKeyProvider?=null, passphrase: String?=null, address: String?=null)
     : AlgoOps(keyProvider, passphrase, address){

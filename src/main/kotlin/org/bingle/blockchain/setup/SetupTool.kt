@@ -1,4 +1,4 @@
-package org.unknown.comms.blockchain.setup
+package org.bingle.blockchain.setup
 
 import com.beust.klaxon.Klaxon
 import java.nio.charset.StandardCharsets

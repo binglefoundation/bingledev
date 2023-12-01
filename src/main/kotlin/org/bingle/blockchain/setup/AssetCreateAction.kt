@@ -1,6 +1,6 @@
-package org.unknown.comms.blockchain.setup
+package org.bingle.blockchain.setup
 
-import org.unknown.comms.blockchain.AlgoOps
+import org.bingle.blockchain.AlgoOps
 
 class AssetCreateAction(
     val assetName: String,

@@ -1,4 +1,4 @@
-package com.creatotronik.util
+package org.bingle.util
 
 import kotlin.math.ceil
 import kotlin.math.log

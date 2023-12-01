@@ -1,4 +1,4 @@
-package org.unknown.comms
+package org.bingle.engine
 
 class IdUtils(val id: String) {
     enum class IdLike {ISSUER}

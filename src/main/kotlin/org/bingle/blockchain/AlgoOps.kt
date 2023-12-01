@@ -1,4 +1,4 @@
-package org.unknown.comms.blockchain
+package org.bingle.blockchain
 
 import com.algorand.algosdk.account.Account
 import com.algorand.algosdk.builder.transaction.*
@@ -14,12 +14,11 @@ import com.algorand.algosdk.v2.client.common.IndexerClient
 import com.algorand.algosdk.v2.client.common.Response
 import com.algorand.algosdk.v2.client.indexer.SearchForTransactions
 import com.algorand.algosdk.v2.client.model.*
-import com.creatotronik.util.logDebug
+import org.bingle.util.logDebug
 import org.apache.commons.codec.binary.Base32
-import org.spongycastle.util.encoders.Base64
-import org.unknown.comms.blockchain.generated.AlgoConfig
-import org.unknown.comms.interfaces.IChainAccess
-import org.unknown.comms.interfaces.IKeyProvider
+import org.bouncycastle.util.encoders.Base64
+import org.bingle.blockchain.generated.AlgoConfig
+import org.bingle.interfaces.IKeyProvider
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files

@@ -1,8 +1,8 @@
-package org.unknown.comms.blockchain
+package org.bingle.blockchain
 
-import org.unknown.comms.blockchain.generated.AlgoConfig
-import org.unknown.comms.interfaces.IChainAccess
-import org.unknown.comms.interfaces.IKeyProvider
+import org.bingle.blockchain.generated.AlgoConfig
+import org.bingle.interfaces.IChainAccess
+import org.bingle.interfaces.IKeyProvider
 
 class AlgoAssetAccess(keyProvider: IKeyProvider? = null, algoProviderConfig: AlgoProviderConfig? = null) :
     AlgoSwap(

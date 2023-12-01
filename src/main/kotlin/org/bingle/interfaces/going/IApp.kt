@@ -1,4 +1,4 @@
-package org.unknown.comms.interfaces
+package org.bingle.interfaces.going
 
 interface IApp {
     val type: String

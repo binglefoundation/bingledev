@@ -1,4 +1,4 @@
-package com.creatotronik.util
+package org.bingle.util
 
 import java.lang.RuntimeException
 import java.nio.ByteBuffer

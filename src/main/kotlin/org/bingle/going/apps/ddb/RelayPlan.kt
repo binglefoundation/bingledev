@@ -1,6 +1,6 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
 
-import com.creatotronik.util.NetDet
+import org.bingle.util.NetDet
 
 const val TREE_ORDER = 4
 

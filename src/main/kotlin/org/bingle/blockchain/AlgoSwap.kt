@@ -1,15 +1,17 @@
-package org.unknown.comms.blockchain
+package org.bingle.blockchain
 
 import com.algorand.algosdk.builder.transaction.ApplicationCallTransactionBuilder
 import com.algorand.algosdk.crypto.Address
 import com.algorand.algosdk.crypto.Digest
 import com.algorand.algosdk.transaction.Transaction
 import com.algorand.algosdk.transaction.TxGroup
-import com.algorand.algosdk.util.Base64
-import com.algorand.algosdk.util.Encoder
-import com.creatotronik.util.logDebug
 
-import org.unknown.comms.interfaces.IKeyProvider
+import com.algorand.algosdk.util.Encoder
+import org.apache.commons.codec.binary.Base64
+
+
+import org.bingle.interfaces.IKeyProvider
+import org.bingle.util.logDebug
 import java.io.ByteArrayOutputStream
 import java.net.InetSocketAddress
 

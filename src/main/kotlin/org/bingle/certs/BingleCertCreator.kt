@@ -1,6 +1,7 @@
-package org.unknown.comms.certs
+package org.bingle.certs
 
-import org.unknown.comms.interfaces.IChainAccess
+import org.bingle.interfaces.IChainAccess
+
 
 class BingleCertCreator(algoOps: IChainAccess, val id: String) : CertCreator() {
 

@@ -1,4 +1,4 @@
-package org.unknown.comms.blockchain.setup
+package org.bingle.blockchain.setup
 
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.TypeAdapter
@@ -26,7 +26,7 @@ abstract class SetupAction(
 
     fun updateGenerated(creatorAddress: String, assetId: Long, appId: Long?) {
         val generatedKotlin = """
-            package org.unknown.comms.blockchain.generated
+            package org.bingle.blockchain.generated
 
             object AlgoConfig {
                 const val assetId = ${assetId}L

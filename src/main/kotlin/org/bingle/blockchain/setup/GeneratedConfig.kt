@@ -1,4 +1,4 @@
-package org.unknown.comms.blockchain.setup
+package org.bingle.blockchain.setup
 
 data class GeneratedConfig(
     val creatorAddress: String,

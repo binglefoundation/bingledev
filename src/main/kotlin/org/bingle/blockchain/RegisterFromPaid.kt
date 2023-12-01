@@ -1,7 +1,7 @@
-package org.unknown.comms.blockchain
+package org.bingle.blockchain
 
-import com.creatotronik.util.logWarn
-import org.unknown.comms.blockchain.generated.AlgoConfig
+import org.bingle.blockchain.generated.AlgoConfig
+import org.bingle.util.logWarn
 
 // paidAddress must have > 0.2 Algo
 class RegisterFromPaid(val paidAddress: String, val passPhrase: String, val handle: String) {

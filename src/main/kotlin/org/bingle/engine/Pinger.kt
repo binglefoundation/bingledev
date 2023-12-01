@@ -1,16 +1,29 @@
-package org.unknown.comms
+package org.bingle.engine
 
-import com.creatotronik.util.logDebug
-import org.unknown.comms.interfaces.ICommsSender
+import org.bingle.interfaces.SendProgress
+import org.bingle.util.logDebug
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class Pinger(
-    val comms: ICommsSender,
-    val requestPingables: () -> List<Pingable>,
-    val onAvailabilityChange: (id: String, availability: TargetAvailability) -> Unit,
-    val now: (() -> Date) = { Date() }
-) {
+class Pinger {
+
+    private val engine: IEngineState
+    private val requestPingables: (() -> List<Pingable>)?
+    private val onAvailabilityChange: ((id: String, availability: TargetAvailability) -> Unit)?
+    private val now: (() -> Date)
+
+    internal constructor(
+        engine: IEngineState,
+        requestPingables: (() -> List<Pingable>)?,
+        onAvailabilityChange: ((id: String, availability: TargetAvailability) -> Unit)?,
+        now: (() -> Date) = { Date() }
+    ) {
+        this.engine = engine
+        this.requestPingables = requestPingables
+        this.onAvailabilityChange = onAvailabilityChange
+        this.now = now
+        this.pingTargets = emptyList()
+    }
 
     enum class TargetAvailability {
         UNKNOWN,
@@ -28,7 +41,7 @@ class Pinger(
         var availability: TargetAvailability = TargetAvailability.UNKNOWN
     )
 
-    var pingTargets: List<PingTarget> = emptyList()
+    var pingTargets: List<PingTarget>
     var nextRequest: Date? = null
 
     fun run() {
@@ -74,7 +87,7 @@ class Pinger(
             }
 
             if (nextTarget.availability != prevAvailability) {
-                onAvailabilityChange(nextTarget.pingable.id, nextTarget.availability)
+                onAvailabilityChange?.invoke(nextTarget.pingable.id, nextTarget.availability)
             }
 
             nextTarget.nextPing = Date(now().time + nextTarget.delayS * 1000)
@@ -96,23 +109,23 @@ class Pinger(
     }
 
     private fun checkTarget(target: PingTarget) {
-        comms.sendMessageToId(
+        engine.sender.sendMessageToId(
             target.pingable.id,
-            mapOf("app" to "ping", "type" to "ping", "senderId" to comms.currentUser().first)
+            mapOf("app" to "ping", "type" to "ping", "senderId" to engine.currentUser().first)
         )
         { progress, _ ->
             when {
-                progress == Comms.SendProgress.SENDING && target.availability <= TargetAvailability.OFFLINE -> {
+                progress == SendProgress.SENDING && target.availability <= TargetAvailability.OFFLINE -> {
                     target.currentAvailability = TargetAvailability.RESOLVED
                     if (target.availability < TargetAvailability.RESOLVED) target.availability =
                         TargetAvailability.RESOLVED
                 }
-                progress == Comms.SendProgress.SENT -> {
+                progress == SendProgress.SENT -> {
                     target.currentAvailability = TargetAvailability.CONNECTS
                     if (target.availability < TargetAvailability.CONNECTS) target.availability =
                         TargetAvailability.CONNECTS
                 }
-                progress == Comms.SendProgress.FAILED -> {
+                progress == SendProgress.FAILED -> {
                     target.currentAvailability = TargetAvailability.OFFLINE
                     target.availability = TargetAvailability.OFFLINE
                 }
@@ -121,9 +134,9 @@ class Pinger(
     }
 
     private fun reloadPingables() {
-        pingTargets = requestPingables().map { pingable ->
+        pingTargets = requestPingables?.invoke()?.map { pingable ->
             PingTarget(pingable)
-        }
+        } ?: emptyList()
         logDebug("Reloaded ${pingTargets}")
     }
 
@@ -136,7 +149,7 @@ class Pinger(
         }
 
         if (respondingTarget.availability != TargetAvailability.RESPONDS)
-            onAvailabilityChange(respondingTarget.pingable.id, TargetAvailability.RESPONDS)
+            onAvailabilityChange?.invoke(respondingTarget.pingable.id, TargetAvailability.RESPONDS)
         respondingTarget.availability = TargetAvailability.RESPONDS
         respondingTarget.currentAvailability = TargetAvailability.RESPONDS
     }

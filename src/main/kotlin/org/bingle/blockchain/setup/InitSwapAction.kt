@@ -1,6 +1,6 @@
-package org.unknown.comms.blockchain.setup
+package org.bingle.blockchain.setup
 
-import org.unknown.comms.blockchain.deploy.DeploySwap
+import org.bingle.blockchain.deploy.DeploySwap
 
 class InitSwapAction(
     val initialAssetBalance: Double,

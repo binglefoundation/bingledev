@@ -1,4 +1,4 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
 
 interface ISendableMessage {
     fun toMap(): Map<String, Any>

@@ -1,16 +1,17 @@
-package org.unknown.comms.apps
+package org.bingle.going.apps
 
-import com.creatotronik.util.logDebug
-import com.creatotronik.util.logWarn
-import org.unknown.comms.Comms
-import org.unknown.comms.NetworkSourceKey
-import org.unknown.comms.interfaces.IApp
+import org.bingle.dtls.NetworkSourceKey
+import org.bingle.engine.Engine
+import org.bingle.interfaces.going.IApp
+import org.bingle.util.logDebug
+import org.bingle.util.logWarn
 import java.net.InetSocketAddress
 
-class RelayApp(val comms: Comms) : IApp {
+class RelayApp(val engine: Engine) : IApp {
     override val type: String
         get() = "relay"
 
+    // TODO: typed message
     override fun onMessage(senderId: String, decodedMessage: MutableMap<String, Any?>) {
         val (host, port) = decodedMessage["senderAddress"]?.toString()?.trimStart('/')?.split(":")!!
         val senderAddress = InetSocketAddress(host, port.toInt())
@@ -23,7 +24,7 @@ class RelayApp(val comms: Comms) : IApp {
         when (decodedMessage["type"]) {
             "check" -> {
                 logDebug("RelayApp:: sending response message to ${senderId}")
-                comms.sendMessageToNetwork(
+                engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
                     mapOf(
@@ -36,9 +37,9 @@ class RelayApp(val comms: Comms) : IApp {
             }
 
             "listen" -> {
-                logDebug("RelayApp:: ${comms.currentEndpoint?.port} got listen with ${senderAddress} ${senderId}")
-                comms.relay.relayListen(senderAddress, senderId)
-                comms.sendMessageToNetwork(
+                logDebug("RelayApp:: ${engine.currentEndpoint?.port} got listen with ${senderAddress} ${senderId}")
+                engine.relay.relayListen(senderAddress, senderId)
+                engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
                     mapOf(
@@ -51,12 +52,12 @@ class RelayApp(val comms: Comms) : IApp {
             "call" -> {
                 val calledId = decodedMessage["calledId"]!!
                 val channel =
-                    comms.relay.relayCall(calledId.toString(), senderAddress)
+                    engine.relay.relayCall(calledId.toString(), senderAddress)
                 if(channel==null) {
                     logDebug("RelayApp:: could not allocate channel for ${calledId}")
                 }
-                logDebug("RelayApp::onMessage on ${comms.currentEndpoint} sender = ${senderAddress} relayedChannels=${comms.relay.relayedChannels}")
-                comms.sendMessageToNetwork(
+                logDebug("RelayApp::onMessage on ${engine.currentEndpoint} sender = ${senderAddress} relayedChannels=${engine.relay.relayedChannels}")
+                engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
                     mapOf(
@@ -74,16 +75,16 @@ class RelayApp(val comms: Comms) : IApp {
                 // we need a state change to pick this up
             }
             "keepAlive" -> {
-                comms.relay.keepAlive(senderId)
+                engine.relay.keepAlive(senderId)
             }
             "triangleTest1" -> {
                 logDebug("RelayApp:: triangleTest1 message, find relay to pass on message")
-                val relay = comms.relayFinder!!.find()
+                val relay = engine.relayFinder!!.find()
                 if(relay == null) {
                     logWarn("RelayApp:: triangleTest1 message: No relay found to pass on triangleTest1")
                 }
                 else {
-                    comms.sendMessageToId(
+                    engine.sendMessageToId(
                         relay.first,
                         mapOf(
                             "app" to "relay",
@@ -102,7 +103,7 @@ class RelayApp(val comms: Comms) : IApp {
                     InetSocketAddress(decodedMessage["checkingAddress"]?.toString()!!,
                         (decodedMessage["checkingPort"] as? Int)!!))
 
-                comms.sendMessageToNetwork(networkSourceKey, decodedMessage["checkingId"]?.toString()!!,
+                engine.sender.sendMessageToNetwork(networkSourceKey, decodedMessage["checkingId"]?.toString()!!,
                     mapOf(
                         "app" to "relay",
                         "type" to "triangleTest3",

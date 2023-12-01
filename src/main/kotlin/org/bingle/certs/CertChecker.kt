@@ -1,13 +1,13 @@
-package org.unknown.comms.certs
+package org.bingle.certs
 
-import org.spongycastle.asn1.ASN1Encoding
-import org.spongycastle.asn1.edec.EdECObjectIdentifiers
-import org.spongycastle.asn1.x509.Certificate
-import org.spongycastle.asn1.x509.TBSCertificate
-import org.spongycastle.cert.X509CertificateHolder
-import org.spongycastle.crypto.params.Ed25519PublicKeyParameters
-import org.spongycastle.crypto.signers.Ed25519Signer
-import org.spongycastle.util.io.pem.PemReader
+import org.bouncycastle.asn1.ASN1Encoding
+import org.bouncycastle.asn1.edec.EdECObjectIdentifiers
+import org.bouncycastle.asn1.x509.Certificate
+import org.bouncycastle.asn1.x509.TBSCertificate
+import org.bouncycastle.cert.X509CertificateHolder
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
+import org.bouncycastle.crypto.signers.Ed25519Signer
+import org.bouncycastle.util.io.pem.PemReader
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.InputStreamReader

@@ -1,4 +1,4 @@
-package org.unknown.comms.blockchain.generated
+package org.bingle.blockchain.generated
 
 object AlgoConfig {
     const val assetId = 57147407L

@@ -3,6 +3,7 @@ package org.bingle.command
 import com.beust.klaxon.*
 import com.google.common.base.CaseFormat
 import org.apache.commons.text.CaseUtils
+import org.bingle.going.apps.ddb.ISendableMessage
 
 import java.net.InetSocketAddress
 import java.text.SimpleDateFormat
@@ -10,7 +11,8 @@ import java.util.*
 import kotlin.reflect.KClass
 
 @TypeFor(field = "type", adapter = BaseCommand.BaseTypeAdapter::class)
-open class BaseCommand( ) : ISendableCommand {
+// TODO: remove ISendableMessage
+open class BaseCommand( ) : ISendableCommand, ISendableMessage {
 
     val type = this.javaClass.name.replace("org.bingle.command.", "").split("$")
         .map { CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, it)}.joinToString(".")
@@ -88,6 +90,8 @@ open class BaseCommand( ) : ISendableCommand {
             return klaxonParser().parse<BaseCommand>(mapJson)
                 ?: throw RuntimeException("could not transform map to command")
         }
+
+        fun <T>fromMap(mapValues: Map<String, Any?>): T = fromMap(mapValues) as T
 
         fun fromJson(jsonText: String): BaseCommand {
             return klaxonParser().parse<BaseCommand>(jsonText)

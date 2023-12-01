@@ -19,8 +19,17 @@ dependencies {
 
     implementation("com.google.guava:guava:31.1-jre")
 
+    implementation("com.algorand:algosdk:2.4.0")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.76")
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+
+    // TODO: relocate or incorporate
+    implementation(files("../thirdparty/JSTUN/target/jstun-0.7.6-XOR.jar"))
+
     testImplementation(kotlin("test"))
     testImplementation("org.assertj:assertj-core:3.24.2")
+    // https://mvnrepository.com/artifact/io.mockk/mockk
+    testImplementation("io.mockk:mockk:1.13.8")
 }
 
 tasks.test {
@@ -28,5 +37,5 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 }

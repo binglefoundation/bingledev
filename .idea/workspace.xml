@@ -1,32 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ddb.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/ISendableCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ping.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/data/AdvertRecord.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/Logger.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/DdbTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/PingTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/detekt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/detekt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoAssetAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoAssetAccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoOps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoOps.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoSwap.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/AlgoSwap.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/RegisterFromPaid.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/RegisterFromPaid.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/deploy/DeploySwap.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/deploy/DeploySwap.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/generated/AlgoConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/generated/AlgoConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/AssetCreateAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/AssetCreateAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/DeployAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/DeployAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/GeneratedConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/GeneratedConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/InitSwapAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/InitSwapAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/SetupAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/SetupAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/SetupTool.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/blockchain/setup/SetupTool.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/BingleCertCreator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/BingleCertCreator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/CertChecker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/CertChecker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/CertCreator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/certs/CertCreator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/DTLSParameters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/DTLSParameters.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/IDTLSConnect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/IDTLSConnect.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/IResourceUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/IResourceUtil.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/JavaResourceUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/JavaResourceUtil.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/NetworkSourceKey.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/dtls/NetworkSourceKey.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IdUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IdUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pingable.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pingable.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/SignupResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/SignupResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/StunResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/StunResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/TurnRelayProtocol.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/TurnRelayProtocol.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/RelayApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/RelayApp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDB.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDB.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBServer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBServer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/ISendableMessage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/ISendableMessage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/RelayPlan.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/RelayPlan.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/going/IApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/going/IApp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/stun/StunProtocol.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/stun/StunProtocol.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/ByteArrayExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/ByteArrayExtensions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/NetDet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/NetDet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockKeyProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockKeyProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockNetworkChangeProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockNetworkChangeProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockUsage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockUsage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +98,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Kotlin File" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -63,36 +106,70 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2X8zG4G36KOyHWP9bUFbF1t14bO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/richardparratt/dev/bingledev/src/main/kotlin/org/bingle/util",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/richardparratt/dev/bingledev/src/main/kotlin/org/bingle/going&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin/org/bingle/going" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/org/bingle" />
       <recent name="$PROJECT_DIR$/src/main/kotlin/org/bingle/util" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces" />
       <recent name="$PROJECT_DIR$/src/main/kotlin" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="org.bingle.engine.mocks" />
+      <recent name="org.bingle.engine" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="org.bingle.engine.mocks" />
+    </key>
+    <key name="KotlinExtractInterfaceDialog.RECENT_KEYS">
+      <recent name="org.bingle.engine" />
+    </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="org.bingle.command" />
+      <recent name="org.bingle.util" />
+      <recent name="org.bingle.engine" />
+      <recent name="org.bingle.interfaces.going" />
+      <recent name="org.bingle.dtls" />
+      <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
-    <configuration name="DdbTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Tests in 'org.bingle.engine'">
+    <configuration name="SenderUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -105,7 +182,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.command.DdbTest&quot;" />
+            <option value="&quot;org.bingle.engine.SenderUnitTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -116,7 +193,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DdbTest.can decode and encode UpsertResolve from and to map" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Tests in 'org.bingle.engine'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -129,7 +206,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.command.DdbTest.can decode and encode UpsertResolve from and to map&quot;" />
+            <option value="&quot;org.bingle.engine.*&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -140,7 +217,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DdbTest.can decode and encode UpsertResolvefrom and to map" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="WorkerUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -153,7 +230,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.command.DdbTest.can decode and encode UpsertResolvefrom and to map&quot;" />
+            <option value="&quot;org.bingle.engine.WorkerUnitTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -164,29 +241,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Tests in 'bingledev.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="Tests in 'org.bingle.command'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="WorkerUnitTest.Can receive and pass on a message" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -199,7 +254,31 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.command.*&quot;" />
+            <option value="&quot;org.bingle.engine.WorkerUnitTest.Can receive and pass on a message&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkerUnitTest.Can start and stop worker" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.bingle.engine.WorkerUnitTest.Can start and stop worker&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -212,11 +291,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Tests in 'bingledev.test'" />
-        <item itemvalue="Gradle.DdbTest" />
-        <item itemvalue="Gradle.DdbTest.can decode and encode UpsertResolve from and to map" />
-        <item itemvalue="Gradle.Tests in 'org.bingle.command'" />
-        <item itemvalue="Gradle.DdbTest.can decode and encode UpsertResolvefrom and to map" />
+        <item itemvalue="Gradle.Tests in 'org.bingle.engine'" />
+        <item itemvalue="Gradle.WorkerUnitTest" />
+        <item itemvalue="Gradle.WorkerUnitTest.Can receive and pass on a message" />
+        <item itemvalue="Gradle.WorkerUnitTest.Can start and stop worker" />
+        <item itemvalue="Gradle.SenderUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -229,8 +308,28 @@
       <option name="presentableId" value="Default" />
       <updated>1698025399796</updated>
       <workItem from="1698025400972" duration="1246000" />
-      <workItem from="1698529754070" duration="10249000" />
+      <workItem from="1698529754070" duration="39355000" />
+      <workItem from="1699743991723" duration="8891000" />
+      <workItem from="1700273341500" duration="4046000" />
+      <workItem from="1700351573982" duration="88000" />
+      <workItem from="1700351678871" duration="649000" />
+      <workItem from="1700455543991" duration="597000" />
+      <workItem from="1701297564495" duration="701000" />
+      <workItem from="1701378242833" duration="245000" />
+      <workItem from="1701378505495" duration="204000" />
+      <workItem from="1701383434274" duration="51000" />
+      <workItem from="1701402282903" duration="1744000" />
+      <workItem from="1701471738371" duration="436000" />
     </task>
+    <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
+      <option name="closed" value="true" />
+      <created>1698646262385</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698646262385</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,5 +338,24 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
     <option name="LAST_COMMIT_MESSAGE" value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt</url>
+          <line>194</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bingledev$SenderUnitTest.ic" NAME="SenderUnitTest Coverage Results" MODIFIED="1699742705015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bingledev$WorkerUnitTest.ic" NAME="WorkerUnitTest Coverage Results" MODIFIED="1700351204750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -1,13 +1,15 @@
-package com.creatotronik.stun
+package org.bingle.stun
 
-import com.creatotronik.util.logDebug
-import com.creatotronik.util.toByteArray
-import com.creatotronik.util.toHexString
-import com.creatotronik.util.xor
+
+import com.creatotronik.stun.StunResponse
+import com.creatotronik.stun.StunResponseKind
 import de.javawi.jstun.attribute.*
 import de.javawi.jstun.header.MessageHeader
 import de.javawi.jstun.header.MessageHeaderInterface
 import de.javawi.jstun.header.MessageHeaderParsingException
+import org.bingle.util.logDebug
+import org.bingle.util.toByteArray
+import org.bingle.util.xor
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -23,7 +25,7 @@ private const val MAGIC_COOKIE = 0x2112A442
 
 class StunProtocol(private val stunServers: List<String>?) {
 
-    private var timer:Timer? = null
+    private var timer: Timer? = null
     private var hasNetworkChanged = false
 
     private data class ServerRequestInfo(
@@ -38,19 +40,18 @@ class StunProtocol(private val stunServers: List<String>?) {
     fun isStunMessage(data: ByteArray?): Boolean {
         try {
             MessageHeader.parseHeader(data)
-        }
-        catch(_: MessageHeaderParsingException) {
+        } catch (_: MessageHeaderParsingException) {
             return false
         }
 
         return true
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun decodeStunResponse(stunResponse: ByteArray): StunResponse? {
         val messageHeader = try {
             MessageHeader.parseHeader(stunResponse)
-        }
-        catch(ex: MessageHeaderParsingException) {
+        } catch (ex: MessageHeaderParsingException) {
             System.err.println("decodeStunResponse: ${ex}")
             return null
         }
@@ -59,7 +60,7 @@ class StunProtocol(private val stunServers: List<String>?) {
 
         val trID = messageHeader.transactionID
         val request = serverRequestsOutstanding.values.find { it.transactionID.contentEquals(trID) }
-        if(request == null) {
+        if (request == null) {
             System.err.println("decodeStunResponse: request has unknown transaction id ${trID.toHexString()}")
             return null
         }
@@ -68,17 +69,20 @@ class StunProtocol(private val stunServers: List<String>?) {
         request.interval = 300
         request.nextSend = timePlusSeconds(request.interval)
 
-        val ma = messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.MappedAddress) as MappedAddress?
-        val xma = messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.XorMappedAddress) as XorMappedAddress?
+        val ma =
+            messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.MappedAddress) as MappedAddress?
+        val xma =
+            messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.XorMappedAddress) as XorMappedAddress?
 
 
-        val ec = messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.ErrorCode) as ErrorCode?
+        val ec =
+            messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.ErrorCode) as ErrorCode?
         if (ec != null) {
             System.err.println("decodeStunResponse: request has error ${ec.responseCode}, ${ec.reason}")
             return null
         }
 
-        if(ma != null) {
+        if (ma != null) {
             return StunResponse(
                 StunResponseKind.PLAIN,
                 request.server,
@@ -86,9 +90,9 @@ class StunProtocol(private val stunServers: List<String>?) {
             )
         }
 
-        if(xma != null) {
+        if (xma != null) {
             val addressBytes = xma.address.bytes
-            val decodedAddressBytes = when(addressBytes.size) {
+            val decodedAddressBytes = when (addressBytes.size) {
                 4 -> addressBytes.xor(MAGIC_COOKIE.toByteArray())
                 16 -> addressBytes.xor(MAGIC_COOKIE.toByteArray() + trID)
                 else -> throw RuntimeException("${addressBytes.size} bytes unexpected asa address size")
@@ -110,20 +114,19 @@ class StunProtocol(private val stunServers: List<String>?) {
     }
 
     fun initSender(socket: DatagramSocket) {
-        if(stunServers==null || stunServers.isEmpty()) return
+        if (stunServers == null || stunServers.isEmpty()) return
 
         requestAllServers(stunServers, socket)
 
-        timer = timer("stunSender", period=1000) {
-            if(hasNetworkChanged) {
+        timer = timer("stunSender", period = 1000) {
+            if (hasNetworkChanged) {
                 hasNetworkChanged = false
                 requestAllServers(stunServers, socket)
-            }
-            else {
+            } else {
                 serverRequestsOutstanding.entries.forEach {
-                    if(it.value.nextSend.before(Date())) {
+                    if (it.value.nextSend.before(Date())) {
                         val transactionID = sendRequest(socket, it.key)
-                        if(transactionID != null) {
+                        if (transactionID != null) {
                             var nextInterval = it.value.interval * 2
                             if (nextInterval > RETRY_LIMIT) nextInterval = RETRY_LIMIT
                             val nextSend = timePlusSeconds(nextInterval)
@@ -164,6 +167,7 @@ class StunProtocol(private val stunServers: List<String>?) {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun sendRequest(socket: DatagramSocket, serverAndPort: String): ByteArray? {
         val sendMH = MessageHeader(MessageHeaderInterface.MessageHeaderType.BindingRequest)
         sendMH.generateTransactionID()
@@ -175,7 +179,7 @@ class StunProtocol(private val stunServers: List<String>?) {
         val (server, port) = serverAndPort.split(":")
 
         val stunAddress = InetSocketAddress(server, port.toIntOrNull() ?: 3478)
-        if(stunAddress.isUnresolved) {
+        if (stunAddress.isUnresolved) {
             System.err.println("${server} not found in DNS")
             return null
         }

@@ -1,8 +1,6 @@
-package com.creatotronik.dtls
+package org.bingle.dtls
 
-import com.creatotronik.ssledtls.IPacketProtocol
 import com.creatotronik.stun.StunResponse
-import org.unknown.comms.NetworkSourceKey
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
@@ -10,7 +8,6 @@ open class DTLSParameters(
     val port: Int = 0,
     val onMessage: (fromAddress: NetworkSourceKey, fromVerifiedId: String?, messageBuffer: ByteArray, messageLength: Int) -> Unit,
     val resources: IResourceUtil,
-    val makeProtocolHandler: (() -> IPacketProtocol)? = null,
     val onStunResponse: ((response: StunResponse) -> Unit)? = null,
     val stunServers: List<String>? = null,
     var serverEncryptionCert: ByteArray,

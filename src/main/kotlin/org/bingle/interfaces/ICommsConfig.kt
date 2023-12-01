@@ -1,7 +1,10 @@
-package org.unknown.comms.interfaces
+package org.bingle.interfaces
 
-import com.creatotronik.dtls.IDTLSConnect
-import org.unknown.comms.blockchain.AlgoProviderConfig
+import org.bingle.blockchain.AlgoProviderConfig
+import org.bingle.dtls.IDTLSConnect
+import org.bingle.engine.Pingable
+import org.bingle.engine.Pinger
+
 
 interface ICommsConfig {
     fun makeKeyProvider(creds: Map<String, String>): IKeyProvider
@@ -24,6 +27,11 @@ interface ICommsConfig {
     val publicEndpoint: String? // Set this to IP/FQDN to use a defined public endpoint rather than discovering with STUN
     val algoProviderConfig: AlgoProviderConfig? // configure how we access Algo blockchain
     val timeouts: TimeoutConfig
+    val onState: CommsStateHandler?
+    val requestPingables: (() -> List<Pingable>)?
+    val onAvailability: ((id: String, availability: Pinger.TargetAvailability) -> Unit)?
+    val onUsername: ((id: String, username: String) -> Unit)?
+    var onMessage: (decodedMessage: MutableMap<String, Any?>) -> Unit
 
     data class TimeoutConfig(
         val handshake: Int? = null,

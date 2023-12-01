@@ -1,8 +1,9 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
 
-import org.unknown.comms.command.CommsCommand
-import org.unknown.comms.command.DdbCommand
-import org.unknown.comms.interfaces.IApp
+import org.bingle.command.BaseCommand
+import org.bingle.command.Ddb
+import org.bingle.going.apps.ddb.DistributedDB
+import org.bingle.interfaces.going.IApp
 
 class DistributedDBApp(
     myId: String,
@@ -17,6 +18,6 @@ class DistributedDBApp(
     override val type: String = "ddb"
 
     override fun onMessage(senderId: String, decodedMessage: MutableMap<String, Any?>) {
-        distributedDB.execute(senderId, CommsCommand.fromMap(decodedMessage))
+        distributedDB.execute(senderId, BaseCommand.fromMap<Ddb>(decodedMessage))
     }
 }

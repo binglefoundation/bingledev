@@ -1,3 +1,3 @@
-package org.unknown.comms
+package org.bingle.engine
 
 data class Pingable(val id: String)

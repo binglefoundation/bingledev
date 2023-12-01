@@ -1,7 +1,8 @@
-package org.unknown.comms
+package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
-import org.unknown.comms.interfaces.IStunResolver
+import org.bingle.interfaces.IStunResolver
+import org.bingle.interfaces.ResolveLevel
 import java.net.InetSocketAddress
 import java.util.*
 
@@ -27,11 +28,6 @@ class StunResolver : IStunResolver {
             } else null
         }
     )
-
-
-    enum class ResolveLevel {
-        NONE, SINGLE, INCONSISTENT, CONSISTENT
-    }
 
     override fun addResponse(stunResponse: StunResponse) {
         this.responses.set(stunResponse.server ?: throw RuntimeException("StunResolver::addResponse null server in response"), Pair(Date(), stunResponse))

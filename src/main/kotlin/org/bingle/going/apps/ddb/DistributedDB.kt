@@ -1,7 +1,7 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
 
-import org.unknown.comms.Advertiser
-import org.unknown.comms.command.DdbCommand
+import org.bingle.command.Ddb
+import org.bingle.command.data.AdvertRecord
 
 class DistributedDB(
     private val myId: String,
@@ -10,18 +10,18 @@ class DistributedDB(
 ) {
     enum class State { CLIENT, LOADING, SIGNING_ON, SERVER }
 
-    private val records = mutableMapOf<String, Advertiser.AdvertRecord>()
+    private val records = mutableMapOf<String, AdvertRecord>()
     private val loadingPeers = mutableSetOf<String>()
-    private val pendingUpdatesInLoad = mutableListOf<DdbCommand.Update>()
+    private val pendingUpdatesInLoad = mutableListOf<Ddb.Update>()
 
     var state = State.CLIENT
     var expectedRecords: Int? = null
 
-    fun execute(senderId: String, command: DdbCommand) {
+    fun execute(senderId: String, command: Ddb) {
         if (!validSender(senderId, command)) return
         checkBroadcast(command)
 
-        (command as? DdbCommand.Update)?.let {
+        (command as? Ddb.Update)?.let {
             if (state == State.LOADING) {
                 pendingUpdatesInLoad.add(command)
                 return
@@ -30,17 +30,17 @@ class DistributedDB(
             }
 
             send(
-                senderId, DdbCommand.UpdateResponse(command.responseTag)
+                senderId, Ddb.UpdateResponse(command.responseTag)
             )
             return
         }
 
         when (command) {
-            is DdbCommand.QueryResolve -> queryResolve(senderId, command.id, command.responseTag)
-            is DdbCommand.Signon -> signon(senderId, command)
-            is DdbCommand.GetEpoch -> getEpoch(senderId, command.epochId, command.responseTag)
-            is DdbCommand.InitResolve -> initResolve(senderId, command.responseTag)
-            is DdbCommand.DumpResolve -> dumpResolve(senderId, command.responseTag, command.record)
+            is Ddb.QueryResolve -> queryResolve(senderId, command.id, command.responseTag)
+            is Ddb.Signon -> signon(senderId, command)
+            is Ddb.GetEpoch -> getEpoch(senderId, command.epochId, command.responseTag)
+            is Ddb.InitResolve -> initResolve(senderId, command.responseTag)
+            is Ddb.DumpResolve -> dumpResolve(senderId, command.responseTag, command.record)
             else -> println("Unexpected command ${command.type}")
         }
     }
@@ -52,21 +52,21 @@ class DistributedDB(
         pendingUpdatesInLoad.clear()
     }
 
-    private fun handleUpdate(command: DdbCommand.Update) {
+    private fun handleUpdate(command: Ddb.Update) {
         when (command) {
-            is DdbCommand.UpsertResolve -> upsertRecord(
+            is Ddb.UpsertResolve -> upsertRecord(
                 command.startId,
                 command.record
             )
 
-            is DdbCommand.DeleteResolve -> deleteRecord(command.startId)
+            is Ddb.DeleteResolve -> deleteRecord(command.startId)
         }
     }
 
     private fun getEpoch(querySenderId: String, epoch: Int, responseTag: String?) {
         val epochParams = relayPlan.getEpochParams(epoch)
         send(
-            querySenderId, DdbCommand.GetEpochResponse(
+            querySenderId, Ddb.GetEpochResponse(
                 responseTag,
                 querySenderId,
                 epochParams.epochId,
@@ -76,7 +76,7 @@ class DistributedDB(
         )
     }
 
-    private fun signon(senderId: String, command: DdbCommand.Signon) {
+    private fun signon(senderId: String, command: Ddb.Signon) {
         checkValidRelay(senderId)
         loadingPeers.remove(senderId)
 
@@ -95,8 +95,8 @@ class DistributedDB(
         return true // TODO: check blockchain
     }
 
-    private fun checkBroadcast(command: DdbCommand) {
-        if (command !is DdbCommand.Update) return
+    private fun checkBroadcast(command: Ddb) {
+        if (command !is Ddb.Update) return
 
         // we start at the relays id, not the senders
         val broadcastNext = relayPlan.next(command.epoch, myId, myId)
@@ -106,13 +106,13 @@ class DistributedDB(
         }
     }
 
-    private fun validSender(senderId: String, command: DdbCommand): Boolean {
+    private fun validSender(senderId: String, command: Ddb): Boolean {
         return true // TODO: validate
     }
 
-    private fun checkSig(id: String, payload: Advertiser.AdvertRecord): Boolean = true // TODO: check
+    private fun checkSig(id: String, payload: AdvertRecord): Boolean = true // TODO: check
 
-    private fun upsertRecord(recordId: String, payload: Advertiser.AdvertRecord) {
+    private fun upsertRecord(recordId: String, payload: AdvertRecord) {
         if (!checkSig(recordId, payload)) return
 
         records[recordId] = payload
@@ -127,12 +127,12 @@ class DistributedDB(
         val res = records[recordID]
         if (res == null) {
             send(
-                querySenderId, DdbCommand.QueryResponse(responseTag, querySenderId, false)
+                querySenderId, Ddb.QueryResponse(responseTag, querySenderId, false)
             )
             return
         }
         send(
-            querySenderId, DdbCommand.QueryResponse(responseTag, querySenderId, true, res)
+            querySenderId, Ddb.QueryResponse(responseTag, querySenderId, true, res)
         )
     }
 
@@ -140,12 +140,12 @@ class DistributedDB(
         loadingPeers.add(senderId)
 
         val numRecords = records.size
-        send(senderId, DdbCommand.InitResponse(responseTag, senderId, numRecords))
+        send(senderId, Ddb.InitResponse(responseTag, senderId, numRecords))
 
         // handle deleted records
         records.entries.forEachIndexed { index, record ->
             if (index < numRecords) {
-                send(senderId, DdbCommand.DumpResolveResponse(
+                send(senderId, Ddb.DumpResolveResponse(
                     responseTag,
                     senderId,
                     index,
@@ -156,7 +156,7 @@ class DistributedDB(
         }
     }
 
-    private fun dumpResolve(senderId: String, responseTag: String?, record: Advertiser.AdvertRecord) {
+    private fun dumpResolve(senderId: String, responseTag: String?, record: AdvertRecord) {
         records[record.id!!] = record
         if (records.size == expectedRecords) {
             pendingUpdatesInLoad.forEach {
@@ -165,7 +165,7 @@ class DistributedDB(
             pendingUpdatesInLoad.clear()
 
             state = State.SIGNING_ON
-            send(senderId, DdbCommand.Signon(senderId, myId))   // We are originating
+            send(senderId, Ddb.Signon(senderId, myId))   // We are originating
 
             state = State.SERVER // Do we wait for a response
         }

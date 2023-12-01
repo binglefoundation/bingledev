@@ -1,7 +1,6 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
 
-import com.beust.klaxon.JsonObject
-import org.unknown.comms.Advertiser
+import org.bingle.command.data.AdvertRecord
 
 open class DistributedDBClient(
     val myId: String,
@@ -37,18 +36,18 @@ open class DistributedDBClient(
         }
     }
 
-    fun lookupAdvert(id: String): Advertiser.AdvertRecord? {
+    fun lookupAdvert(id: String): AdvertRecord? {
         return myDbServerId?.let {
             val lookupResponse =
                 sendForResponse(
                     it,
                     mapOf("senderId" to myId, "app" to "ddb", "type" to "queryResolve", "epoch" to relayPlan!!.latestEpoch(-1), "id" to id)
                 )
-            if (lookupResponse["found"].toString() == "true") lookupResponse["advert"] as Advertiser.AdvertRecord else null
+            if (lookupResponse["found"].toString() == "true") lookupResponse["advert"] as AdvertRecord else null
         }
     }
 
-    fun upsertAdvert(id: String, advert: Advertiser.AdvertRecord) {
+    fun upsertAdvert(id: String, advert: AdvertRecord) {
         myDbServerId?.let {
                 sendForResponse(
                     it,

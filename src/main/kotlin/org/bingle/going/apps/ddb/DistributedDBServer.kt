@@ -1,4 +1,6 @@
-package org.unknown.comms.apps.ddb
+package org.bingle.going.apps.ddb
+
+import org.bingle.going.apps.ddb.DistributedDB
 
 class DistributedDBServer(myId: String,
                           lookupRootRelay: () -> String,

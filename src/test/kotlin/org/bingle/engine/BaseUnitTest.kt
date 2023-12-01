@@ -1,4 +1,10 @@
 package org.bingle.engine
 
-class BaseUnitTest {
+import io.mockk.MockKAnnotations
+
+open class BaseUnitTest {
+
+    init {
+        MockKAnnotations.init(this, relaxUnitFun = true)
+    }
 }
