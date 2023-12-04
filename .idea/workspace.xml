@@ -8,17 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/PingHandlers.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockAdvertiser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
-    </list>
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Test ping through Engine" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,7 +108,7 @@
       <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.EngineUnitTest.Can send ping">
+  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
     <configuration name="DdbTest.can decode and encode UpsertResolve from and to map" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -239,9 +229,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.EngineUnitTest.Can send ping" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
         <item itemvalue="Gradle.EngineUnitTest.Can respond to ping" />
+        <item itemvalue="Gradle.EngineUnitTest.Can send ping" />
         <item itemvalue="Gradle.DdbTest.can decode and encode UpsertResolve from and to map" />
         <item itemvalue="Gradle.WorkerUnitTest.Can receive and pass on a message" />
       </list>
@@ -272,7 +262,7 @@
       <workItem from="1701556405185" duration="651000" />
       <workItem from="1701557071967" duration="9517000" />
       <workItem from="1701634072746" duration="595000" />
-      <workItem from="1701640201780" duration="16753000" />
+      <workItem from="1701640201780" duration="17144000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -298,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701651881573</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="- Test ping through Engine">
+      <option name="closed" value="true" />
+      <created>1701663022613</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701663022613</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +316,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
     <MESSAGE value="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests" />
+    <MESSAGE value="- Test ping through Engine" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Test ping through Engine" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
