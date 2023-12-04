@@ -1,5 +1,6 @@
 package org.bingle.engine
 
+import org.bingle.command.Ping
 import org.bingle.interfaces.SendProgress
 import org.bingle.util.logDebug
 import java.util.*
@@ -111,7 +112,7 @@ class Pinger {
     private fun checkTarget(target: PingTarget) {
         engine.sender.sendMessageToId(
             target.pingable.id,
-            mapOf("app" to "ping", "type" to "ping", "senderId" to engine.currentUser().first)
+            Ping.Ping()
         )
         { progress, _ ->
             when {

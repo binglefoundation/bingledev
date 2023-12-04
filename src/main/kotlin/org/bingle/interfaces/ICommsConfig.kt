@@ -1,6 +1,7 @@
 package org.bingle.interfaces
 
 import org.bingle.blockchain.AlgoProviderConfig
+import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
@@ -31,7 +32,8 @@ interface ICommsConfig {
     val requestPingables: (() -> List<Pingable>)?
     val onAvailability: ((id: String, availability: Pinger.TargetAvailability) -> Unit)?
     val onUsername: ((id: String, username: String) -> Unit)?
-    var onMessage: (decodedMessage: MutableMap<String, Any?>) -> Unit
+    // var onMessage: (decodedMessage: MutableMap<String, Any?>) -> Unit
+    var onMessage: (command: TextMessageCommand) -> Unit
 
     data class TimeoutConfig(
         val handshake: Int? = null,

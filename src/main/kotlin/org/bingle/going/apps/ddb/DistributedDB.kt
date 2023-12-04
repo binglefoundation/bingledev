@@ -1,12 +1,13 @@
 package org.bingle.going.apps.ddb
 
+import org.bingle.command.BaseCommand
 import org.bingle.command.Ddb
 import org.bingle.command.data.AdvertRecord
 
 class DistributedDB(
     private val myId: String,
     private val relayPlan: RelayPlan,
-    private val send: (id: String, command: ISendableMessage) -> Boolean
+    private val send: (id: String, command: BaseCommand) -> Boolean
 ) {
     enum class State { CLIENT, LOADING, SIGNING_ON, SERVER }
 
@@ -14,8 +15,8 @@ class DistributedDB(
     private val loadingPeers = mutableSetOf<String>()
     private val pendingUpdatesInLoad = mutableListOf<Ddb.Update>()
 
-    var state = State.CLIENT
-    var expectedRecords: Int? = null
+    private var state = State.CLIENT
+    private var expectedRecords: Int? = null
 
     fun execute(senderId: String, command: Ddb) {
         if (!validSender(senderId, command)) return
@@ -30,7 +31,7 @@ class DistributedDB(
             }
 
             send(
-                senderId, Ddb.UpdateResponse(command.responseTag)
+                senderId, Ddb.UpdateResponse().withResponseTag(it.responseTag)
             )
             return
         }
@@ -67,12 +68,11 @@ class DistributedDB(
         val epochParams = relayPlan.getEpochParams(epoch)
         send(
             querySenderId, Ddb.GetEpochResponse(
-                responseTag,
-                querySenderId,
                 epochParams.epochId,
                 epochParams.treeOrder,
                 epochParams.relayIds
-            )
+            ).withResponseTag<Ddb.GetEpochResponse>(responseTag)
+            // we should get the verifiedId from DTLS
         )
     }
 
@@ -127,12 +127,14 @@ class DistributedDB(
         val res = records[recordID]
         if (res == null) {
             send(
-                querySenderId, Ddb.QueryResponse(responseTag, querySenderId, false)
+                querySenderId, Ddb.QueryResponse( false)
+                    .withResponseTag(responseTag)
             )
             return
         }
         send(
-            querySenderId, Ddb.QueryResponse(responseTag, querySenderId, true, res)
+            querySenderId, Ddb.QueryResponse(true, res)
+                .withResponseTag(responseTag)
         )
     }
 
@@ -140,18 +142,16 @@ class DistributedDB(
         loadingPeers.add(senderId)
 
         val numRecords = records.size
-        send(senderId, Ddb.InitResponse(responseTag, senderId, numRecords))
+        send(senderId, Ddb.InitResponse(numRecords).withResponseTag(responseTag))
 
         // handle deleted records
         records.entries.forEachIndexed { index, record ->
             if (index < numRecords) {
                 send(senderId, Ddb.DumpResolveResponse(
-                    responseTag,
-                    senderId,
                     index,
                     record.key,
                     record.value
-                ))
+                ).withResponseTag(responseTag))
             }
         }
     }
@@ -165,7 +165,7 @@ class DistributedDB(
             pendingUpdatesInLoad.clear()
 
             state = State.SIGNING_ON
-            send(senderId, Ddb.Signon(senderId, myId))   // We are originating
+            send(senderId, Ddb.Signon(myId))   // We are originating
 
             state = State.SERVER // Do we wait for a response
         }

@@ -1,5 +1,6 @@
 package org.bingle.going.apps
 
+import org.bingle.command.RelayCommand
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.Engine
 import org.bingle.interfaces.going.IApp
@@ -15,10 +16,6 @@ class RelayApp(val engine: Engine) : IApp {
     override fun onMessage(senderId: String, decodedMessage: MutableMap<String, Any?>) {
         val (host, port) = decodedMessage["senderAddress"]?.toString()?.trimStart('/')?.split(":")!!
         val senderAddress = InetSocketAddress(host, port.toInt())
-        if(senderId == null) {
-            logDebug("RelayApp:onMessage with no senderId, rejected")
-            return
-        }
         val senderNetworkSourceKey = NetworkSourceKey(senderAddress)
 
         when (decodedMessage["type"]) {
@@ -27,26 +24,19 @@ class RelayApp(val engine: Engine) : IApp {
                 engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
-                    mapOf(
-                        "app" to "relay",
-                        "type" to "checkResponse",
-                        "available" to "1",
-                        "tag" to decodedMessage["responseTag"]
-                    ), null
+                    RelayCommand.CheckResponse(1).withTag(decodedMessage["responseTag"] as String),
+                    null
                 )
             }
 
             "listen" -> {
-                logDebug("RelayApp:: ${engine.currentEndpoint?.port} got listen with ${senderAddress} ${senderId}")
+                logDebug("RelayApp:: ${engine.currentEndpoint.port} got listen with ${senderAddress} ${senderId}")
                 engine.relay.relayListen(senderAddress, senderId)
                 engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
-                    mapOf(
-                        "app" to "relay",
-                        "type" to "listenResponse",
-                        "tag" to decodedMessage["responseTag"]
-                    ), null
+                    RelayCommand.ListenResponse().withTag(decodedMessage["responseTag"] as String),
+            null
                 )
             }
             "call" -> {
@@ -60,13 +50,8 @@ class RelayApp(val engine: Engine) : IApp {
                 engine.sender.sendMessageToNetwork(
                     senderNetworkSourceKey,
                     senderId,
-                    mapOf(
-                        "app" to "relay",
-                        "type" to "callResponse",
-                        "calledId" to decodedMessage["calledId"],
-                        "channel" to channel.toString(),
-                        "tag" to decodedMessage["responseTag"]
-                    ), null
+                    RelayCommand.CallResponse(decodedMessage["calledId"] as String, channel!!).withTag(decodedMessage["responseTag"] as String),
+            null
                 )
             }
             "callResponse" -> {
@@ -79,21 +64,18 @@ class RelayApp(val engine: Engine) : IApp {
             }
             "triangleTest1" -> {
                 logDebug("RelayApp:: triangleTest1 message, find relay to pass on message")
-                val relay = engine.relayFinder!!.find()
+                val relay = engine.relayFinder.find()
                 if(relay == null) {
                     logWarn("RelayApp:: triangleTest1 message: No relay found to pass on triangleTest1")
                 }
                 else {
                     engine.sendMessageToId(
                         relay.first,
-                        mapOf(
-                            "app" to "relay",
-                            "type" to "triangleTest2",
-                            "responseTag" to decodedMessage["responseTag"],
-                            "checkingId" to senderId,
-                            "checkingAddress" to decodedMessage["checkingAddress"],
-                            "checkingPort" to decodedMessage["checkingPort"],
-                            )
+                        RelayCommand.TriangleTest2(senderId, InetSocketAddress(
+                            decodedMessage["checkingAddress"] as String,
+                            decodedMessage["checkingPort"] as Int)
+                        ).withTag(decodedMessage["responseTag"] as String),
+                        null
                     )
                 }
             }
@@ -104,11 +86,7 @@ class RelayApp(val engine: Engine) : IApp {
                         (decodedMessage["checkingPort"] as? Int)!!))
 
                 engine.sender.sendMessageToNetwork(networkSourceKey, decodedMessage["checkingId"]?.toString()!!,
-                    mapOf(
-                        "app" to "relay",
-                        "type" to "triangleTest3",
-                        "tag" to decodedMessage["responseTag"]
-                    ),
+                    RelayCommand.TriangleTest3().withTag(decodedMessage["responseTag"] as String),
                     null
                 )
             }

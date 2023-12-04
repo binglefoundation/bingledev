@@ -26,6 +26,10 @@ dependencies {
     // TODO: relocate or incorporate
     implementation(files("../thirdparty/JSTUN/target/jstun-0.7.6-XOR.jar"))
 
+    implementation("io.github.classgraph:classgraph:4.8.165")
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.21")
+
     testImplementation(kotlin("test"))
     testImplementation("org.assertj:assertj-core:3.24.2")
     // https://mvnrepository.com/artifact/io.mockk/mockk

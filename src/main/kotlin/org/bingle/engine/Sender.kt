@@ -1,6 +1,8 @@
 package org.bingle.engine
 
+import org.bingle.command.BaseCommand
 import org.bingle.command.BaseCommand.Companion.klaxonParser
+import org.bingle.command.RelayCommand
 import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.interfaces.IChainAccess
@@ -11,16 +13,11 @@ import java.net.InetSocketAddress
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class Sender {
-    private val engine: IEngineState
-
-    internal constructor(engine: IEngineState) {
-        this.engine = engine
-    }
+class Sender internal constructor(private val engine: IEngineState) {
 
     fun sendMessage(
         username: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         progress: (p: SendProgress, id: String?) -> Unit
     ): Boolean {
         logDebug("Sender::sendMessage ${username} <= ${message}")
@@ -47,7 +44,7 @@ class Sender {
 
     fun sendMessageToId(
         userId: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         progress: ((p: SendProgress, id: String?) -> Unit)?
     ): Boolean {
         logDebug("Sender::sendMessageToId ${userId} <= ${message}")
@@ -90,20 +87,16 @@ class Sender {
 
                     val relayResponse = sendToIdForResponse(
                         advertRecord.relayId,
-                        mapOf(
-                            "app" to "relay",
-                            "type" to "call",
-                            "calledId" to userId
-                        ),
+                        RelayCommand.Call(userId),
                         null
                     )
-                    if (relayResponse.containsKey("fail")) {
+                    if (relayResponse.fail != null) {
                         logWarn("Sender::sendMessageToId: ${userId} => ${advertRecord.relayId} failed with ${relayResponse}")
                         progress?.invoke(SendProgress.FAILED, advertRecord.relayId)
                         return false
                     }
 
-                    val relayChannel = relayResponse["channel"] as Int?
+                    val relayChannel = (relayResponse as? RelayCommand.RelayResponse)?.channel
                     if (relayChannel == null) {
                         logWarn("Sender::sendMessageToId: ${userId} => ${advertRecord.relayId} returns no channel ${relayResponse}")
                         progress?.invoke(SendProgress.FAILED, advertRecord.relayId)
@@ -145,25 +138,24 @@ class Sender {
         }
     }
 
-    fun sendToIdForResponse(userId: String, message: Map<String, Any?>, timeoutMs: Long?): Map<String, Any?> =
+    fun sendToIdForResponse(userId: String, message: BaseCommand, timeoutMs: Long?): BaseCommand =
         sendForResponse(message, timeoutMs) {
             sendMessageToId(userId, it, null)
         }
 
     // TODO: wrap inside WithResponse class
     private fun sendForResponse(
-        message: Map<String, Any?>,
+        message: BaseCommand,
         timeoutMs: Long?,
-        sender: (Map<String, Any?>) -> Boolean
-    ): Map<String, Any?> {
+        sender: (BaseCommand) -> Boolean
+    ): BaseCommand {
         val tag = UUID.randomUUID().toString()
-        val sendingMessage = message.toMutableMap()
-        sendingMessage["responseTag"] = tag
+        message.responseTag = tag
         engine.responseSlots[tag] = ResponseSlot()
 
-        if (!sender(sendingMessage)) {
+        if (!sender(message)) {
             logWarn("Sender: ${engine.config.port} sendForResponse send failed")
-            return mapOf("fail" to "sendFail")
+            return BaseCommand("sendFail")
         }
 
         logDebug("Sender: ${engine.config.port} sendForResponse - wait for ${timeoutMs} ms")
@@ -176,19 +168,19 @@ class Sender {
 
         if (awaitRes == false) {
             logDebug("Sender: ${engine.config.port} sendForResponse times out")
-            return mapOf("fail" to "timeout")
+            return BaseCommand("timeout")
         }
 
         logDebug("Sender: ${engine.config.port} sendForResponse got response for ${tag} - ${engine.responseSlots[tag]}")
         val res = engine.responseSlots[tag]?.msg
         engine.responseSlots.remove(tag)
-        return res ?: mapOf("fail" to "no message in slot")
+        return res ?: BaseCommand("no message in slot")
     }
 
     internal fun sendMessageToNetwork(
         networkSourceKey: NetworkSourceKey,
         userId: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         progress: ((p: SendProgress, id: String?) -> Unit)?
     ): Boolean {
         // TODO: rationalize Klaxon converters
@@ -207,9 +199,9 @@ class Sender {
     fun sendToNetworkForResponse(
         networkSourceKey: NetworkSourceKey,
         userId: String,
-        message: Map<String, String>,
+        message: BaseCommand,
         timeoutMs: Long? = null
-    ): Map<String, Any?> =
+    ): BaseCommand =
         sendForResponse(message, timeoutMs) {
             sendMessageToNetwork(networkSourceKey, userId, it) { _, _ -> }
         }

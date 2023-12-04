@@ -72,4 +72,8 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
         get() = TODO("Not yet implemented")
         set(value) {}
 
+    private val myCommandRouter = CommandRouter(this)
+    override val commandRouter: CommandRouter
+        get() = myCommandRouter
+
 }

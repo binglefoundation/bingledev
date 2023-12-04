@@ -1,6 +1,7 @@
 package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
+import org.bingle.command.BaseCommand
 import org.bingle.going.apps.ddb.DistributedDBApp
 import org.bingle.interfaces.*
 import org.bingle.interfaces.going.IApp
@@ -10,11 +11,11 @@ import java.util.concurrent.LinkedBlockingQueue
 
 class ResponseSlot {
     val latch = CountDownLatch(1)
-    var msg: Map<String, Any?>? = null
+    var msg: BaseCommand? = null
 
     override fun toString() = "ResponseSlot(msg=$msg)"
 }
-internal interface IEngineState {
+interface IEngineState {
     abstract fun currentUser(): Pair<String, String>
 
     val creds: Map<String, String>
@@ -50,4 +51,5 @@ internal interface IEngineState {
 
     // TODO:own class
 
+    val commandRouter: CommandRouter
 }

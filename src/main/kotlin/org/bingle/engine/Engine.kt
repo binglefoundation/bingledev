@@ -1,6 +1,7 @@
 package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
+import org.bingle.command.BaseCommand
 import org.bingle.going.apps.PingApp
 import org.bingle.going.apps.RelayApp
 import org.bingle.going.apps.ddb.DistributedDBApp
@@ -44,6 +45,8 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
         listOf(PingApp(this), RelayApp(this)).associateBy { it.type }.toMutableMap()
     override lateinit var distributedDBApp: DistributedDBApp
 
+    override val commandRouter = CommandRouter(this)
+
     fun init() {
         worker.start()
     }
@@ -54,7 +57,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
 
     fun sendMessage(
         username: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         progress: (p: SendProgress, id: String?) -> Unit
     ): Boolean {
         return sender.sendMessage(username, message, progress)
@@ -62,7 +65,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
 
     fun sendMessageToId(
         userId: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         progress: ((p: SendProgress, id: String?) -> Unit)? = null
     ): Boolean {
         return sender.sendMessageToId(userId, message, progress)
@@ -70,9 +73,9 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
 
     fun sendToIdForResponse(
         userId: String,
-        message: Map<String, Any?>,
+        message: BaseCommand,
         timeoutMs: Long? = null
-    ): Map<String, Any?> {
+    ): BaseCommand {
         return sender.sendToIdForResponse(userId, message, timeoutMs)
     }
 
@@ -80,7 +83,6 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
         return Pair(
             keyProvider.getId()!!,
             myUsername
-                ?: "Engine:currentUser called when no valid user"
         )
     }
 }

@@ -1,18 +1,18 @@
 package org.bingle.engine
 
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
 import com.creatotronik.stun.StunResponse
 import com.creatotronik.stun.StunResponseKind
-import org.bingle.going.apps.ddb.DistributedDBApp
-import org.bingle.going.apps.ddb.RelayPlan
 import org.bingle.blockchain.AlgoNetworkException
 import org.bingle.certs.BingleCertCreator
 import org.bingle.certs.CertChecker
+import org.bingle.command.BaseCommand
+import org.bingle.command.RelayCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
+import org.bingle.going.apps.ddb.DistributedDBApp
+import org.bingle.going.apps.ddb.ISendableMessage
+import org.bingle.going.apps.ddb.RelayPlan
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 import org.bingle.util.logError
@@ -23,13 +23,8 @@ import java.net.InetSocketAddress
 import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
-class Worker {
-    private val engine: IEngineState
+class Worker internal constructor(private val engine: IEngineState) {
     private lateinit var initCommsThread: Thread
-
-    internal constructor(engine: IEngineState) {
-        this.engine = engine
-    }
 
     // TODO: move to own class / make configurable
     private val stunServers = listOf(
@@ -94,7 +89,7 @@ class Worker {
 
                     if (null == engine.chainAccess.retrying<String?, IChainAccess> {
                             engine.chainAccess.findUsernameByAddress(
-                                engine.id!!
+                                engine.id
                             )
                         }?.let {
                             engine.myUsername = it
@@ -109,7 +104,7 @@ class Worker {
                         return@Thread
                     }
 
-                    engine.config.onUsername?.invoke(engine.id!!, engine.myUsername!!)
+                    engine.config.onUsername?.invoke(engine.id, engine.myUsername)
                     engine.config.onState?.invoke(CommsState.AUTHORIZING, null, RegisterAction.GOT_USER, null)
 
                     // If forceRelay is set, we don't need to test NAT connectivity
@@ -156,7 +151,7 @@ class Worker {
                     advertiseAmRelay(engine.currentEndpoint, ResolveLevel.CONSISTENT)
                 } else {
                     advertiseResolution(
-                        engine.currentEndpoint!!,
+                        engine.currentEndpoint,
                         ResolveLevel.CONSISTENT,
                         NatType.DIRECT
                     )
@@ -183,7 +178,7 @@ class Worker {
 
             try {
                 logDebug("Worker::initComms create certs")
-                val certCreator = BingleCertCreator(engine.chainAccess, engine.id!!)
+                val certCreator = BingleCertCreator(engine.chainAccess, engine.id)
 
                 logDebug("Worker::initComms init DTLSParameters")
                 val dtlsParameters = DTLSParameters(
@@ -200,33 +195,20 @@ class Worker {
                             }>"
                         )
                         try {
-                            val decodedMessage = Klaxon().parse<MutableMap<String, Any?>>(String(messageBuffer))
-                            if (decodedMessage != null) {
-                                // TODO: here we decode to a BaseCommand
-                                // and call its handler
-                                fromAddress.inetSocketAddress?.toString()?.let { decodedMessage["senderAddress"] = it }
-                                decodedMessage["verifiedId"] = verifiedId
+                            val decodedCommand = BaseCommand.fromJson(String(messageBuffer))
 
-                                logDebug("Worker::initComms ${engine.config.port} - in listener: decodedMessage=${decodedMessage}")
-                                if (decodedMessage["tag"] != null) {
-                                    val tag = decodedMessage["tag"]
-                                    engine.responseSlots[tag]?.let {
-                                        it.msg = decodedMessage
-                                        it.latch.countDown()
-                                    } ?: logDebug("tag ${tag} not found")
-                                } else if (decodedMessage["app"] != null) {
-                                    // TODO: get rid of apps
-                                    engine.apps[decodedMessage["app"]]?.let {
-                                        it.onMessage(verifiedId!!, decodedMessage)
-                                        true
-                                    } ?: logDebug("${decodedMessage["app"]} not registered in ${engine.apps.keys}")
-                                } else {
-                                    if (verifiedId != null) {
-                                        decodedMessage["senderHandle"] =
-                                            engine.chainAccess.findUsernameByAddress(verifiedId)
-                                        engine.config.onMessage(decodedMessage)
-                                    } else logError("Message ${decodedMessage} has no verifiedId")
-                                }
+                            fromAddress.inetSocketAddress?.let { decodedCommand.senderAddress = it }
+                            decodedCommand.verifiedId = verifiedId
+
+                            logDebug("Worker::initComms ${engine.config.port} - in listener: decodedMessage=${decodedCommand}")
+                            if (decodedCommand.tag != null) {
+                                val tag = decodedCommand.tag
+                                engine.responseSlots[tag]?.let {
+                                    it.msg = decodedCommand
+                                    it.latch.countDown()
+                                } ?: logDebug("tag ${tag} not found")
+                            } else {
+                                this.engine.commandRouter.routeCommand(decodedCommand)
                             }
                         } catch (ex: Exception) {
                             System.err.println("Worker::onMessage threw $ex in handler, message prob not received")
@@ -324,9 +306,7 @@ class Worker {
         resolveLevel: ResolveLevel
     ) {
         logDebug("Worker::advertiseAmRelay ${endpoint}")
-        engine.currentEndpoint?.let {
-            engine.advertiser.advertiseAmRelay(engine.keyProvider, it, endpoint)
-        }
+        engine.advertiser.advertiseAmRelay(engine.keyProvider, engine.currentEndpoint, endpoint)
 
         engine.state = CommsState.RELAY_ADVERTISED
         engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.ADVERTISED_IS_RELAY, null)
@@ -349,7 +329,7 @@ class Worker {
     // TODO: migrate to not app
     // and use command not map
     private fun initDDBApp(endpoint: InetSocketAddress) {
-        val relayToUse = engine.relayFinder!!.find()
+        val relayToUse = engine.relayFinder.find()
         val relayPlan = if (relayToUse == null) {
             val res = RelayPlan()
             res.bootstrap(engine.id)
@@ -358,18 +338,9 @@ class Worker {
             throw NotImplementedError("TODO: get relay plan from peer")
         }
 
-        engine.distributedDBApp = DistributedDBApp(engine.id, relayPlan) { id: String, command: Map<String, Any> ->
-            val sendRes = engine.sender.sendToIdForResponse(id, command.mapValues {
-                // TODO: recursive map, or avoid the need
-                if (it.value is JsonArray<*>) {
-                    (it.value as JsonArray<*>).map { v -> v.toString() }
-                } else if (it.value is JsonObject) {
-                    (it.value as JsonObject).entries.map { (k, v) -> Pair(k, v.toString()) }.toMap()
-                } else {
-                    it.value.toString()
-                }
-            }, null)
-            sendRes["fail"] == null
+        engine.distributedDBApp = DistributedDBApp(engine.id, relayPlan) { id: String, command: BaseCommand ->
+            val sendRes = engine.sender.sendToIdForResponse(id, command, null)
+            null == sendRes.fail
         }
         engine.apps[engine.distributedDBApp.type] = engine.distributedDBApp
 
@@ -390,7 +361,7 @@ class Worker {
             val (resolveLevel, endpoint) = engine.stunResolver.analyse()
             // logDebug("Worker::handleStunResponse Got stun response ${stunResponse}, state=${state} resolveLevel=${resolveLevel}, endpoint=${endpoint}, currentEndpoint=${currentEndpoint}")
 
-            if (endpoint == null || (engine.state == CommsState.ADVERTISED && (endpoint == engine.currentEndpoint || engine.currentEndpoint == null)) || engine.state == CommsState.RELAY_ADVERTISED) {
+            if (endpoint == null || (engine.state == CommsState.ADVERTISED && (endpoint == engine.currentEndpoint )) || engine.state == CommsState.RELAY_ADVERTISED) {
                 // logDebug("Worker::handleStunResponse - no sig change")
                 onState?.invoke(engine.state, resolveLevel, null, null)
                 return
@@ -446,23 +417,18 @@ class Worker {
                 becomeRelayClient(resolveLevel, false, NatType.SYMMETRIC)
             } else {
                 logDebug("Worker::handleStunResponse - $engine.id finds relay for TriPing")
-                val relayForTriPing = engine.relayFinder!!.find()
+                val relayForTriPing = engine.relayFinder.find()
                 logDebug("Worker::handleStunResponse - $engine.id triangleTest relay ${relayForTriPing}")
                 if (relayForTriPing != null) {
                     logDebug("Worker::handleStunResponse $engine.id - Sending triangleTest1 request")
                     onState?.invoke(engine.state, resolveLevel, RegisterAction.TRIANGLE_PINGING, null)
                     val trianglePingResponse = engine.sender.sendToIdForResponse(
                         relayForTriPing.first,
-                        mapOf(
-                            "app" to "relay",
-                            "type" to "triangleTest1",
-                            "checkingAddress" to endpoint.address.hostAddress,
-                            "checkingPort" to endpoint.port.toString(),
-                        ),
+                        RelayCommand.TriangleTest1(endpoint),
                         engine.config.timeouts.triPing ?: 60000
                     )
 
-                    if (trianglePingResponse["fail"] == null) {
+                    if (trianglePingResponse.fail == null) {
                         logDebug("Worker::handleStunResponse $engine.id- Got triangleTest response ${trianglePingResponse}")
                         onState?.invoke(
                             engine.state, resolveLevel, RegisterAction.TRIANGLE_PING_RECEIVED,
@@ -545,11 +511,11 @@ class Worker {
 
         val res = engine.sender.sendToIdForResponse(
             relayId,
-            mapOf("app" to "relay", "type" to "listen"),
+            RelayCommand.Listen(),
             engine.config.timeouts.relayListen,
         )
 
-        return !res.contains("fail")
+        return null != res.fail
     }
 
     private fun advertiseUsingRelay(

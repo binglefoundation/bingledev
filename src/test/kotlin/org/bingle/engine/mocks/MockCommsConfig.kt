@@ -1,6 +1,7 @@
 package org.bingle.engine.mocks
 
 import org.bingle.blockchain.AlgoProviderConfig
+import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
@@ -56,7 +57,7 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
         get() = {  emptyList() }
     override val onAvailability: ((id: String, availability: Pinger.TargetAvailability) -> Unit)? = null
     override val onUsername: ((id: String, username: String) -> Unit)? = null
-    override var onMessage: (MutableMap<String, Any?>) -> Unit =  {
+    override var onMessage: (command: TextMessageCommand) -> Unit =  {
         logDebug("MockCommsConfig::onMessage ${it}")
     }
 }

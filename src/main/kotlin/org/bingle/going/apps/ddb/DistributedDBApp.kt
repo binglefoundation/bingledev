@@ -8,11 +8,11 @@ import org.bingle.interfaces.going.IApp
 class DistributedDBApp(
     myId: String,
     relayPlan: RelayPlan,
-    private val send: (id: String, command: Map<String, Any>) -> Boolean
+    private val send: (id: String, command: BaseCommand) -> Boolean
 ) : IApp {
 
     private val distributedDB = DistributedDB(myId, relayPlan) {
-        id, command -> send(id, command.toMap())
+        id, command: BaseCommand -> send(id, command)
     }
 
     override val type: String = "ddb"

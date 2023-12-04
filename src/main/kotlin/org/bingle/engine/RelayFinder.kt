@@ -1,5 +1,6 @@
 package org.bingle.engine
 
+import org.bingle.command.RelayCommand
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.interfaces.IChainAccess
 import org.bingle.interfaces.IResolver
@@ -51,11 +52,12 @@ class RelayFinder {
         val relayEntry = relaysWithIps.find {
             logDebug("RelayFinder - send check for ${myId} to ${it}")
             val response = engine.sender.sendToNetworkForResponse(
-                NetworkSourceKey(it.second.endpoint), it.first, mapOf("app" to "relay", "type" to "check"),
+                NetworkSourceKey(it.second.endpoint), it.first,
+                RelayCommand.Check(),
                 engine.config.timeouts.relayCheck ?: 15000
             )
             logDebug("RelayFinder::find - sendToIdForResponse returns ${response}")
-            response["fail"] == null
+            null == response.fail
         }
 
         logDebug("RelayFinder::find selected relay ${relayEntry ?: "<none>"}")

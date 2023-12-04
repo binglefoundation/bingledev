@@ -1,5 +1,6 @@
 package org.bingle.going.apps
 
+import org.bingle.command.Ping
 import org.bingle.engine.Engine
 import org.bingle.interfaces.going.IApp
 
@@ -11,7 +12,7 @@ class PingApp(val engine: Engine) : IApp {
         if (decodedMessage["type"] == "ping") {
             engine.sendMessageToId(
                 decodedMessage["verifiedId"]?.toString()!!,
-                mapOf("app" to "ping", "type" to "response", "senderId" to senderId)
+                Ping.Response(),
             )
         } else if (decodedMessage["type"] == "response") {
             engine.pinger.onResponse(decodedMessage)
