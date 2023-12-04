@@ -9,10 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/PingHandlers.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockAdvertiser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +48,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Annotation" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -113,7 +118,7 @@
       <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
+  <component name="RunManager" selected="Gradle.EngineUnitTest.Can send ping">
     <configuration name="DdbTest.can decode and encode UpsertResolve from and to map" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -138,7 +143,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PingTest.can decode and encode response from and to map" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EngineUnitTest.Can respond to ping" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -151,7 +156,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.command.PingTest.can decode and encode response from and to map&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest.Can respond to ping&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -162,7 +167,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="SenderUnitTest.SendMessage can send a message addressed by username via relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EngineUnitTest.Can send ping" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -175,7 +180,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.SenderUnitTest.SendMessage can send a message addressed by username via relay&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest.Can send ping&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -234,11 +239,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.EngineUnitTest.Can send ping" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
+        <item itemvalue="Gradle.EngineUnitTest.Can respond to ping" />
         <item itemvalue="Gradle.DdbTest.can decode and encode UpsertResolve from and to map" />
         <item itemvalue="Gradle.WorkerUnitTest.Can receive and pass on a message" />
-        <item itemvalue="Gradle.SenderUnitTest.SendMessage can send a message addressed by username via relay" />
-        <item itemvalue="Gradle.PingTest.can decode and encode response from and to map" />
       </list>
     </recent_temporary>
   </component>
@@ -267,7 +272,7 @@
       <workItem from="1701556405185" duration="651000" />
       <workItem from="1701557071967" duration="9517000" />
       <workItem from="1701634072746" duration="595000" />
-      <workItem from="1701640201780" duration="8342000" />
+      <workItem from="1701640201780" duration="16753000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -285,7 +290,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701651535645</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests">
+      <option name="closed" value="true" />
+      <created>1701651881573</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701651881573</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

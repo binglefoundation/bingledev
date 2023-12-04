@@ -18,12 +18,12 @@ class Sender internal constructor(private val engine: IEngineState) {
     fun sendMessage(
         username: String,
         message: BaseCommand,
-        progress: (p: SendProgress, id: String?) -> Unit
+        progress: ((p: SendProgress, id: String?) -> Unit)?
     ): Boolean {
         logDebug("Sender::sendMessage ${username} <= ${message}")
 
         val userId = try {
-            progress.invoke(SendProgress.LOOKUP, null)
+            progress?.invoke(SendProgress.LOOKUP, null)
             val userId =
                 engine.chainAccess.retrying<String?, IChainAccess> { engine.chainAccess.findIdByUsername(username) }
             if (null == userId) {

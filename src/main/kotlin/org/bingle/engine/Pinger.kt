@@ -3,6 +3,7 @@ package org.bingle.engine
 import org.bingle.command.Ping
 import org.bingle.interfaces.SendProgress
 import org.bingle.util.logDebug
+import org.bingle.util.logWarn
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -128,11 +129,11 @@ class Pinger internal constructor(
         logDebug("Reloaded ${pingTargets}")
     }
 
-    fun onResponse(message: Map<String, Any?>) {
+    fun onResponse(message: Ping.Response) {
         logDebug("Pinger::onResponse ${message}")
-        val respondingTarget = pingTargets.find { it.pingable.id == message["verifiedId"] }
+        val respondingTarget = pingTargets.find { it.pingable.id == message.verifiedId }
         if (respondingTarget == null) {
-            System.err.printf("Ping response from unknown sender ${message["verifiedId"]}")
+            logWarn("Ping response from unknown sender ${message.verifiedId}")
             return
         }
 

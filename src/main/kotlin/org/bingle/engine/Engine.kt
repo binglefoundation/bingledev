@@ -2,7 +2,6 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
-import org.bingle.going.apps.PingApp
 import org.bingle.going.apps.RelayApp
 import org.bingle.going.apps.ddb.DistributedDBApp
 import org.bingle.interfaces.CommsState
@@ -42,7 +41,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
 
     // TODO: remove apps
     override val apps: MutableMap<String, IApp> =
-        listOf(PingApp(this), RelayApp(this)).associateBy { it.type }.toMutableMap()
+        listOf(RelayApp(this)).associateBy { it.type }.toMutableMap()
     override lateinit var distributedDBApp: DistributedDBApp
 
     override val commandRouter = CommandRouter(this)
@@ -58,7 +57,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     fun sendMessage(
         username: String,
         message: BaseCommand,
-        progress: (p: SendProgress, id: String?) -> Unit
+        progress: ((p: SendProgress, id: String?) -> Unit)? = null
     ): Boolean {
         return sender.sendMessage(username, message, progress)
     }

@@ -5,6 +5,7 @@ import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
+import org.bingle.engine.StunResolver
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 
@@ -12,23 +13,23 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
     override fun makeKeyProvider(creds: Map<String, String>): IKeyProvider = MockKeyProvider()
 
     override fun makeNetworkChangeProvider(): INetworkChangeProvider {
-        TODO("Not yet implemented")
+        return MockNetworkChangeProvider()
     }
 
     override fun makeChainAccess(keyProvider: IKeyProvider): IChainAccess {
-        TODO("Not yet implemented")
+        return MockChainAccess()
     }
 
     override fun makeAdvertiser(): IAdvertiser {
-        TODO("Not yet implemented")
+        return MockAdvertiser()
     }
 
     override fun makeStunResolver(): IStunResolver {
-        TODO("Not yet implemented")
+        return StunResolver()
     }
 
     override fun makeResolver(): IResolver {
-        TODO("Not yet implemented")
+        return MockResolver()
     }
 
     override val registerIP: Boolean
