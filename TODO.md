@@ -1,0 +1,9 @@
+- remove RelayApp and make handler
+- add relay unit test
+- remove DistributedDBApp and make handler
+- remove apps stuff
+- add DDB preloaded mock
+- make jstun dependency own lib
+- remove ISendableMessage
+- make stunResolver own module
+- replace nameResolver with preloaded relay

@@ -1,7 +1,6 @@
 package org.bingle.engine
 
 import org.bingle.command.BaseCommand
-import org.bingle.command.BaseCommand.Companion.klaxonParser
 import org.bingle.command.RelayCommand
 import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.NetworkSourceKey
@@ -183,8 +182,7 @@ class Sender internal constructor(private val engine: IEngineState) {
         message: BaseCommand,
         progress: ((p: SendProgress, id: String?) -> Unit)?
     ): Boolean {
-        // TODO: rationalize Klaxon converters
-        val messageJson = klaxonParser().toJsonString(message)
+        val messageJson = message.toJson()
         val messageBuf = messageJson.toByteArray()
 
         val res = engine.config.dtlsConnect.send(networkSourceKey, messageBuf, messageBuf.size)
