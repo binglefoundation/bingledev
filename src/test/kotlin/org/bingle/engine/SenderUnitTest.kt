@@ -1,6 +1,5 @@
 package org.bingle.engine
 
-import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -12,7 +11,7 @@ import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.mocks.*
-import org.bingle.interfaces.*
+import org.bingle.interfaces.SendProgress
 import org.bingle.util.logDebug
 import org.junit.jupiter.api.Test
 
@@ -30,7 +29,7 @@ class SenderUnitTest : BaseUnitTest() {
 
         val progress = mockk<(p: SendProgress, id: String?) -> Unit>(relaxed = true)
 
-        assertThat(sender.sendMessage(mockUser2, TextMessageCommand("Hello"), progress)).isTrue();
+        assertThat(sender.sendMessage(mockUser2, TextMessageCommand("Hello"), progress)).isTrue()
 
         verify {
             mockDtlsConnect.send(id2nsk, any(), any())
@@ -70,7 +69,7 @@ class SenderUnitTest : BaseUnitTest() {
 
         val progress = mockk<(p: SendProgress, id: String?) -> Unit>(relaxed = true)
 
-        assertThat(sender.sendMessage(mockUser3, TextMessageCommand("Bonjour"), progress)).isTrue();
+        assertThat(sender.sendMessage(mockUser3, TextMessageCommand("Bonjour"), progress)).isTrue()
 
         verify {
             mockDtlsConnect.send(relayNsk, any(), any())
@@ -135,8 +134,6 @@ class SenderUnitTest : BaseUnitTest() {
         mockEngine.listening = true
 
         val sender = Sender(mockEngine)
-
-        val progress = mockk<(p: SendProgress, id: String?) -> Unit>(relaxed = true)
 
         val response = sender.sendToIdForResponse(id2, TextMessageCommand("G'Day"), null)
         assertThat(response).isEqualTo(ResponseCommand("ok"))

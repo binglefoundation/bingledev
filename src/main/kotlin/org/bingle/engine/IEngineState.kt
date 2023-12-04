@@ -16,7 +16,7 @@ class ResponseSlot {
     override fun toString() = "ResponseSlot(msg=$msg)"
 }
 interface IEngineState {
-    abstract fun currentUser(): Pair<String, String>
+    fun currentUser(): Pair<String, String>
 
     val creds: Map<String, String>
     var listening: Boolean

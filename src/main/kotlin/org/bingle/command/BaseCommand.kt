@@ -4,7 +4,6 @@ import com.beust.klaxon.*
 import com.google.common.base.CaseFormat
 import org.apache.commons.text.CaseUtils
 import org.bingle.going.apps.ddb.ISendableMessage
-import org.bingle.util.logDebug
 import java.net.InetSocketAddress
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,13 +58,12 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
                 .map { CaseUtils.toCamelCase(it, true, '_') }
 
             var className = "org.bingle.command.${
-                classNameParts[0]}"
+                classNameParts[0]
+            }"
             if (classNameParts.size == 2) {
                 className += "\$" + classNameParts[1]
             }
-            val klass = Class.forName(className).kotlin as? KClass<out BaseCommand>
-                ?: throw IllegalArgumentException("BaseTypeAdapter::classFor ${type} does not define a class")
-            return klass
+            return Class.forName(className).kotlin as KClass<out BaseCommand>
         }
     }
 

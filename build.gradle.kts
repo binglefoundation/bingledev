@@ -14,7 +14,7 @@ dependencies {
     implementation("com.beust:klaxon:5.5")
 
     implementation("commons-io:commons-io:2.6") // 2.6 is newest for Java 7
-    implementation("commons-codec:commons-codec:1.12")
+    implementation("commons-codec:commons-codec:1.13")
     implementation("org.apache.commons:commons-text:1.10.0")
 
     implementation("com.google.guava:guava:31.1-jre")

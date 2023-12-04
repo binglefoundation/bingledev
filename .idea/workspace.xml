@@ -8,35 +8,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/annotations/CommandHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/RelayCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/TextMessageCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/CommandRouter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/TextMessageHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/TestCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests">
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ddb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ddb.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ping.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ping.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Pinger.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/PingApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/RelayApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/RelayApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDB.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDB.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/PingTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/PingTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/SenderUnitTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/WorkerUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +267,7 @@
       <workItem from="1701556405185" duration="651000" />
       <workItem from="1701557071967" duration="9517000" />
       <workItem from="1701634072746" duration="595000" />
-      <workItem from="1701640201780" duration="7936000" />
+      <workItem from="1701640201780" duration="8342000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -301,26 +277,35 @@
       <option name="project" value="LOCAL" />
       <updated>1698646262385</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests">
+      <option name="closed" value="true" />
+      <created>1701651535645</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701651535645</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
-    <option name="LAST_COMMIT_MESSAGE" value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt</url>
-          <line>67</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

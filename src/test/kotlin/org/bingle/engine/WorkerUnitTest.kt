@@ -3,7 +3,6 @@ package org.bingle.engine
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.bingle.command.BaseCommand.Companion.klaxonParser
 import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.IDTLSConnect

@@ -15,7 +15,6 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
         return Pair(
             keyProvider.getId()!!,
             myUsername
-                ?: "Engine:currentUser called when no valid user"
         )
     }
 

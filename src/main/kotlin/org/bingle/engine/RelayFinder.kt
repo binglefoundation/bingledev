@@ -12,20 +12,14 @@ import java.util.*
 // TODO: Engine has chainAccess and id
 typealias RelayIdToAddress = Pair<String, InetSocketAddress>
 
-class RelayFinder {
-
-    val algoSwap: IChainAccess
-    val myId: String
+class RelayFinder internal constructor(
+    val algoSwap: IChainAccess,
+    val myId: String,
     internal val engine: IEngineState
-
-    internal constructor(algoSwap: IChainAccess, myId: String, engine: IEngineState) {
-        this.algoSwap = algoSwap
-        this.myId = myId
-        this.engine = engine
-    }
+) {
 
     fun find(): RelayIdToAddress? {
-        logDebug("RelayFinder::find on ${engine.currentEndpoint?.port} by ${myId}")
+        logDebug("RelayFinder::find on ${engine.currentEndpoint.port} by ${myId}")
         // TODO: keep track of relay state
 
         val wantRelayId = engine.config.alwaysRelayWithId
@@ -37,7 +31,7 @@ class RelayFinder {
         }
 
         val relaysWithIps = relays.mapNotNull { relay ->
-            var relayIP = relay.second
+            val relayIP = relay.second
             val relayWithIP = if (null == relayIP) {
                 val res = engine.nameResolver.resolveIdToRelay(relay.first)
                 logDebug("RelayFinder::find - DNS lookup for relay ${relay} returns ${relayIP}")

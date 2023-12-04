@@ -6,25 +6,12 @@ import org.bingle.util.logDebug
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class Pinger {
-
-    private val engine: IEngineState
-    private val requestPingables: (() -> List<Pingable>)?
-    private val onAvailabilityChange: ((id: String, availability: TargetAvailability) -> Unit)?
-    private val now: (() -> Date)
-
-    internal constructor(
-        engine: IEngineState,
-        requestPingables: (() -> List<Pingable>)?,
-        onAvailabilityChange: ((id: String, availability: TargetAvailability) -> Unit)?,
-        now: (() -> Date) = { Date() }
-    ) {
-        this.engine = engine
-        this.requestPingables = requestPingables
-        this.onAvailabilityChange = onAvailabilityChange
-        this.now = now
-        this.pingTargets = emptyList()
-    }
+class Pinger internal constructor(
+    private val engine: IEngineState,
+    private val requestPingables: (() -> List<Pingable>)?,
+    private val onAvailabilityChange: ((id: String, availability: TargetAvailability) -> Unit)?,
+    private val now: (() -> Date) = { Date() }
+) {
 
     enum class TargetAvailability {
         UNKNOWN,
@@ -157,5 +144,9 @@ class Pinger {
 
     companion object {
         fun calcNextActionTime(times: List<Date>, now: Date): Date = times.minOrNull() ?: Date(now.time + 2000)
+    }
+
+    init {
+        this.pingTargets = emptyList()
     }
 }

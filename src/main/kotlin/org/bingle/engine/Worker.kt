@@ -11,7 +11,6 @@ import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.going.apps.ddb.DistributedDBApp
-import org.bingle.going.apps.ddb.ISendableMessage
 import org.bingle.going.apps.ddb.RelayPlan
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
