@@ -2,12 +2,10 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
-import org.bingle.going.apps.RelayApp
 import org.bingle.going.apps.ddb.DistributedDBApp
 import org.bingle.interfaces.CommsState
 import org.bingle.interfaces.ICommsConfig
 import org.bingle.interfaces.SendProgress
-import org.bingle.interfaces.going.IApp
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -25,6 +23,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override val networkChangeProvider = config.makeNetworkChangeProvider()
     override val advertiser = config.makeAdvertiser()
     override lateinit var pinger: Pinger
+    override val triangleTest = TriangleTest(this)
 
     // TODO: gets replaced with relay
     override val nameResolver = config.makeResolver()
@@ -40,8 +39,6 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override val responseSlots: MutableMap<String, ResponseSlot> = mutableMapOf()
 
     // TODO: remove apps
-    override val apps: MutableMap<String, IApp> =
-        listOf(RelayApp(this)).associateBy { it.type }.toMutableMap()
     override lateinit var distributedDBApp: DistributedDBApp
 
     override val commandRouter = CommandRouter(this)

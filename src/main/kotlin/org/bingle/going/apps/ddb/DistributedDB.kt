@@ -64,7 +64,7 @@ class DistributedDB(
         }
     }
 
-    private fun getEpoch(querySenderId: String, epoch: Int, responseTag: String?) {
+    private fun getEpoch(querySenderId: String, epoch: Int, responseTag: String) {
         val epochParams = relayPlan.getEpochParams(epoch)
         send(
             querySenderId, Ddb.GetEpochResponse(
@@ -123,7 +123,7 @@ class DistributedDB(
         // handle send in progress?
     }
 
-    private fun queryResolve(querySenderId: String, recordID: String, responseTag: String?) {
+    private fun queryResolve(querySenderId: String, recordID: String, responseTag: String) {
         val res = records[recordID]
         if (res == null) {
             send(
@@ -138,7 +138,7 @@ class DistributedDB(
         )
     }
 
-    private fun initResolve(senderId: String, responseTag: String?) {
+    private fun initResolve(senderId: String, responseTag: String) {
         loadingPeers.add(senderId)
 
         val numRecords = records.size
@@ -156,7 +156,7 @@ class DistributedDB(
         }
     }
 
-    private fun dumpResolve(senderId: String, responseTag: String?, record: AdvertRecord) {
+    private fun dumpResolve(senderId: String, responseTag: String, record: AdvertRecord) {
         records[record.id!!] = record
         if (records.size == expectedRecords) {
             pendingUpdatesInLoad.forEach {

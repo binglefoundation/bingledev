@@ -1,4 +1,5 @@
-- remove RelayApp and make handler
+- ~~remove RelayApp and make handler~~
+- pull relay code from Worker
 - add relay unit test
 - remove DistributedDBApp and make handler
 - remove apps stuff

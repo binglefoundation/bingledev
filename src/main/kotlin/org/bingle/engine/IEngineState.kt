@@ -46,10 +46,10 @@ interface IEngineState {
     val responseSlots: MutableMap<String, ResponseSlot>
 
     // TODO: remove apps
-    val apps: MutableMap<String, IApp>
     var distributedDBApp: DistributedDBApp
 
     // TODO:own class
 
     val commandRouter: CommandRouter
+    val triangleTest: TriangleTest
 }

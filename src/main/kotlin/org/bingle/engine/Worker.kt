@@ -185,7 +185,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                     handshakeTimeoutMillis = engine.config.timeouts.handshake,
                     dtlsPacketReceiveTimeout = engine.config.timeouts.dtlsPacketReceive,
                     verifyTimeout = engine.config.timeouts.verify,
-                    onMessage = { fromAddress: NetworkSourceKey, verifiedId: String?, messageBuffer: ByteArray, _: Int ->
+                    onMessage = { fromAddress: NetworkSourceKey, verifiedId: String, messageBuffer: ByteArray, _: Int ->
                         logDebug(
                             "Worker::initComms ${engine.config.port} - in listener: ${verifiedId} at ${fromAddress} sent <${
                                 String(
@@ -199,8 +199,8 @@ class Worker internal constructor(private val engine: IEngineState) {
                             fromAddress.inetSocketAddress?.let { decodedCommand.senderAddress = it }
                             decodedCommand.verifiedId = verifiedId
 
-                            logDebug("Worker::initComms ${engine.config.port} - in listener: decodedMessage=${decodedCommand}")
-                            if (decodedCommand.tag != null) {
+                            logDebug("Worker::initComms ${engine.config.port} - in listener: decodedCommand=${decodedCommand}")
+                            if (decodedCommand.hasTag()) {
                                 val tag = decodedCommand.tag
                                 engine.responseSlots[tag]?.let {
                                     it.msg = decodedCommand
@@ -300,7 +300,7 @@ class Worker internal constructor(private val engine: IEngineState) {
         logDebug("Comms::stop done")
     }
 
-    private fun advertiseAmRelay(
+    fun advertiseAmRelay(
         endpoint: InetSocketAddress,
         resolveLevel: ResolveLevel
     ) {
@@ -311,7 +311,7 @@ class Worker internal constructor(private val engine: IEngineState) {
         engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.ADVERTISED_IS_RELAY, null)
     }
 
-    private fun advertiseResolution(
+    fun advertiseResolution(
         endpoint: InetSocketAddress,
         resolveLevel: ResolveLevel,
         natType: NatType
@@ -327,7 +327,7 @@ class Worker internal constructor(private val engine: IEngineState) {
 
     // TODO: migrate to not app
     // and use command not map
-    private fun initDDBApp(endpoint: InetSocketAddress) {
+    fun initDDBApp(endpoint: InetSocketAddress) {
         val relayToUse = engine.relayFinder.find()
         val relayPlan = if (relayToUse == null) {
             val res = RelayPlan()
@@ -341,7 +341,7 @@ class Worker internal constructor(private val engine: IEngineState) {
             val sendRes = engine.sender.sendToIdForResponse(id, command, null)
             null == sendRes.fail
         }
-        engine.apps[engine.distributedDBApp.type] = engine.distributedDBApp
+        // TODO: make above a handler
 
         if (engine.config.registerIP) {
             engine.chainAccess.registerIP(engine.id, endpoint)
@@ -419,37 +419,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                 val relayForTriPing = engine.relayFinder.find()
                 logDebug("Worker::handleStunResponse - $engine.id triangleTest relay ${relayForTriPing}")
                 if (relayForTriPing != null) {
-                    logDebug("Worker::handleStunResponse $engine.id - Sending triangleTest1 request")
-                    onState?.invoke(engine.state, resolveLevel, RegisterAction.TRIANGLE_PINGING, null)
-                    val trianglePingResponse = engine.sender.sendToIdForResponse(
-                        relayForTriPing.first,
-                        RelayCommand.TriangleTest1(endpoint),
-                        engine.config.timeouts.triPing ?: 60000
-                    )
-
-                    if (trianglePingResponse.fail == null) {
-                        logDebug("Worker::handleStunResponse $engine.id- Got triangleTest response ${trianglePingResponse}")
-                        onState?.invoke(
-                            engine.state, resolveLevel, RegisterAction.TRIANGLE_PING_RECEIVED,
-                            NatType.FULL_CONE
-                        )
-
-                        advertiseResolution(endpoint, resolveLevel, NatType.FULL_CONE)
-                        if (engine.config.relay == true && engine.config.forceRelay != true) {
-                            // relay on a full cone NAT
-                            initDDBApp(endpoint)
-                            advertiseAmRelay(endpoint, resolveLevel)
-                        }
-                    } else {
-                        logDebug("Worker::handleStunResponse $engine.id - triangleTest fail ${trianglePingResponse}, we need relay")
-                        onState?.invoke(
-                            engine.state, resolveLevel, RegisterAction.TRIANGLE_PING_FAILED,
-                            NatType.RESTRICTED_CONE
-                        )
-
-                        sendRelayListen(relayForTriPing.first, relayForTriPing.second)
-                        advertiseUsingRelay(relayForTriPing.first, NatType.RESTRICTED_CONE)
-                    }
+                    engine.triangleTest.executeTestAsync(resolveLevel, relayForTriPing, endpoint)
                 } else {
                     logError("Worker::handleStunResponse - No relays available")
                     engine.state = CommsState.FAILED
@@ -505,7 +475,7 @@ class Worker internal constructor(private val engine: IEngineState) {
         }
     }
 
-    private fun sendRelayListen(relayId: String, relayAddress: InetSocketAddress): Boolean {
+    fun sendRelayListen(relayId: String, relayAddress: InetSocketAddress): Boolean {
         // config.dtlsConnect!!.sendRelayPing(relayAddress)
 
         val res = engine.sender.sendToIdForResponse(
@@ -517,7 +487,7 @@ class Worker internal constructor(private val engine: IEngineState) {
         return null != res.fail
     }
 
-    private fun advertiseUsingRelay(
+    fun advertiseUsingRelay(
         relayId: String,
         natType: NatType
     ) {

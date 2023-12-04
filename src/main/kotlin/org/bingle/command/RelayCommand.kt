@@ -17,4 +17,5 @@ open class RelayCommand : BaseCommand() {
     class ListenResponse : RelayCommand()
     class CheckResponse(val available: Int) : RelayCommand()
     class CallResponse(val calledId: String, val channel: Int) : RelayCommand()
+    class KeepAlive() : RelayCommand()
 }

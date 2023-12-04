@@ -6,7 +6,7 @@ import java.io.InputStream
 
 open class DTLSParameters(
     val port: Int = 0,
-    val onMessage: (fromAddress: NetworkSourceKey, fromVerifiedId: String?, messageBuffer: ByteArray, messageLength: Int) -> Unit,
+    val onMessage: (NetworkSourceKey, String, ByteArray, Int) -> Unit,
     val resources: IResourceUtil,
     val onStunResponse: ((response: StunResponse) -> Unit)? = null,
     val stunServers: List<String>? = null,

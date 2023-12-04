@@ -65,8 +65,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override val relay: TurnRelayProtocol
         get() = TODO("Not yet implemented")
     override val responseSlots = mutableMapOf<String, ResponseSlot>()
-    override val apps: MutableMap<String, IApp>
-        get() = TODO("Not yet implemented")
+
     override var distributedDBApp: DistributedDBApp
         get() = TODO("Not yet implemented")
         set(value) {}
@@ -74,5 +73,6 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     private val myCommandRouter = CommandRouter(this)
     override val commandRouter: CommandRouter
         get() = myCommandRouter
+    override val triangleTest: TriangleTest = TriangleTest(this)
 
 }

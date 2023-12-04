@@ -16,17 +16,53 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
     val type = this.javaClass.name.replace("org.bingle.command.", "").split("$")
         .map { CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, it) }.joinToString(".")
 
-    @Json(serializeNull = false)
-    var senderAddress: InetSocketAddress? = null
+    // These properties are lateinit to the code
+    // (and immutable) but can be serialized in klaxon
+    // and have with ops to do fluent setting after a constructor
+    @Json(serializeNull = false, name="senderAddress")
+    var jsSenderAddress: InetSocketAddress?
+        get() = if(::senderAddress.isInitialized) senderAddress else null
+        set(v) {
+            if(null != v) {
+                senderAddress = v
+            }
+        }
+    @Json(ignored = true)
+    lateinit var senderAddress: InetSocketAddress
 
-    @Json(serializeNull = false)
-    var verifiedId: String? = null
+    @Json(serializeNull = false, name="verifiedId")
+    var jsverifiedId: String?
+        get() = if(::verifiedId.isInitialized) verifiedId else null
+        set(v) {
+            if(null != v) {
+                verifiedId = v
+            }
+        }
+    @Json(ignored = true)
+    lateinit var verifiedId: String
 
-    @Json(serializeNull = false)
-    var tag: String? = null
+    @Json(serializeNull = false, name="tag")
+    var jsTag: String?
+        get() = if(::tag.isInitialized) tag else null
+        set(v) {
+            if(null != v) {
+                tag = v
+            }
+        }
+    @Json(ignored = true)
+    lateinit var tag: String
+    fun hasTag() = ::tag.isInitialized
 
-    @Json(serializeNull = false)
-    var responseTag: String? = null
+    @Json(serializeNull = false, name="responseTag")
+    var jsResponseTag: String?
+        get() = if(::responseTag.isInitialized) responseTag else null
+        set(v) {
+            if(null != v) {
+                responseTag = v
+            }
+        }
+    @Json(ignored = true)
+    lateinit var responseTag: String
 
     fun <T> withSenderAddress(senderAddress: InetSocketAddress): T {
         this.senderAddress = senderAddress
@@ -34,19 +70,19 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
         return this as T
     }
 
-    fun <T> withVerifiedId(verifiedId: String?): T {
+    fun <T> withVerifiedId(verifiedId: String): T {
         this.verifiedId = verifiedId
         @Suppress("UNCHECKED_CAST")
         return this as T
     }
 
-    fun <T> withTag(tag: String?): T {
+    fun <T> withTag(tag: String): T {
         this.tag = tag
         @Suppress("UNCHECKED_CAST")
         return this as T
     }
 
-    fun <T> withResponseTag(responseTag: String?): T {
+    fun <T> withResponseTag(responseTag: String): T {
         this.responseTag = responseTag
         @Suppress("UNCHECKED_CAST")
         return this as T
