@@ -5,7 +5,6 @@ import org.bingle.command.RelayCommand
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.util.logDebug
 import org.bingle.util.logWarn
-import java.net.InetSocketAddress
 
 @CommandHandler
 fun relayCheckHandler(engineState: IEngineState, command: RelayCommand.Check) {
@@ -25,7 +24,7 @@ fun relayListenHandler(engineState: IEngineState, command: RelayCommand.Listen) 
     logDebug("relayListenHandler:: ${engineState.currentEndpoint.port} got listen with ${command.senderAddress} ${command.verifiedId}")
     val senderNetworkSourceKey = NetworkSourceKey(command.senderAddress)
 
-    engineState.relay.relayListen(command.senderAddress, command.verifiedId)
+    engineState.turnRelayProtocol.relayListen(command.senderAddress, command.verifiedId)
     engineState.sender.sendMessageToNetwork(
         senderNetworkSourceKey,
         command.verifiedId,
@@ -39,11 +38,11 @@ fun relayCallHandler(engineState: IEngineState, command: RelayCommand.Call) {
     logDebug("relayCallHandler:: got call to ${command.calledId}")
 
     val channel =
-        engineState.relay.relayCall(command.calledId, command.senderAddress)
+        engineState.turnRelayProtocol.relayCall(command.calledId, command.senderAddress)
     if(channel==null) {
         logDebug("RelayApp:: could not allocate channel for ${command.calledId}")
     }
-    logDebug("relayCallHandler on ${engineState.currentEndpoint} sender = ${command.senderAddress} relayedChannels=${engineState.relay.relayedChannels}")
+    logDebug("relayCallHandler on ${engineState.currentEndpoint} sender = ${command.senderAddress} relayedChannels=${engineState.turnRelayProtocol.relayedChannels}")
     val senderNetworkSourceKey = NetworkSourceKey(command.senderAddress)
 
     engineState.sender.sendMessageToNetwork(
@@ -59,7 +58,7 @@ fun relayCallResponseHandler(_engineState: IEngineState, _command: RelayCommand.
 
 @CommandHandler
 fun relayKeepAliveHandler(engineState: IEngineState, command: RelayCommand.KeepAlive) {
-    engineState.relay.keepAlive(command.verifiedId)
+    engineState.turnRelayProtocol.keepAlive(command.verifiedId)
 }
 
 @CommandHandler

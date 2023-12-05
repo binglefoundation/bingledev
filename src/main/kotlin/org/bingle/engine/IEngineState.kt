@@ -4,7 +4,6 @@ import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
 import org.bingle.going.apps.ddb.DistributedDBApp
 import org.bingle.interfaces.*
-import org.bingle.interfaces.going.IApp
 import java.net.InetSocketAddress
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingQueue
@@ -34,7 +33,7 @@ interface IEngineState {
     val advertiser: IAdvertiser
     var pinger: Pinger
 
-    // TODO: gets replaced with relay
+    // TODO: gets replaced with DDB
     val nameResolver: IResolver
 
     // TODO: own class
@@ -42,14 +41,15 @@ interface IEngineState {
     var stunResponseThread: Thread
     var stunHandlerDone: Boolean
     val stunHandlerQueue: LinkedBlockingQueue<StunResponse>
-    val relay: TurnRelayProtocol
     val responseSlots: MutableMap<String, ResponseSlot>
 
     // TODO: remove apps
     var distributedDBApp: DistributedDBApp
 
-    // TODO:own class
-
     val commandRouter: CommandRouter
     val triangleTest: TriangleTest
+
+    val relay: Relay
+    val turnRelayProtocol: TurnRelayProtocol
+
 }

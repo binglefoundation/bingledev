@@ -6,7 +6,6 @@ import org.bingle.blockchain.AlgoNetworkException
 import org.bingle.certs.BingleCertCreator
 import org.bingle.certs.CertChecker
 import org.bingle.command.BaseCommand
-import org.bingle.command.RelayCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
@@ -144,17 +143,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                 logDebug("Worker::InitComms assign current endpoint from engine.config.as ${engine.currentEndpoint}")
                 engine.config.onState?.invoke(CommsState.BOUND, null, RegisterAction.USING_PUBLIC, NatType.DIRECT)
 
-                if (engine.config.relay == true && engine.config.forceRelay == true) {
-                    logDebug("Worker::InitComms am relay on public endpoint")
-                    initDDBApp(engine.currentEndpoint)
-                    advertiseAmRelay(engine.currentEndpoint, ResolveLevel.CONSISTENT)
-                } else {
-                    advertiseResolution(
-                        engine.currentEndpoint,
-                        ResolveLevel.CONSISTENT,
-                        NatType.DIRECT
-                    )
-                }
+                engine.relay.adoptRelayForPublicEndpoint()
             }
 
             // TODO: move to own class
@@ -300,31 +289,6 @@ class Worker internal constructor(private val engine: IEngineState) {
         logDebug("Comms::stop done")
     }
 
-    fun advertiseAmRelay(
-        endpoint: InetSocketAddress,
-        resolveLevel: ResolveLevel
-    ) {
-        logDebug("Worker::advertiseAmRelay ${endpoint}")
-        engine.advertiser.advertiseAmRelay(engine.keyProvider, engine.currentEndpoint, endpoint)
-
-        engine.state = CommsState.RELAY_ADVERTISED
-        engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.ADVERTISED_IS_RELAY, null)
-    }
-
-    fun advertiseResolution(
-        endpoint: InetSocketAddress,
-        resolveLevel: ResolveLevel,
-        natType: NatType
-    ) {
-        logDebug("Worker::advertiseResolution ${endpoint}")
-        engine.advertiser.advertise(
-            engine.keyProvider,
-            endpoint
-        )
-        engine.state = CommsState.ADVERTISED
-        engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.ADVERTISED_DIRECT, natType)
-    }
-
     // TODO: migrate to not app
     // and use command not map
     fun initDDBApp(endpoint: InetSocketAddress) {
@@ -387,120 +351,13 @@ class Worker internal constructor(private val engine: IEngineState) {
             onState?.invoke(engine.state, resolveLevel, RegisterAction.STUN_RESOLVED, null)
 
             // val thatComms = this -> not needed?
-            if (engine.config.useRelays == false || engine.config.forceRelay == true) {
-                engine.currentEndpoint = endpoint
-                onState?.invoke(
-                    engine.state,
-                    resolveLevel,
-                    if (engine.config.useRelays == false) RegisterAction.NOT_USING_RELAYS else RegisterAction.FORCE_BE_RELAY,
-                    NatType.UNKNOWN
-                )
-
-                advertiseResolution(endpoint, resolveLevel, NatType.DIRECT)
-                logDebug("Worker::handleStunResponse (${if (engine.config.useRelays == false) "not using relays" else "force to be relay"}) assign current endpoint from Stun as ${endpoint}")
-
-                if (engine.config.relay == true && engine.config.forceRelay == true) {
-                    // Forced relay, normally direct
-                    initDDBApp(endpoint)
-                    advertiseAmRelay(endpoint, ResolveLevel.CONSISTENT)
-                }
-            } else if (engine.config.alwaysRelayWithId != null) {
-                logDebug("Worker::InitComms (always relay) assign current endpoint from Stun as ${endpoint}")
-                engine.currentEndpoint = endpoint
-
-                becomeRelayClient(resolveLevel, true)
-            } else if (resolveLevel == ResolveLevel.INCONSISTENT) {
-                logDebug("Worker::InitComms (inconsistent Stun responses) assign current endpoint from Stun as ${endpoint}")
-                engine.currentEndpoint = endpoint
-
-                becomeRelayClient(resolveLevel, false, NatType.SYMMETRIC)
-            } else {
-                logDebug("Worker::handleStunResponse - $engine.id finds relay for TriPing")
-                val relayForTriPing = engine.relayFinder.find()
-                logDebug("Worker::handleStunResponse - $engine.id triangleTest relay ${relayForTriPing}")
-                if (relayForTriPing != null) {
-                    engine.triangleTest.executeTestAsync(resolveLevel, relayForTriPing, endpoint)
-                } else {
-                    logError("Worker::handleStunResponse - No relays available")
-                    engine.state = CommsState.FAILED
-                    onState?.invoke(
-                        engine.state, resolveLevel, RegisterAction.NO_RELAYS_AVAILABLE,
-                        NatType.UNKNOWN
-                    )
-                }
-            }
+            engine.relay.adoptRelayState(endpoint, resolveLevel)
         } catch (ex: Exception) {
             System.err.println("Worker::handleStunResponse threw $ex in handler, response poss not processed")
             ex.printStackTrace(System.err)
         }
     }
 
-    // TODO: own class
-    private fun becomeRelayClient(
-        resolveLevel: ResolveLevel,
-        forced: Boolean,
-        natType: NatType = NatType.UNKNOWN
-    ) {
-        logDebug("Worker::becomeRelayClient finds relay")
-        val relayToUse = engine.relayFinder.find() // will honour alwaysRelayWithId
-        if (relayToUse == null) {
-            logError("Comms:onStunResponse - relay ${engine.config.alwaysRelayWithId} is not available")
-            engine.state = CommsState.FAILED
-            engine.config.onState?.invoke(
-                engine.state,
-                resolveLevel,
-                if (engine.config.alwaysRelayWithId != null) RegisterAction.RELAY_NOT_AVAILABLE else RegisterAction.NO_RELAYS_AVAILABLE,
-                natType
-            )
-        } else {
-            if (forced) {
-                engine.config.onState?.invoke(
-                    engine.state, resolveLevel, RegisterAction.FORCED_USE_RELAY,
-                    natType
-                )
-            }
 
-            if (sendRelayListen(relayToUse.first, relayToUse.second)) {
-                advertiseUsingRelay(relayToUse.first, natType)
-            } else {
-                logError("Comms:onStunResponse - relay ${engine.config.alwaysRelayWithId} did not respond to listen")
-                engine.state = CommsState.FAILED
-                engine.config.onState?.invoke(
-                    engine.state,
-                    resolveLevel,
-                    if (engine.config.alwaysRelayWithId != null) RegisterAction.RELAY_NOT_AVAILABLE else RegisterAction.NO_RELAYS_AVAILABLE,
-                    natType
-                )
-            }
-        }
-    }
-
-    fun sendRelayListen(relayId: String, relayAddress: InetSocketAddress): Boolean {
-        // config.dtlsConnect!!.sendRelayPing(relayAddress)
-
-        val res = engine.sender.sendToIdForResponse(
-            relayId,
-            RelayCommand.Listen(),
-            engine.config.timeouts.relayListen,
-        )
-
-        return null != res.fail
-    }
-
-    fun advertiseUsingRelay(
-        relayId: String,
-        natType: NatType
-    ) {
-        logDebug("Worker::advertiseUsingRelay id ${relayId}")
-        engine.advertiser.advertiseUsingRelay(engine.keyProvider, relayId)
-
-        engine.state = CommsState.ADVERTISED
-        engine.config.onState?.invoke(
-            engine.state,
-            ResolveLevel.NONE,
-            RegisterAction.ADVERTISED_VIA_RELAY,
-            natType
-        )
-    }
 
 }

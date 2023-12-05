@@ -62,7 +62,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
 
     override val stunHandlerQueue: LinkedBlockingQueue<StunResponse> = LinkedBlockingQueue()
 
-    override val relay: TurnRelayProtocol
+    override val turnRelayProtocol: TurnRelayProtocol
         get() = TODO("Not yet implemented")
     override val responseSlots = mutableMapOf<String, ResponseSlot>()
 
@@ -74,5 +74,6 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override val commandRouter: CommandRouter
         get() = myCommandRouter
     override val triangleTest: TriangleTest = TriangleTest(this)
+    override val relay = Relay(this)
 
 }

@@ -34,7 +34,8 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override var stunHandlerDone: Boolean = false
     override val stunHandlerQueue = LinkedBlockingQueue<StunResponse>()
 
-    override val relay: TurnRelayProtocol get() = config.dtlsConnect.userRelay
+    override val relay = Relay(this)
+    override val turnRelayProtocol: TurnRelayProtocol get() = config.dtlsConnect.userRelay
 
     override val responseSlots: MutableMap<String, ResponseSlot> = mutableMapOf()
 
