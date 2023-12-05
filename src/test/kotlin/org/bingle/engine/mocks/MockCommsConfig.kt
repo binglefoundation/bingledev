@@ -38,7 +38,7 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
         get() = TODO("Not yet implemented")
     override val port: Int = 100
     override val localToLoopback: Boolean = false
-    override val relay: Boolean = false
+    override val isRelay: Boolean = false
     override val forceRelay: Boolean?
         get() = TODO("Not yet implemented")
     override val disableListener: Boolean?

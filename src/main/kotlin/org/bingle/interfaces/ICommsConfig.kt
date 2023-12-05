@@ -20,7 +20,7 @@ interface ICommsConfig {
     val purestakeApiKey: String?
     val port: Int?
     val localToLoopback: Boolean? // Set this for test to loopback to local machine
-    val relay: Boolean? // set this to enable relay
+    val isRelay: Boolean? // set this to enable becoming a relay
     val forceRelay: Boolean? // become relay without checking NAT
     val disableListener: Boolean? // Disable listening for inbound DTLS
     val useRelays: Boolean? // Use relays if NAT appears to require this

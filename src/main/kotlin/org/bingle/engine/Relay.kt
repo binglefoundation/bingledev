@@ -27,7 +27,7 @@ class Relay(val engine: IEngineState) {
             advertiseResolution(endpoint, resolveLevel, NatType.DIRECT)
             logDebug("Relay::adoptRelayState (${if (engine.config.useRelays == false) "not using relays" else "force to be relay"}) assign current endpoint from Stun as ${endpoint}")
 
-            if (engine.config.relay == true && engine.config.forceRelay == true) {
+            if (engine.config.isRelay == true && engine.config.forceRelay == true) {
                 // Forced relay, normally direct
                 engine.worker.initDDBApp(endpoint) // TODO: this changes to its own thing
                 advertiseAmRelay(endpoint, ResolveLevel.CONSISTENT)
@@ -56,7 +56,7 @@ class Relay(val engine: IEngineState) {
                     NatType.FULL_CONE -> {
                         engine.relay.advertiseResolution(endpoint, resolveLevel, NatType.FULL_CONE)
 
-                        if (engine.config.relay == true && engine.config.forceRelay != true) {
+                        if (engine.config.isRelay == true && engine.config.forceRelay != true) {
                             // relay on a full cone NAT
                             engine.worker.initDDBApp(endpoint)
                             engine.relay.advertiseAmRelay(endpoint, resolveLevel)
@@ -76,7 +76,7 @@ class Relay(val engine: IEngineState) {
         }
     }
     fun adoptRelayForPublicEndpoint() {
-        if (engine.config.relay == true && engine.config.forceRelay == true) {
+        if (engine.config.isRelay == true && engine.config.forceRelay == true) {
             logDebug("Relay::adoptRelayForPublicEndpoint am relay on public endpoint")
             engine.worker.initDDBApp(engine.currentEndpoint)
             advertiseAmRelay(engine.currentEndpoint, ResolveLevel.CONSISTENT)
@@ -113,6 +113,7 @@ class Relay(val engine: IEngineState) {
         engine.state = CommsState.ADVERTISED
         engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.ADVERTISED_DIRECT, natType)
     }
+
     private fun becomeRelayClient(
         resolveLevel: ResolveLevel,
         forced: Boolean,
@@ -161,7 +162,7 @@ class Relay(val engine: IEngineState) {
             engine.config.timeouts.relayListen,
         )
 
-        return null != res.fail
+        return null == res.fail
     }
 
     fun advertiseUsingRelay(

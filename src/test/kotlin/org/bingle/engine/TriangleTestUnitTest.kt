@@ -1,5 +1,6 @@
 package org.bingle.engine
 
+import io.mockk.Call
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -26,13 +27,19 @@ class TriangleTestUnitTest : BaseUnitTest() {
         every { mockCommsConfig.timeouts } returns ICommsConfig.TimeoutConfig(triPing = 1000)
     }
 
+    companion object {
+        fun mockTriangleTestResponder(mockCall: Call): BaseCommand {
+            val messageSent = mockCall.invocation.args[1] as RelayCommand.TriangleTest1
+            assertThat(messageSent.checkingEndpoint).isEqualTo(endpoint1)
+
+            return RelayCommand.TriangleTest3().withVerifiedId(id2)
+        }
+    }
+
     @Test
     fun `TriangleTest detects full cone when we get a response from second peer`() {
         every { mockEngine.sender.sendToIdForResponse(any(), any(), any()) } answers {
-            val messageSent = it.invocation.args[1] as RelayCommand.TriangleTest1
-            assertThat(messageSent.checkingEndpoint).isEqualTo(endpoint1)
-
-            RelayCommand.TriangleTest3().withVerifiedId(id2)
+            mockTriangleTestResponder(it)
         }
 
         val triangleTest = TriangleTest(mockEngine)

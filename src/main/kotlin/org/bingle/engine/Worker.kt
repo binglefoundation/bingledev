@@ -107,10 +107,10 @@ class Worker internal constructor(private val engine: IEngineState) {
 
                     // If forceRelay is set, we don't need to test NAT connectivity
                     // before becoming a relay
-                    if (engine.config.relay == true && engine.config.forceRelay == true) {
+                    if (engine.config.isRelay == true && engine.config.forceRelay == true) {
                         // so advertise us as a relay
                         engine.chainAccess.setRelayState(2) // full relay
-                    } else if (engine.config.relay == false) {
+                    } else if (engine.config.isRelay == false) {
                         // we are not a relay, so advertise that
                         engine.chainAccess.setRelayState(0)
                     }
