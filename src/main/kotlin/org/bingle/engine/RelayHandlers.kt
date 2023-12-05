@@ -4,7 +4,6 @@ import org.bingle.annotations.CommandHandler
 import org.bingle.command.RelayCommand
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.util.logDebug
-import org.bingle.util.logWarn
 
 @CommandHandler
 fun relayCheckHandler(engineState: IEngineState, command: RelayCommand.Check) {
@@ -59,33 +58,4 @@ fun relayCallResponseHandler(_engineState: IEngineState, _command: RelayCommand.
 @CommandHandler
 fun relayKeepAliveHandler(engineState: IEngineState, command: RelayCommand.KeepAlive) {
     engineState.turnRelayProtocol.keepAlive(command.verifiedId)
-}
-
-@CommandHandler
-fun triangleTest1Handler(engineState: IEngineState, command: RelayCommand.TriangleTest1) {
-    logDebug("triangleTest1Handler message, find relay to pass on message")
-    val relay = engineState.relayFinder.find()
-    if(relay == null) {
-        logWarn("triangleTest1Handler message: No relay found to pass on triangleTest1")
-    }
-    else {
-        engineState.sender.sendMessageToId(
-            relay.first,
-            RelayCommand.TriangleTest2(command.verifiedId, command.checkingEndpoint,
-            ).withTag(command.responseTag),
-            null
-        )
-    }
-}
-
-@CommandHandler
-fun triangleTest2Handler(engineState: IEngineState, command: RelayCommand.TriangleTest2) {
-    // This will be picked up by tag handler in the original sender
-    // and return the TriangleTest3 response
-    val networkSourceKey = NetworkSourceKey(command.checkingEndpoint)
-
-    engineState.sender.sendMessageToNetwork(networkSourceKey, command.checkingId,
-        RelayCommand.TriangleTest3().withTag(command.responseTag),
-        null
-    )
 }
