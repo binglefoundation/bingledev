@@ -2,7 +2,7 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
-import org.bingle.going.apps.ddb.DistributedDBApp
+import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.CommsState
 import org.bingle.interfaces.ICommsConfig
 import org.bingle.interfaces.SendProgress
@@ -39,8 +39,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
 
     override val responseSlots: MutableMap<String, ResponseSlot> = mutableMapOf()
 
-    // TODO: remove apps
-    override lateinit var distributedDBApp: DistributedDBApp
+    override lateinit var distributedDB: DistributedDB
 
     override val commandRouter = CommandRouter(this)
 

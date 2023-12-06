@@ -8,11 +8,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Add relay unit test">
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- Enable CommandRoute entries to return a response command">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDBHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/CommandRouter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/CommandRouter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/CommandRouterTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/CommandRouterTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/TestCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/TestCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/Ddb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/DdbCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDB.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDB.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDBClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/DistributedDBServer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDBServer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/ISendableMessage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/going/apps/ddb/RelayPlan.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/RelayPlan.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/DdbTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/command/DdbTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +112,7 @@
       <recent name="$PROJECT_DIR$/src/main/kotlin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -108,6 +121,7 @@
       <recent name="org.bingle.engine" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="org.bingle.engine.ddb" />
       <recent name="org.bingle.engine.mocks" />
     </key>
     <key name="KotlinExtractInterfaceDialog.RECENT_KEYS">
@@ -121,7 +135,7 @@
       <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.CommandRouterTest.routes to command handler and sends response return">
+  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
     <configuration name="CommandRouterTest.routes to command handler and sends response return" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -242,8 +256,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CommandRouterTest.routes to command handler and sends response return" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
+        <item itemvalue="Gradle.CommandRouterTest.routes to command handler and sends response return" />
         <item itemvalue="Gradle.RelayUnitTest.A user with full cone and isRelay set connects and becomes a relay" />
         <item itemvalue="Gradle.RelayUnitTest" />
         <item itemvalue="Gradle.RelayUnitTest.A user with symmetric NAT and no special settings connects via relay" />
@@ -275,7 +289,8 @@
       <workItem from="1701556405185" duration="651000" />
       <workItem from="1701557071967" duration="9517000" />
       <workItem from="1701634072746" duration="595000" />
-      <workItem from="1701640201780" duration="42978000" />
+      <workItem from="1701640201780" duration="44135000" />
+      <workItem from="1701807842204" duration="4407000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -373,7 +388,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701745377940</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="- Enable CommandRoute entries to return a response command">
+      <option name="closed" value="true" />
+      <created>1701762215362</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701762215362</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,7 +423,8 @@
     <MESSAGE value="- Test the TriangleTest" />
     <MESSAGE value="- Put triangle test handlers into `TriangleTest.kt` and unit test these" />
     <MESSAGE value="- Add relay unit test" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Add relay unit test" />
+    <MESSAGE value="- Enable CommandRoute entries to return a response command" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Enable CommandRoute entries to return a response command" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

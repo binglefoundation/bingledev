@@ -4,41 +4,43 @@ import com.beust.klaxon.*
 import org.bingle.command.data.AdvertRecord
 
 @TypeFor(field = "type", adapter = BaseCommand.BaseTypeAdapter::class)
-open class Ddb() : BaseCommand() {
+open class DdbCommand() : BaseCommand() {
 
-    open class Update(val startId: String, val epoch: Int) : Ddb()
+    open class Update(val startId: String, val epoch: Int) : DdbCommand()
+    class UpdateResponse() : DdbCommand()
+    class PendingResponse(): DdbCommand()
 
     class UpsertResolve(val record: AdvertRecord, startId: String, epoch: Int) :
         Update(startId, epoch)
 
     class DeleteResolve(startId: String, epoch: Int) : Update(startId, epoch)
     class QueryResolve(val id: String) :
-        Ddb()
+        DdbCommand()
 
-    class Signon(val startId: String) : Ddb()
+    class Signon(val startId: String) : DdbCommand()
     class GetEpoch(val epochId: Int) :
-        Ddb()
+        DdbCommand()
 
-    class InitResolve(val senderId: String) : Ddb()
+    class InitResolve(val senderId: String) : DdbCommand()
     class DumpResolve(val senderId: String, val record: AdvertRecord) :
-        Ddb()
+        DdbCommand()
 
-    class UpdateResponse() : Ddb()
 
     class GetEpochResponse(
         val epochId: Int,
         val treeOrder: Int,
         val relayIds: List<String>
-    ) : Ddb()
+    ) : DdbCommand()
 
     class QueryResponse(val found: Boolean, val advert: AdvertRecord? = null) :
-        Ddb()
+        DdbCommand()
 
-    class InitResponse(val dbCount: Int) : Ddb()
+    class InitResponse(val dbCount: Int) : DdbCommand()
 
     class DumpResolveResponse(
         val recordIndex: Int,
         val recordId: String,
         val record: AdvertRecord
-    ) : Ddb()
+    ) : DdbCommand()
+
 }

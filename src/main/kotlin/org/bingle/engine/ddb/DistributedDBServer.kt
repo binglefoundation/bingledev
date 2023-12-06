@@ -1,7 +1,7 @@
-package org.bingle.going.apps.ddb
+package org.bingle.engine.ddb
 
-import org.bingle.going.apps.ddb.DistributedDB
-
+// TODO : change the boot and attach flow
+//
 class DistributedDBServer(myId: String,
                           lookupRootRelay: () -> String,
                           sendForResponse: (toId: String, message: Map<String, Any?>) -> Map<String, Any?>,
@@ -20,9 +20,7 @@ class DistributedDBServer(myId: String,
         if(initResponseRecord["fail"] != null) throw RuntimeException("initResolveResponse failed ${initResponseRecord["fail"]}")
 
         relayPlan?.let {
-            distributedDB = DistributedDB(myId, it ) {
-                id, command -> send(id, command.toMap())
-            }
+            distributedDB = DistributedDB(myId, it )
 
             distributedDB.enterLoadingState(initResponseRecord["dbCount"] as Int)
         } ?: throw RuntimeException("client connect did not set a relay plan")

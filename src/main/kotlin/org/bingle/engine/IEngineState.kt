@@ -2,7 +2,7 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
-import org.bingle.going.apps.ddb.DistributedDBApp
+import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.*
 import java.net.InetSocketAddress
 import java.util.concurrent.CountDownLatch
@@ -43,8 +43,7 @@ interface IEngineState {
     val stunHandlerQueue: LinkedBlockingQueue<StunResponse>
     val responseSlots: MutableMap<String, ResponseSlot>
 
-    // TODO: remove apps
-    var distributedDBApp: DistributedDBApp
+    var distributedDB: DistributedDB
 
     val commandRouter: CommandRouter
     val triangleTest: TriangleTest

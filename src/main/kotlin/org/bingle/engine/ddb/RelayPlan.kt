@@ -1,4 +1,4 @@
-package org.bingle.going.apps.ddb
+package org.bingle.engine.ddb
 
 import org.bingle.util.NetDet
 

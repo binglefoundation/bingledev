@@ -9,8 +9,8 @@ import org.bingle.command.BaseCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
-import org.bingle.going.apps.ddb.DistributedDBApp
-import org.bingle.going.apps.ddb.RelayPlan
+import org.bingle.engine.ddb.DistributedDB
+import org.bingle.engine.ddb.RelayPlan
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 import org.bingle.util.logError
@@ -301,11 +301,7 @@ class Worker internal constructor(private val engine: IEngineState) {
             throw NotImplementedError("TODO: get relay plan from peer")
         }
 
-        engine.distributedDBApp = DistributedDBApp(engine.id, relayPlan) { id: String, command: BaseCommand ->
-            val sendRes = engine.sender.sendToIdForResponse(id, command, null)
-            null == sendRes.fail
-        }
-        // TODO: make above a handler
+        engine.distributedDB = DistributedDB(engine.id, relayPlan)
 
         if (engine.config.registerIP) {
             engine.chainAccess.registerIP(engine.id, endpoint)

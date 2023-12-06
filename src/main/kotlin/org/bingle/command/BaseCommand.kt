@@ -3,15 +3,13 @@ package org.bingle.command
 import com.beust.klaxon.*
 import com.google.common.base.CaseFormat
 import org.apache.commons.text.CaseUtils
-import org.bingle.going.apps.ddb.ISendableMessage
 import java.net.InetSocketAddress
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.reflect.KClass
 
 @TypeFor(field = "type", adapter = BaseCommand.BaseTypeAdapter::class)
-// TODO: remove ISendableMessage
-open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : ISendableCommand, ISendableMessage {
+open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : ISendableCommand {
 
     val type = this.javaClass.name.replace("org.bingle.command.", "").split("$")
         .map { CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, it) }.joinToString(".")

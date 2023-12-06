@@ -4,9 +4,8 @@ import com.creatotronik.stun.StunResponse
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.engine.*
 import org.bingle.engine.IEngineState
-import org.bingle.going.apps.ddb.DistributedDBApp
+import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.*
-import org.bingle.interfaces.going.IApp
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -65,8 +64,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override val turnRelayProtocol: TurnRelayProtocol
         get() = TODO("Not yet implemented")
     override val responseSlots = mutableMapOf<String, ResponseSlot>()
-
-    override var distributedDBApp: DistributedDBApp
+    override var distributedDB: DistributedDB
         get() = TODO("Not yet implemented")
         set(value) {}
 

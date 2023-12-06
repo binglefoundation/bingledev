@@ -1,6 +1,8 @@
-package org.bingle.going.apps.ddb
+package org.bingle.engine.ddb
 
 import org.bingle.command.data.AdvertRecord
+
+// TODO : change the boot and attach flow
 
 open class DistributedDBClient(
     val myId: String,

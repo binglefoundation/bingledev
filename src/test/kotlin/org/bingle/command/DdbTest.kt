@@ -9,7 +9,7 @@ class DdbTest {
     @Test
     fun `can decode and encode UpsertResolve from and to map`() {
         val endpoint1234 = InetSocketAddress("1.2.3.4", 5005)
-        val upsertResolve = Ddb.UpsertResolve( AdvertRecord("1234", endpoint1234),
+        val upsertResolve = DdbCommand.UpsertResolve( AdvertRecord("1234", endpoint1234),
             "2000", 2)
         val mapUpsertResolve = upsertResolve.toMap()
         Assertions.assertThat(mapUpsertResolve["startId"]).isEqualTo("2000")
