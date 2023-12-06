@@ -289,8 +289,6 @@ class Worker internal constructor(private val engine: IEngineState) {
         logDebug("Comms::stop done")
     }
 
-    // TODO: migrate to not app
-    // and use command not map
     fun initDDBApp(endpoint: InetSocketAddress) {
         val relayToUse = engine.relayFinder.find()
         val relayPlan = if (relayToUse == null) {

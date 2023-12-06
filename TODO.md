@@ -2,7 +2,7 @@
 - ~~pull relay code from Worker~~
 - ~~add relay unit test~~
 - ~~remove DistributedDBApp and make handler~~
-- remove apps stuff
+- ~~remove apps stuff~~
 - initialize DDB as a non-server (relay) node
 - add DDB preloaded mock
 - initialize DDB as a server
