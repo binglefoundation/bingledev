@@ -66,7 +66,7 @@ class Sender internal constructor(private val engine: IEngineState) {
                 progress?.invoke(SendProgress.SENDING, null)
 
                 networkSourceKey = if (advertRecord.endpoint == null && advertRecord.relayId != null) {
-                    val relayAdvertRecord = engine.nameResolver.resolveIdToAdvertRecord(advertRecord.relayId)
+                    val relayAdvertRecord = engine.resolver.resolveIdToAdvertRecord(advertRecord.relayId)
                     if (relayAdvertRecord?.amRelay != true) {
                         logWarn("Sender::sendMessageToId: ${userId} => ${advertRecord.relayId} which is not a relay: $relayAdvertRecord}")
                         progress?.invoke(SendProgress.FAILED, advertRecord.relayId)
@@ -206,7 +206,7 @@ class Sender internal constructor(private val engine: IEngineState) {
 
     // TODO: move to own class
     private fun advertRecordForId(id: String): AdvertRecord? {
-        val advertRecord = engine.nameResolver.resolveIdToAdvertRecord(id)
+        val advertRecord = engine.resolver.resolveIdToAdvertRecord(id)
         if (advertRecord == null) {
             logWarn("Sender::advertRecordForId: ${id} has no DNS entry")
 

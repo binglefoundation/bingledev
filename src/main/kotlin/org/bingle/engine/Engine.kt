@@ -5,6 +5,7 @@ import org.bingle.command.BaseCommand
 import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.CommsState
 import org.bingle.interfaces.ICommsConfig
+import org.bingle.interfaces.IResolver
 import org.bingle.interfaces.SendProgress
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
@@ -13,6 +14,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override var listening = false
     override var state: CommsState = CommsState.NONE
     override lateinit var currentEndpoint: InetSocketAddress
+    override var currentRelay: RelayIdToAddress? = null
     override lateinit var myUsername: String
     override lateinit var id: String
     override val worker: Worker = Worker(this)
@@ -25,8 +27,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override lateinit var pinger: Pinger
     override val triangleTest = TriangleTest(this)
 
-    // TODO: gets replaced with relay
-    override val nameResolver = config.makeResolver()
+    override lateinit var resolver: IResolver
 
     // TODO: own class
     override val stunResolver = config.makeStunResolver()
@@ -42,6 +43,10 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override lateinit var distributedDB: DistributedDB
 
     override val commandRouter = CommandRouter(this)
+
+    fun hasCurrentEndpoint(): Boolean {
+        return this::currentEndpoint.isInitialized
+    }
 
     fun init() {
         worker.start()

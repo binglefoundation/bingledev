@@ -1,28 +1,24 @@
 package org.bingle.engine
 
+import com.creatotronik.stun.StunResponse
+import com.creatotronik.stun.StunResponseKind
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.bingle.command.BaseCommand
+import org.bingle.command.DdbCommand
 import org.bingle.command.Ping
+import org.bingle.command.RelayCommand
+import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.DTLSParameters
-import org.bingle.dtls.IDTLSConnect
-import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.mocks.*
 import org.bingle.util.logWarn
 import org.junit.jupiter.api.Test
 import java.nio.charset.Charset
 import kotlin.reflect.jvm.javaMethod
 
-class EngineUnitTest {
-    private val mockDtlsConnect = mockk<IDTLSConnect>()
-    private val mockCommsConfig = MockCommsConfig(mockDtlsConnect)
-    private lateinit var dtlsParameters: DTLSParameters
-    private val id1nsk = NetworkSourceKey(endpoint1)
-    private val id2nsk = NetworkSourceKey(endpoint2)
-
+class EngineUnitTest : BaseUnitTest() {
     init {
         every { mockDtlsConnect.init(any()) } answers {
             dtlsParameters = it.invocation.args[0] as DTLSParameters
@@ -31,15 +27,19 @@ class EngineUnitTest {
         every { mockDtlsConnect.waitForStopped() } returns Unit
         every { mockDtlsConnect.isInitialized } returns false
         every { mockDtlsConnect.connectionOpenTo("id2") } returns null
+        every { mockDtlsConnect.connectionOpenTo("idRelay") } returns null
+
+        mockSending(idRelay, idRelayNsk, RelayCommand.Check::class) { RelayCommand.CheckResponse(1) }
+        mockSending(idRelay, idRelayNsk, RelayCommand.TriangleTest1::class) { RelayCommand.TriangleTest3() }
     }
 
     @Test
     fun `Can send ping`() {
-        every { mockDtlsConnect.send(id2nsk, any(), any()) } answers {
-            val message = Ping.Response().withVerifiedId<Ping.Response>(id2)
-            val messageBytes = message.toJson().toByteArray(Charset.defaultCharset())
-            dtlsParameters.onMessage(id1nsk, id1, messageBytes, messageBytes.size)
-            true
+        mockSending(id2, id2nsk, Ping.Ping::class) { Ping.Response() }
+        mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
+            val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
+            assertThat(query.id).isEqualTo(id2)
+            DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))
         }
 
         mockkStatic(::logWarn.javaMethod!!.declaringClass.kotlin)
@@ -63,6 +63,11 @@ class EngineUnitTest {
             assertThat(messageSent).isInstanceOf(Ping.Response::class.java)
             true
         }
+        mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
+            val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
+            assertThat(query.id).isEqualTo(id2)
+            DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))
+        }
 
         val engine = startEngine()
 
@@ -82,6 +87,14 @@ class EngineUnitTest {
         while (!engine.listening) {
             Thread.sleep(2000)
         }
+
+        dtlsParameters.onStunResponse!!.invoke(StunResponse(StunResponseKind.PLAIN, "stun.gmx.net:3478", endpoint1))
+        dtlsParameters.onStunResponse!!.invoke(StunResponse(StunResponseKind.PLAIN, "stun.freeswitch.org:3478", endpoint1))
+
+        while(!engine.hasCurrentEndpoint()) {
+            Thread.sleep(2000)
+        }
+
         return engine
     }
 }

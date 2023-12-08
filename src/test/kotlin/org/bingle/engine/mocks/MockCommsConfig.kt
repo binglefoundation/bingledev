@@ -3,9 +3,11 @@ package org.bingle.engine.mocks
 import org.bingle.blockchain.AlgoProviderConfig
 import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
+import org.bingle.engine.IEngineState
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
 import org.bingle.engine.StunResolver
+import org.bingle.engine.ddb.DdbResolver
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 
@@ -28,8 +30,8 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
         return StunResolver()
     }
 
-    override fun makeResolver(): IResolver {
-        return MockResolver()
+    override fun makeResolver(engineState: IEngineState): IResolver {
+        return DdbResolver(engineState)
     }
 
     override val registerIP: Boolean
@@ -40,13 +42,13 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
     override val localToLoopback: Boolean = false
     override val isRelay: Boolean = false
     override val forceRelay: Boolean?
-        get() = TODO("Not yet implemented")
+        get() = false
     override val disableListener: Boolean?
         get() = false
     override val useRelays: Boolean?
-        get() = TODO("Not yet implemented")
+        get() = true
     override val alwaysRelayWithId: String?
-        get() = TODO("Not yet implemented")
+        get() = null
 
     override val publicEndpoint: String? = null
     override val algoProviderConfig: AlgoProviderConfig?

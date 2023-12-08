@@ -3,6 +3,7 @@ package org.bingle.interfaces
 import org.bingle.blockchain.AlgoProviderConfig
 import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
+import org.bingle.engine.IEngineState
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
 
@@ -14,7 +15,7 @@ interface ICommsConfig {
     fun makeChainAccess(keyProvider: IKeyProvider): IChainAccess
     fun makeAdvertiser(): IAdvertiser
     fun makeStunResolver(): IStunResolver
-    fun makeResolver(): IResolver
+    fun makeResolver(engineState: IEngineState): IResolver
 
     val registerIP: Boolean
     val purestakeApiKey: String?

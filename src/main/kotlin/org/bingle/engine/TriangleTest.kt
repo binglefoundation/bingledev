@@ -19,7 +19,8 @@ class TriangleTest(val engine: IEngineState) {
     ): NatType {
         logDebug("TriangleTest::determineNatType $engine.id - Sending triangleTest1 request")
         engine.config.onState?.invoke(engine.state, resolveLevel, RegisterAction.TRIANGLE_PINGING, null)
-        val trianglePingResponse = engine.sender.sendToIdForResponse(
+        val trianglePingResponse = engine.sender.sendToNetworkForResponse(
+            NetworkSourceKey(relayForTriPing.second),
             relayForTriPing.first,
             RelayCommand.TriangleTest1(endpoint),
             engine.config.timeouts.triPing ?: 60000
@@ -52,7 +53,8 @@ fun triangleTest1Handler(engineState: IEngineState, command: RelayCommand.Triang
     if (relay == null) {
         logWarn("triangleTest1Handler message: No relay found to pass on triangleTest1")
     } else {
-        engineState.sender.sendMessageToId(
+        engineState.sender.sendMessageToNetwork(
+            NetworkSourceKey(relay.second),
             relay.first,
             RelayCommand.TriangleTest2(
                 command.verifiedId, command.checkingEndpoint,

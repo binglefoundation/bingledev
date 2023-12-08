@@ -40,7 +40,7 @@ class MockChainAccess: IChainAccess {
     }
 
     override fun listRelaysWithIps(): List<Pair<String, InetSocketAddress?>> {
-        TODO("Not yet implemented")
+        return listOf(Pair(idRelay, endpointRelay))
     }
 
     override fun registerIP(address: String, ip: InetSocketAddress): Boolean {

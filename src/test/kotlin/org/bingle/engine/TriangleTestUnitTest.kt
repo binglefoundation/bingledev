@@ -16,20 +16,19 @@ import org.junit.jupiter.api.Test
 
 class TriangleTestUnitTest : BaseUnitTest() {
 
-    val mockEngine = mockk<IEngineState>()
-    val mockSender = mockk<Sender>()
-    val mockCommsConfig = mockk<ICommsConfig>()
+    private val mockEngine = mockk<IEngineState>()
+    private val mockSender = mockk<Sender>()
 
     init {
         every { mockEngine.sender } returns mockSender
         every { mockEngine.config } returns mockCommsConfig
-        every { mockCommsConfig.onState } returns null
-        every { mockCommsConfig.timeouts } returns ICommsConfig.TimeoutConfig(triPing = 1000)
+        // every { mockCommsConfig.onState } returns null
+        // every { mockCommsConfig.timeouts } returns ICommsConfig.TimeoutConfig(triPing = 1000)
     }
 
     companion object {
         fun mockTriangleTestResponder(mockCall: Call): BaseCommand {
-            val messageSent = mockCall.invocation.args[1] as RelayCommand.TriangleTest1
+            val messageSent = mockCall.invocation.args[2] as RelayCommand.TriangleTest1
             assertThat(messageSent.checkingEndpoint).isEqualTo(endpoint1)
 
             return RelayCommand.TriangleTest3().withVerifiedId(id2)
@@ -38,7 +37,7 @@ class TriangleTestUnitTest : BaseUnitTest() {
 
     @Test
     fun `TriangleTest detects full cone when we get a response from second peer`() {
-        every { mockEngine.sender.sendToIdForResponse(any(), any(), any()) } answers {
+        every { mockEngine.sender.sendToNetworkForResponse(any(), any(), any(), any()) } answers {
             mockTriangleTestResponder(it)
         }
 
@@ -49,7 +48,7 @@ class TriangleTestUnitTest : BaseUnitTest() {
 
     @Test
     fun `TriangleTest detects restricted cone when no response`() {
-        every { mockEngine.sender.sendToIdForResponse(any(), any(), any()) } returns BaseCommand("timeout")
+        every { mockEngine.sender.sendToNetworkForResponse(any(), any(), any(), any()) } returns BaseCommand("timeout")
 
         val triangleTest = TriangleTest(mockEngine)
         val nat = triangleTest.determineNatType(ResolveLevel.CONSISTENT, Pair(idRelay, endpointRelay), endpoint1)
@@ -59,10 +58,10 @@ class TriangleTestUnitTest : BaseUnitTest() {
     @Test
     fun `TriangleTest1Handler forwards the message`() {
         every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
-        every { mockEngine.sender.sendMessageToId(any(), any(), any()) } answers {
-            val toId = it.invocation.args[0] as String
-            assertThat(toId).isEqualTo(idRelay)
-            val messageSent = it.invocation.args[1] as RelayCommand.TriangleTest2
+        every { mockEngine.sender.sendMessageToNetwork(any(), any(), any(), any()) } answers {
+            val toId = it.invocation.args[0] as NetworkSourceKey
+            assertThat(toId.inetSocketAddress).isEqualTo(endpointRelay)
+            val messageSent = it.invocation.args[2] as RelayCommand.TriangleTest2
             assertThat(messageSent.checkingId).isEqualTo(id1)
             assertThat(messageSent.checkingEndpoint).isEqualTo(endpoint1)
 
@@ -76,7 +75,7 @@ class TriangleTestUnitTest : BaseUnitTest() {
                 .withResponseTag("12345")
         )
 
-        verify { mockEngine.sender.sendMessageToId(any(), any(), any()) }
+        verify { mockEngine.sender.sendMessageToNetwork(any(), any(), any(), any()) }
     }
 
     @Test

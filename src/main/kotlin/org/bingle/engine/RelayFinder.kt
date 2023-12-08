@@ -19,8 +19,16 @@ class RelayFinder internal constructor(
 ) {
 
     fun find(): RelayIdToAddress? {
-        logDebug("RelayFinder::find on ${engine.currentEndpoint.port} by ${myId}")
+        if(engine.currentRelay != null) return engine.currentRelay
+        logDebug("RelayFinder::find on ??? TODO {engine.currentEndpoint.port} by ${myId}")
         // TODO: keep track of relay state
+
+        // TODO: ~~this will lookup root relays from blockchain~~
+        // then determine the peers for the epoch
+        // and return one that is live
+        // this would also keep track of peers
+        // and epoch changes
+        // (including for peer relays)
 
         val wantRelayId = engine.config.alwaysRelayWithId
         val relays =
@@ -32,11 +40,16 @@ class RelayFinder internal constructor(
 
         val relaysWithIps = relays.mapNotNull { relay ->
             val relayIP = relay.second
+
+            // Check if we are still bootstrapping, have no resolver and can't lookup the IP
+            // TODO: check resolver
             val relayWithIP = if (null == relayIP) {
-                val res = engine.nameResolver.resolveIdToRelay(relay.first)
+                val res = engine.resolver.resolveIdToRelay(relay.first)
                 logDebug("RelayFinder::find - DNS lookup for relay ${relay} returns ${relayIP}")
                 res
-            } else IResolver.RelayDns(relayIP, Date.from(Date().toInstant().plus(1, ChronoUnit.DAYS)))
+            } else relayIP?.let {
+                IResolver.RelayDns(it, Date.from(Date().toInstant().plus(1, ChronoUnit.DAYS)))
+            }
 
             relayWithIP?.let { Pair(relay.first, relayWithIP) }
         }
@@ -55,6 +68,7 @@ class RelayFinder internal constructor(
         }
 
         logDebug("RelayFinder::find selected relay ${relayEntry ?: "<none>"}")
-        return relayEntry?.let { Pair(it.first, it.second.endpoint) }
+        engine.currentRelay = relayEntry?.let { Pair(it.first, it.second.endpoint) }
+        return engine.currentRelay
     }
 }

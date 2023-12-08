@@ -25,6 +25,7 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
                 senderAddress = v
             }
         }
+    fun hasSenderAddress() = ::senderAddress.isInitialized
     @Json(ignored = true)
     lateinit var senderAddress: InetSocketAddress
 
@@ -36,6 +37,7 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
                 verifiedId = v
             }
         }
+    fun hasVerifiedId() = ::verifiedId.isInitialized
     @Json(ignored = true)
     lateinit var verifiedId: String
 
@@ -59,6 +61,7 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
                 responseTag = v
             }
         }
+    fun hasResponseTag() = ::responseTag.isInitialized
     @Json(ignored = true)
     lateinit var responseTag: String
 
@@ -167,6 +170,10 @@ open class BaseCommand(@Json(serializeNull = false) val fail: String? = null) : 
         fun fromJson(jsonText: String): BaseCommand {
             return klaxonParser().parse<BaseCommand>(jsonText)
                 ?: throw RuntimeException("could not transform json to command")
+        }
+
+        fun fromJson(jsonBytes: ByteArray) : BaseCommand {
+            return fromJson(jsonBytes.decodeToString())
         }
     }
 

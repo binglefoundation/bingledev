@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
 import org.bingle.command.BaseCommand
 import org.bingle.command.RelayCommand
+import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.TriangleTestUnitTest.Companion.mockTriangleTestResponder
 import org.bingle.engine.mocks.*
 import org.bingle.engine.mocks.endpoint1
@@ -18,14 +19,14 @@ import org.bingle.interfaces.ResolveLevel
 import org.junit.jupiter.api.Test
 import java.net.InetSocketAddress
 
-class RelayUnitTest {
-    val mockEngine = mockk<IEngineState>()
-    val mockSender = mockk<Sender>()
-    val mockCommsConfig = mockk<ICommsConfig>()
-    val mockAdvertiser = mockk<IAdvertiser>()
-    val mockKeyProvider = MockKeyProvider()
+class RelayUnitTest : BaseUnitTest() {
+    private val mockEngine = mockk<IEngineState>()
+    private val mockSender = mockk<Sender>()
+    private val mockAdvertiser = mockk<IAdvertiser>()
+    override var mockCommsConfig = mockk<ICommsConfig>()
+    private val mockKeyProvider = MockKeyProvider()
 
-    val relay = Relay(mockEngine)
+    private val relay = Relay(mockEngine)
 
     init {
         every { mockEngine.sender } returns mockSender
@@ -35,6 +36,7 @@ class RelayUnitTest {
         every { mockEngine.relay } returns relay
         every { mockEngine.keyProvider } returns mockKeyProvider
         every { mockEngine.worker.initDDBApp(any()) } answers {}
+        every { mockEngine.currentEndpoint = any() } answers {}
 
         every { mockCommsConfig.onState } returns null
         every { mockCommsConfig.timeouts } returns ICommsConfig.TimeoutConfig(triPing = 1000)
@@ -52,7 +54,8 @@ class RelayUnitTest {
         setupRegularConfig()
         every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
         every {
-            mockEngine.sender.sendToIdForResponse(
+            mockEngine.sender.sendToNetworkForResponse(
+                NetworkSourceKey(endpointRelay),
                 idRelay,
                 any(RelayCommand.TriangleTest1::class),
                 any()
@@ -79,13 +82,19 @@ class RelayUnitTest {
     fun `A user with restricted cone and no special settings connects via relay`() {
         setupRegularConfig()
         every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every {
+            mockEngine.sender.sendToNetworkForResponse(
+                NetworkSourceKey(endpointRelay),
+                idRelay,
+                any(RelayCommand.TriangleTest1::class),
+                any()
+            )
+        } answers {
+            BaseCommand("timeout")
+        }
         every { mockEngine.sender.sendToIdForResponse(idRelay, any(), any()) } answers {
             val command = it.invocation.args[1]
             when (command) {
-                is RelayCommand.TriangleTest1 -> {
-                    BaseCommand("timeout")
-                }
-
                 is RelayCommand.Listen -> {
                     BaseCommand()
                 }
@@ -140,7 +149,7 @@ class RelayUnitTest {
         relay.adoptRelayState(randomSymEndpoint, ResolveLevel.INCONSISTENT)
 
         verify { mockEngine.state = any() }
-        verify { mockEngine.currentEndpoint = any() }
+//        verify { mockEngine.currentEndpoint = any() }
         verify { mockAdvertiser.advertiseUsingRelay(any(), any()) }
         verify { mockEngine.sender.sendToIdForResponse(idRelay, any(RelayCommand.Listen::class), any()) }
     }
@@ -153,7 +162,8 @@ class RelayUnitTest {
         every { mockCommsConfig.isRelay } returns true
         every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
         every {
-            mockEngine.sender.sendToIdForResponse(
+            mockEngine.sender.sendToNetworkForResponse(
+                NetworkSourceKey(endpointRelay),
                 idRelay,
                 any(RelayCommand.TriangleTest1::class),
                 any()

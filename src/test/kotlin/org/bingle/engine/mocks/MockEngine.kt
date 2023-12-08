@@ -25,6 +25,8 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
         get() = TODO("Not yet implemented")
         set(value) {}
 
+    override var currentRelay: RelayIdToAddress? = null
+
     override var myUsername: String = mockUser1
 
     override var id: String = id1
@@ -51,7 +53,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
 
     override var pinger: Pinger = Pinger(this, config.requestPingables, config.onAvailability)
 
-    override val nameResolver: IResolver = MockResolver()
+    override var resolver: IResolver = MockResolver()
     override val stunResolver: IStunResolver
         get() = TODO("Not yet implemented")
 

@@ -8,9 +8,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- remove DistributedDBApp and make handler">
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- remove app remains">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DdbResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/BaseCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IEngineState.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Relay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Relay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Sender.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/TriangleTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/TriangleTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Worker.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/going/IApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/RelayUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/RelayUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/TriangleTestUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/TriangleTestUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockAdvertiser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockAdvertiser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockEngine.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,8 +139,8 @@
       <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
-    <configuration name="CommandRouterTest.routes to command handler and sends response return" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.RelayUnitTest.A user with restricted cone and no special settings connects via relay">
+    <configuration name="RelayUnitTest.A user with full cone and no special settings connects without relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -135,7 +153,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.CommandRouterTest.routes to command handler and sends response return&quot;" />
+            <option value="&quot;org.bingle.engine.RelayUnitTest.A user with full cone and no special settings connects without relay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -146,7 +164,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="RelayUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="RelayUnitTest.A user with restricted cone and no special settings connects via relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -159,55 +177,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.RelayUnitTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="RelayUnitTest.A user with full cone and isRelay set connects and becomes a relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.bingle.engine.RelayUnitTest.A user with full cone and isRelay set connects and becomes a relay&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="RelayUnitTest.A user with symmetric NAT and no special settings connects via relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.bingle.engine.RelayUnitTest.A user with symmetric NAT and no special settings connects via relay&quot;" />
+            <option value="&quot;org.bingle.engine.RelayUnitTest.A user with restricted cone and no special settings connects via relay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -240,13 +210,61 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="TriangleTestUnitTest.TriangleTest1Handler forwards the message" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.bingle.engine.TriangleTestUnitTest.TriangleTest1Handler forwards the message&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TriangleTestUnitTest.TriangleTest2Handler returns the message" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.bingle.engine.TriangleTestUnitTest.TriangleTest2Handler returns the message&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.RelayUnitTest.A user with restricted cone and no special settings connects via relay" />
+        <item itemvalue="Gradle.RelayUnitTest.A user with full cone and no special settings connects without relay" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
-        <item itemvalue="Gradle.CommandRouterTest.routes to command handler and sends response return" />
-        <item itemvalue="Gradle.RelayUnitTest.A user with full cone and isRelay set connects and becomes a relay" />
-        <item itemvalue="Gradle.RelayUnitTest" />
-        <item itemvalue="Gradle.RelayUnitTest.A user with symmetric NAT and no special settings connects via relay" />
+        <item itemvalue="Gradle.TriangleTestUnitTest.TriangleTest2Handler returns the message" />
+        <item itemvalue="Gradle.TriangleTestUnitTest.TriangleTest1Handler forwards the message" />
       </list>
     </recent_temporary>
   </component>
@@ -276,7 +294,7 @@
       <workItem from="1701557071967" duration="9517000" />
       <workItem from="1701634072746" duration="595000" />
       <workItem from="1701640201780" duration="44135000" />
-      <workItem from="1701807842204" duration="5380000" />
+      <workItem from="1701807842204" duration="27294000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -390,7 +408,23 @@
       <option name="project" value="LOCAL" />
       <updated>1701832941819</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="- remove app remains">
+      <option name="closed" value="true" />
+      <created>1701836559149</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701836559149</updated>
+    </task>
+    <task id="LOCAL-00016" summary="- remove app remains">
+      <option name="closed" value="true" />
+      <created>1701836587729</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701836587729</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,14 +453,15 @@
     <MESSAGE value="- Add relay unit test" />
     <MESSAGE value="- Enable CommandRoute entries to return a response command" />
     <MESSAGE value="- remove DistributedDBApp and make handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="- remove DistributedDBApp and make handler" />
+    <MESSAGE value="- remove app remains" />
+    <option name="LAST_COMMIT_MESSAGE" value="- remove app remains" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Relay.kt</url>
-          <line>123</line>
+          <line>124</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">

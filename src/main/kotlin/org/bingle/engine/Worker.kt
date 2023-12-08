@@ -242,6 +242,8 @@ class Worker internal constructor(private val engine: IEngineState) {
                     engine.config.dtlsConnect.restart()
                 }
 
+                engine.resolver = engine.config.makeResolver(engine)
+
                 engine.networkChangeProvider.register {
                     engine.config.dtlsConnect.clearAll()
 
@@ -324,7 +326,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                 return
             }
 
-            logDebug("Worker::handleStunResponse - change, need processing endpoint=${endpoint} currentEndpoint=${engine.currentEndpoint} state=${engine.state}")
+            logDebug("Worker::handleStunResponse - change, need processing endpoint=${endpoint} currentEndpoint=??? state=${engine.state}")
 
             if (resolveLevel < ResolveLevel.CONSISTENT) {
                 logDebug("Worker::handleStunResponse Resolved at ${resolveLevel} ${endpoint}")

@@ -20,6 +20,7 @@ interface IEngineState {
     val creds: Map<String, String>
     var listening: Boolean
     var currentEndpoint: InetSocketAddress
+    var currentRelay: RelayIdToAddress?
     var myUsername: String
     var id: String
     val config: ICommsConfig
@@ -34,7 +35,7 @@ interface IEngineState {
     var pinger: Pinger
 
     // TODO: gets replaced with DDB
-    val nameResolver: IResolver
+    var resolver: IResolver
 
     // TODO: own class
     val stunResolver: IStunResolver

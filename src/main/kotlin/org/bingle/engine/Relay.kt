@@ -39,7 +39,7 @@ class Relay(val engine: IEngineState) {
             becomeRelayClient(resolveLevel, true)
         } else if (resolveLevel == ResolveLevel.INCONSISTENT) {
             logDebug("Relay::InitComms (inconsistent Stun responses) assign current endpoint from Stun as ${endpoint}")
-            engine.currentEndpoint = endpoint
+            // engine.currentEndpoint = endpoint // ??
 
             becomeRelayClient(resolveLevel, false, NatType.SYMMETRIC)
         } else {
@@ -55,6 +55,7 @@ class Relay(val engine: IEngineState) {
                     }
                     NatType.FULL_CONE -> {
                         engine.relay.advertiseResolution(endpoint, resolveLevel, NatType.FULL_CONE)
+                        engine.currentEndpoint = endpoint
 
                         if (engine.config.isRelay == true && engine.config.forceRelay != true) {
                             // relay on a full cone NAT
