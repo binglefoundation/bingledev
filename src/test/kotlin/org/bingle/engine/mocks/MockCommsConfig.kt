@@ -7,6 +7,7 @@ import org.bingle.engine.IEngineState
 import org.bingle.engine.Pingable
 import org.bingle.engine.Pinger
 import org.bingle.engine.StunResolver
+import org.bingle.engine.ddb.DdbAdvertiser
 import org.bingle.engine.ddb.DdbResolver
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
@@ -22,8 +23,8 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
         return MockChainAccess()
     }
 
-    override fun makeAdvertiser(): IAdvertiser {
-        return MockAdvertiser()
+    override fun makeAdvertiser(engineState: IEngineState): IAdvertiser {
+        return DdbAdvertiser(engineState)
     }
 
     override fun makeStunResolver(): IStunResolver {

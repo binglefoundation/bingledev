@@ -12,7 +12,7 @@ class DdbTest {
         val upsertResolve = DdbCommand.UpsertResolve( AdvertRecord("1234", endpoint1234),
             "2000", 2)
         val mapUpsertResolve = upsertResolve.toMap()
-        Assertions.assertThat(mapUpsertResolve["startId"]).isEqualTo("2000")
+        Assertions.assertThat(mapUpsertResolve["updateId"]).isEqualTo("2000")
         Assertions.assertThat(mapUpsertResolve["epoch"]).isEqualTo(2)
         Assertions.assertThat((mapUpsertResolve["record"] as? Map<String, Any>)?.get("id")).isEqualTo("1234")
         Assertions.assertThat((mapUpsertResolve["record"] as? Map<String, Any>)?.get("endpoint")).isEqualTo(endpoint1234.toString())

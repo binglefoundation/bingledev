@@ -13,7 +13,7 @@ interface ICommsConfig {
     // fun makeDTLSConnect(params: DTLSParameters): IDTLSConnect
     fun makeNetworkChangeProvider(): INetworkChangeProvider
     fun makeChainAccess(keyProvider: IKeyProvider): IChainAccess
-    fun makeAdvertiser(): IAdvertiser
+    fun makeAdvertiser(engineState: IEngineState): IAdvertiser
     fun makeStunResolver(): IStunResolver
     fun makeResolver(engineState: IEngineState): IResolver
 

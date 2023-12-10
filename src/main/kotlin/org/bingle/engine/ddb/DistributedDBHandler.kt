@@ -17,11 +17,11 @@ fun ddbCommandUpdate(engineState: IEngineState, updateCommand: DdbCommand.Update
     } else {
         when (updateCommand) {
             is DdbCommand.UpsertResolve -> engineState.distributedDB.upsertRecord(
-                updateCommand.startId,
+                updateCommand.updateId,
                 updateCommand.record
             )
 
-            is DdbCommand.DeleteResolve -> engineState.distributedDB.deleteRecord(updateCommand.startId)
+            is DdbCommand.DeleteResolve -> engineState.distributedDB.deleteRecord(updateCommand.updateId)
         }
     }
 

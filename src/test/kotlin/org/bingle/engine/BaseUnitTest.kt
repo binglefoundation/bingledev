@@ -1,8 +1,6 @@
 package org.bingle.engine
 
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import org.bingle.command.BaseCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.IDTLSConnect
@@ -33,8 +31,8 @@ open class BaseUnitTest {
         toId: String,
         toNsk: NetworkSourceKey,
         matchCommandClass: KClass<*>,
-        makeResponse: (args: List<Any?>) -> R
-    ) {
+        makeResponse: (args: List<Any?>) -> R?
+    ){
         every {
             mockDtlsConnect.send(
                 toNsk, match { sendingBytes ->
@@ -44,17 +42,34 @@ open class BaseUnitTest {
                 },
                 any()
             )
-        } answers {
+        } answers answer@{
             val sendingCommand = BaseCommand.fromJson(it.invocation.args[1] as ByteArray)
 
-            var message = makeResponse.invoke(it.invocation.args).withVerifiedId<R>(toId)
+            var message = makeResponse.invoke(it.invocation.args)?.withVerifiedId<R>(toId)
+            if(null==message) return@answer true
+
             if (sendingCommand.hasResponseTag()) {
                 message = message.withTag(sendingCommand.responseTag)
             }
 
-            val messageBytes = message.toJson().toByteArray(Charset.defaultCharset())
+            val messageBytes = message!!.toJson().toByteArray(Charset.defaultCharset())
             dtlsParameters.onMessage(id1nsk, id1, messageBytes, messageBytes.size)
             true
+        }
+    }
+
+    protected fun <R : BaseCommand> verifySending(
+        toNsk: NetworkSourceKey,
+        matchCommandClass: KClass<*>
+    ) {
+        verify {
+            mockDtlsConnect.send(
+                toNsk, match { sendingBytes ->
+                    val command = BaseCommand.fromJson(sendingBytes)
+                    command.javaClass == matchCommandClass.java
+                },
+                any()
+            )
         }
     }
 }

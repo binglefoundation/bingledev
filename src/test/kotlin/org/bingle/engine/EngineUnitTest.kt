@@ -36,11 +36,8 @@ class EngineUnitTest : BaseUnitTest() {
     @Test
     fun `Can send ping`() {
         mockSending(id2, id2nsk, Ping.Ping::class) { Ping.Response() }
-        mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
-            val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
-            assertThat(query.id).isEqualTo(id2)
-            DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))
-        }
+        mockDdbQuery()
+        mockDdbUpdate()
 
         mockkStatic(::logWarn.javaMethod!!.declaringClass.kotlin)
         every { logWarn(any()) } returns Unit
@@ -54,6 +51,7 @@ class EngineUnitTest : BaseUnitTest() {
 
         // This tests that the Pinger gets the response
         verify(exactly = 1) { logWarn("Ping response from unknown sender id1") }
+        verifyDdbUpdate()
     }
 
     @Test
@@ -63,11 +61,8 @@ class EngineUnitTest : BaseUnitTest() {
             assertThat(messageSent).isInstanceOf(Ping.Response::class.java)
             true
         }
-        mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
-            val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
-            assertThat(query.id).isEqualTo(id2)
-            DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))
-        }
+        mockDdbQuery()
+        mockDdbUpdate()
 
         val engine = startEngine()
 
@@ -78,6 +73,23 @@ class EngineUnitTest : BaseUnitTest() {
         engine.stop()
 
         verify(exactly = 1) { mockDtlsConnect.send(id2nsk, any(), any()) }
+        verifyDdbUpdate()
+    }
+
+    private fun mockDdbUpdate() = mockSending(idRelay, idRelayNsk, DdbCommand.UpsertResolve::class) {
+        val upsert = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.UpsertResolve
+        assertThat(upsert.record.id).isEqualTo(id1)
+        assertThat(upsert.record.endpoint).isEqualTo(endpoint1)
+        assertThat(upsert.record.amRelay).isFalse()
+        DdbCommand.UpdateResponse()
+    }
+
+    private fun verifyDdbUpdate() = verifySending<DdbCommand.UpsertResolve>(idRelayNsk, DdbCommand.UpsertResolve::class)
+
+    private fun mockDdbQuery() = mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
+        val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
+        assertThat(query.id).isEqualTo(id2)
+        DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))
     }
 
     private fun startEngine(): Engine {

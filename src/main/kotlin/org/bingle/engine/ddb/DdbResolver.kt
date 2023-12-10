@@ -11,6 +11,7 @@ class DdbResolver(val engineState: IEngineState) : IResolver {
     override fun resolveIdToRelay(id: String): IResolver.RelayDns? {
         // Do we want to lookup in blockchain first?
         val relayAdvertRecord = resolveIdToAdvertRecord(id)
+        // TODO: check sig
         return relayAdvertRecord?.let { ad -> ad.endpoint?.let { IResolver.RelayDns(it, ad.date) } }
     }
 

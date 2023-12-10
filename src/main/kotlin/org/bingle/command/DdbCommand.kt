@@ -6,18 +6,22 @@ import org.bingle.command.data.AdvertRecord
 @TypeFor(field = "type", adapter = BaseCommand.BaseTypeAdapter::class)
 open class DdbCommand() : BaseCommand() {
 
-    open class Update(val startId: String, val epoch: Int) : DdbCommand()
+    open class Update(val updateId: String, val epoch: Int=-1) : DdbCommand()
     class UpdateResponse() : DdbCommand()
     class PendingResponse(): DdbCommand()
 
-    class UpsertResolve(val record: AdvertRecord, startId: String, epoch: Int) :
-        Update(startId, epoch)
+    class UpsertResolve(val record: AdvertRecord, updateId: String, epoch: Int=-1) :
+        Update(updateId, epoch)
 
-    class DeleteResolve(startId: String, epoch: Int) : Update(startId, epoch)
+    class DeleteResolve(updateId: String, epoch: Int) : Update(updateId, epoch)
     class QueryResolve(val id: String) :
         DdbCommand()
 
     class Signon(val startId: String) : DdbCommand()
+
+    /**
+     * Get the parameters of the identified epoch or -1 for the latest
+     */
     class GetEpoch(val epochId: Int) :
         DdbCommand()
 

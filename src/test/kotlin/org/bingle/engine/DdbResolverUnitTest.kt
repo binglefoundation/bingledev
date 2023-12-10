@@ -38,7 +38,7 @@ class DdbResolverUnitTest : BaseUnitTest() {
             )
         } answers {
             val queryCommand = it.invocation.args[2]  as DdbCommand.QueryResolve
-            assertThat((queryCommand as DdbCommand.QueryResolve).id).isEqualTo(id3)
+            assertThat(queryCommand.id).isEqualTo(id3)
 
             DdbCommand.QueryResponse(true, AdvertRecord(id3, endpoint3))
         }
@@ -60,7 +60,7 @@ class DdbResolverUnitTest : BaseUnitTest() {
         } answers {
             val queryCommand = it.invocation.args[2]  as DdbCommand.QueryResolve
 
-            assertThat((queryCommand as DdbCommand.QueryResolve).id).isEqualTo(idRelay)
+            assertThat(queryCommand.id).isEqualTo(idRelay)
 
             DdbCommand.QueryResponse(true, AdvertRecord(idRelay, endpointRelay))
         }

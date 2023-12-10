@@ -23,7 +23,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override val chainAccess = config.makeChainAccess(keyProvider)
     override lateinit var relayFinder: RelayFinder
     override val networkChangeProvider = config.makeNetworkChangeProvider()
-    override val advertiser = config.makeAdvertiser()
+    override val advertiser = config.makeAdvertiser(this)
     override lateinit var pinger: Pinger
     override val triangleTest = TriangleTest(this)
 
