@@ -29,13 +29,13 @@ class EngineUnitTest : BaseUnitTest() {
         every { mockDtlsConnect.connectionOpenTo("id2") } returns null
         every { mockDtlsConnect.connectionOpenTo("idRelay") } returns null
 
-        mockSending(idRelay, idRelayNsk, RelayCommand.Check::class) { RelayCommand.CheckResponse(1) }
-        mockSending(idRelay, idRelayNsk, RelayCommand.TriangleTest1::class) { RelayCommand.TriangleTest3() }
+        mockDtlsSend(idRelay, idRelayNsk, RelayCommand.Check::class) { RelayCommand.CheckResponse(1) }
+        mockDtlsSend(idRelay, idRelayNsk, RelayCommand.TriangleTest1::class) { RelayCommand.TriangleTest3() }
     }
 
     @Test
     fun `Can send ping`() {
-        mockSending(id2, id2nsk, Ping.Ping::class) { Ping.Response() }
+        mockDtlsSend(id2, id2nsk, Ping.Ping::class) { Ping.Response() }
         mockDdbQuery()
         mockDdbUpdate()
 
@@ -76,7 +76,7 @@ class EngineUnitTest : BaseUnitTest() {
         verifyDdbUpdate()
     }
 
-    private fun mockDdbUpdate() = mockSending(idRelay, idRelayNsk, DdbCommand.UpsertResolve::class) {
+    private fun mockDdbUpdate() = mockDtlsSend(idRelay, idRelayNsk, DdbCommand.UpsertResolve::class) {
         val upsert = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.UpsertResolve
         assertThat(upsert.record.id).isEqualTo(id1)
         assertThat(upsert.record.endpoint).isEqualTo(endpoint1)
@@ -86,7 +86,7 @@ class EngineUnitTest : BaseUnitTest() {
 
     private fun verifyDdbUpdate() = verifySending<DdbCommand.UpsertResolve>(idRelayNsk, DdbCommand.UpsertResolve::class)
 
-    private fun mockDdbQuery() = mockSending(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
+    private fun mockDdbQuery() = mockDtlsSend(idRelay, idRelayNsk, DdbCommand.QueryResolve::class) {
         val query = BaseCommand.fromJson(it[1] as ByteArray) as DdbCommand.QueryResolve
         assertThat(query.id).isEqualTo(id2)
         DdbCommand.QueryResponse(true, AdvertRecord(id2, endpoint2))

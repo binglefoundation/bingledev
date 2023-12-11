@@ -29,15 +29,14 @@ class DdbResolverUnitTest : BaseUnitTest() {
 
     @Test
     fun `can resolveIdToAdvertRecord`() {
-        every {
-            mockEngine.sender.sendToNetworkForResponse(
-                NetworkSourceKey(endpointRelay),
-                idRelay,
-                any(DdbCommand.QueryResolve::class),
-                any()
-            )
-        } answers {
-            val queryCommand = it.invocation.args[2]  as DdbCommand.QueryResolve
+        mockSenderSendToNetworkForResponse(
+            mockEngine,
+            NetworkSourceKey(endpointRelay),
+            idRelay,
+            DdbCommand.QueryResolve::class
+        )
+        {
+            val queryCommand = it[2] as DdbCommand.QueryResolve
             assertThat(queryCommand.id).isEqualTo(id3)
 
             DdbCommand.QueryResponse(true, AdvertRecord(id3, endpoint3))
@@ -50,16 +49,14 @@ class DdbResolverUnitTest : BaseUnitTest() {
 
     @Test
     fun `can resolveIdToRelay`() {
-        every {
-            mockEngine.sender.sendToNetworkForResponse(
-                NetworkSourceKey(endpointRelay),
-                idRelay,
-                any(DdbCommand.QueryResolve::class),
-                any()
-            )
-        } answers {
-            val queryCommand = it.invocation.args[2]  as DdbCommand.QueryResolve
-
+        mockSenderSendToNetworkForResponse(
+            mockEngine,
+            NetworkSourceKey(endpointRelay),
+            idRelay,
+            DdbCommand.QueryResolve::class
+        )
+        {
+            val queryCommand = it[2] as DdbCommand.QueryResolve
             assertThat(queryCommand.id).isEqualTo(idRelay)
 
             DdbCommand.QueryResponse(true, AdvertRecord(idRelay, endpointRelay))
