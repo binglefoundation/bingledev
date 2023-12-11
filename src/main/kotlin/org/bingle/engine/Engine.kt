@@ -3,10 +3,7 @@ package org.bingle.engine
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
 import org.bingle.engine.ddb.DistributedDB
-import org.bingle.interfaces.CommsState
-import org.bingle.interfaces.ICommsConfig
-import org.bingle.interfaces.IResolver
-import org.bingle.interfaces.SendProgress
+import org.bingle.interfaces.*
 import java.net.InetSocketAddress
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -14,7 +11,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override var listening = false
     override var state: CommsState = CommsState.NONE
     override lateinit var currentEndpoint: InetSocketAddress
-    override var currentRelay: RelayIdToAddress? = null
+    override var currentRelay: PopulatedRelayInfo? = null
     override lateinit var myUsername: String
     override lateinit var id: String
     override val worker: Worker = Worker(this)

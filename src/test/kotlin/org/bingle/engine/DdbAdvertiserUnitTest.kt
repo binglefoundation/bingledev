@@ -24,7 +24,7 @@ class DdbAdvertiserUnitTest : BaseUnitTest() {
         every {
             mockEngine.relayFinder.find()
         } answers {
-            Pair(idRelay, endpointRelay)
+            PopulatedRelayInfo(idRelay, endpointRelay)
         }
     }
 

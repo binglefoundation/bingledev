@@ -3,7 +3,6 @@ package org.bingle.engine
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.bingle.command.BaseCommand
 import org.bingle.command.DdbCommand
 import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.NetworkSourceKey
@@ -23,7 +22,7 @@ class DdbResolverUnitTest : BaseUnitTest() {
         every {
             mockEngine.relayFinder.find()
         } answers {
-            Pair(idRelay, endpointRelay)
+            PopulatedRelayInfo(idRelay, endpointRelay)
         }
     }
 

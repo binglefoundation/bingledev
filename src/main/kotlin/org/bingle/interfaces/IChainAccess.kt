@@ -2,6 +2,7 @@ package org.bingle.interfaces
 
 import com.algorand.algosdk.crypto.Address
 import org.bingle.blockchain.generated.AlgoConfig
+import org.bingle.engine.RelayInfo
 import java.net.InetSocketAddress
 
 interface IChainAccess {
@@ -15,7 +16,7 @@ interface IChainAccess {
     fun findUsernameByAddress(address: String): String?
     fun findIdByUsername(username: String): String?
 
-    fun listRelaysWithIps(): List<Pair<String, InetSocketAddress?>>
+    fun listRelaysWithIps(): List<RelayInfo>
     fun registerIP(address: String, ip: InetSocketAddress): Boolean
 
     fun listUsers(): List<Pair<String, String>>

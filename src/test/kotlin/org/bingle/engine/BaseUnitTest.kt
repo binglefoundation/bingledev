@@ -73,7 +73,7 @@ open class BaseUnitTest {
             message = message.withTag(sendingCommand.responseTag)
         }
 
-        val messageBytes = message!!.toJson().toByteArray(Charset.defaultCharset())
+        val messageBytes = message.toJson().toByteArray(Charset.defaultCharset())
         dtlsParameters.onMessage(id1nsk, id1, messageBytes, messageBytes.size)
         return false
     }

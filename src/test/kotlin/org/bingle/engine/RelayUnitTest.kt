@@ -52,7 +52,7 @@ class RelayUnitTest : BaseUnitTest() {
     @Test
     fun `A user with full cone and no special settings connects without relay`() {
         setupRegularConfig()
-        every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every { mockEngine.relayFinder.find() } returns PopulatedRelayInfo(idRelay, endpointRelay)
         every {
             mockEngine.sender.sendToNetworkForResponse(
                 NetworkSourceKey(endpointRelay),
@@ -81,7 +81,7 @@ class RelayUnitTest : BaseUnitTest() {
     @Test
     fun `A user with restricted cone and no special settings connects via relay`() {
         setupRegularConfig()
-        every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every { mockEngine.relayFinder.find() } returns PopulatedRelayInfo(idRelay, endpointRelay)
         every {
             mockEngine.sender.sendToNetworkForResponse(
                 NetworkSourceKey(endpointRelay),
@@ -123,7 +123,7 @@ class RelayUnitTest : BaseUnitTest() {
     @Test
     fun `A user with symmetric NAT and no special settings connects via relay`() {
         setupRegularConfig()
-        every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every { mockEngine.relayFinder.find() } returns PopulatedRelayInfo(idRelay, endpointRelay)
         every { mockEngine.sender.sendToIdForResponse(idRelay, any(), any()) } answers {
             val command = it.invocation.args[1]
             if (command is RelayCommand.Listen) {
@@ -160,7 +160,7 @@ class RelayUnitTest : BaseUnitTest() {
         every { mockCommsConfig.forceRelay } returns false
         every { mockCommsConfig.alwaysRelayWithId } returns null
         every { mockCommsConfig.isRelay } returns true
-        every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every { mockEngine.relayFinder.find() } returns PopulatedRelayInfo(idRelay, endpointRelay)
         every {
             mockEngine.sender.sendToNetworkForResponse(
                 NetworkSourceKey(endpointRelay),

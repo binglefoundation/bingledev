@@ -12,6 +12,7 @@ import org.bingle.command.Ping
 import org.bingle.command.RelayCommand
 import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.DTLSParameters
+import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.mocks.*
 import org.bingle.util.logWarn
 import org.junit.jupiter.api.Test
@@ -31,6 +32,13 @@ class EngineUnitTest : BaseUnitTest() {
 
         mockDtlsSend(idRelay, idRelayNsk, RelayCommand.Check::class) { RelayCommand.CheckResponse(1) }
         mockDtlsSend(idRelay, idRelayNsk, RelayCommand.TriangleTest1::class) { RelayCommand.TriangleTest3() }
+        mockDtlsSend(
+            idRelay,
+            idRelayNsk,
+            DdbCommand.GetEpoch::class
+        ) {
+            DdbCommand.GetEpochResponse(1, 1, listOf(idRelay))
+        }
     }
 
     @Test
@@ -101,9 +109,15 @@ class EngineUnitTest : BaseUnitTest() {
         }
 
         dtlsParameters.onStunResponse!!.invoke(StunResponse(StunResponseKind.PLAIN, "stun.gmx.net:3478", endpoint1))
-        dtlsParameters.onStunResponse!!.invoke(StunResponse(StunResponseKind.PLAIN, "stun.freeswitch.org:3478", endpoint1))
+        dtlsParameters.onStunResponse!!.invoke(
+            StunResponse(
+                StunResponseKind.PLAIN,
+                "stun.freeswitch.org:3478",
+                endpoint1
+            )
+        )
 
-        while(!engine.hasCurrentEndpoint()) {
+        while (!engine.hasCurrentEndpoint()) {
             Thread.sleep(2000)
         }
 

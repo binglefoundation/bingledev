@@ -25,7 +25,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
         get() = TODO("Not yet implemented")
         set(value) {}
 
-    override var currentRelay: RelayIdToAddress? = null
+    override var currentRelay: PopulatedRelayInfo? = null
 
     override var myUsername: String = mockUser1
 

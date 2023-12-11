@@ -1,6 +1,7 @@
 package org.bingle.engine.mocks
 
 import com.algorand.algosdk.crypto.Address
+import org.bingle.engine.RelayInfo
 import org.bingle.interfaces.IChainAccess
 import java.net.InetSocketAddress
 
@@ -39,8 +40,8 @@ class MockChainAccess: IChainAccess {
         return mapOf(mockUser1 to id1, mockUser2 to id2, mockUser3 to id3, mockUserRelay to idRelay)[username]
     }
 
-    override fun listRelaysWithIps(): List<Pair<String, InetSocketAddress?>> {
-        return listOf(Pair(idRelay, endpointRelay))
+    override fun listRelaysWithIps(): List<RelayInfo> {
+        return listOf(RelayInfo(idRelay, endpointRelay, true))
     }
 
     override fun registerIP(address: String, ip: InetSocketAddress): Boolean {

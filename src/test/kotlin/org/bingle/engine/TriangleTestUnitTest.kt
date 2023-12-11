@@ -42,7 +42,7 @@ class TriangleTestUnitTest : BaseUnitTest() {
         }
 
         val triangleTest = TriangleTest(mockEngine)
-        val nat = triangleTest.determineNatType(ResolveLevel.CONSISTENT, Pair(idRelay, endpointRelay), endpoint1)
+        val nat = triangleTest.determineNatType(ResolveLevel.CONSISTENT, PopulatedRelayInfo(idRelay,endpointRelay), endpoint1)
         assertThat(nat).isEqualTo(NatType.FULL_CONE)
     }
 
@@ -51,13 +51,13 @@ class TriangleTestUnitTest : BaseUnitTest() {
         every { mockEngine.sender.sendToNetworkForResponse(any(), any(), any(), any()) } returns BaseCommand("timeout")
 
         val triangleTest = TriangleTest(mockEngine)
-        val nat = triangleTest.determineNatType(ResolveLevel.CONSISTENT, Pair(idRelay, endpointRelay), endpoint1)
+        val nat = triangleTest.determineNatType(ResolveLevel.CONSISTENT, PopulatedRelayInfo(idRelay,endpointRelay), endpoint1)
         assertThat(nat).isEqualTo(NatType.RESTRICTED_CONE)
     }
 
     @Test
     fun `TriangleTest1Handler forwards the message`() {
-        every { mockEngine.relayFinder.find() } returns RelayIdToAddress(idRelay, endpointRelay)
+        every { mockEngine.relayFinder.find() } returns PopulatedRelayInfo(idRelay,endpointRelay)
         every { mockEngine.sender.sendMessageToNetwork(any(), any(), any(), any()) } answers {
             val toId = it.invocation.args[0] as NetworkSourceKey
             assertThat(toId.inetSocketAddress).isEqualTo(endpointRelay)

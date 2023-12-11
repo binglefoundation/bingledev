@@ -21,8 +21,8 @@ class DdbResolver(val engineState: IEngineState) : IResolver {
             ?: throw RuntimeException("DdbResolver::resolveIdToAdvertRecord with no relays found")
 
         val queryResponse = engineState.sender.sendToNetworkForResponse(
-            NetworkSourceKey(myCurrentRelay.second),
-            myCurrentRelay.first,
+            NetworkSourceKey(myCurrentRelay.endpoint),
+            myCurrentRelay.id,
             DdbCommand.QueryResolve(id),
             null
         )

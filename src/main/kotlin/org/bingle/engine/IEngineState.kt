@@ -20,7 +20,7 @@ interface IEngineState {
     val creds: Map<String, String>
     var listening: Boolean
     var currentEndpoint: InetSocketAddress
-    var currentRelay: RelayIdToAddress?
+    var currentRelay: PopulatedRelayInfo?
     var myUsername: String
     var id: String
     val config: ICommsConfig

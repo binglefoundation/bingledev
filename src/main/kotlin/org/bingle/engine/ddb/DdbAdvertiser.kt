@@ -45,8 +45,8 @@ class DdbAdvertiser(private val engineState: IEngineState) : IAdvertiser {
 
         // TODO retries
         val queryResponse = engineState.sender.sendToNetworkForResponse(
-            NetworkSourceKey(myCurrentRelay.second),
-            myCurrentRelay.first,
+            NetworkSourceKey(myCurrentRelay.endpoint),
+            myCurrentRelay.id,
             DdbCommand.UpsertResolve(advertRecord, myId),
             null
         )

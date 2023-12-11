@@ -50,8 +50,8 @@ class Relay(val engine: IEngineState) {
                 val environmentNatType = engine.triangleTest.determineNatType(resolveLevel, relayForTriPing, endpoint)
                 when(environmentNatType) {
                     NatType.RESTRICTED_CONE -> {
-                        sendRelayListen(relayForTriPing.first, relayForTriPing.second)
-                        advertiseUsingRelay(relayForTriPing.first, NatType.RESTRICTED_CONE)
+                        sendRelayListen(relayForTriPing.id, relayForTriPing.endpoint)
+                        advertiseUsingRelay(relayForTriPing.id, NatType.RESTRICTED_CONE)
                     }
                     NatType.FULL_CONE -> {
                         engine.relay.advertiseResolution(endpoint, resolveLevel, NatType.FULL_CONE)
@@ -139,8 +139,8 @@ class Relay(val engine: IEngineState) {
                 )
             }
 
-            if (sendRelayListen(relayToUse.first, relayToUse.second)) {
-                advertiseUsingRelay(relayToUse.first, natType)
+            if (sendRelayListen(relayToUse.id, relayToUse.endpoint)) {
+                advertiseUsingRelay(relayToUse.id, natType)
             } else {
                 logError("Comms:onStunResponse - relay ${engine.config.alwaysRelayWithId} did not respond to listen")
                 engine.state = CommsState.FAILED

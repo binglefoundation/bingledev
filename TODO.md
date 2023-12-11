@@ -10,8 +10,8 @@
 - ~~make an advertiser that uses a DDB endpoint (relay)~~
 - ~~unit test advertiser~~
 
-- make RelayFinder follow the root then epoch based lookup
-- unit test RelayFinder
+- ~~make RelayFinder follow the root then epoch based lookup~~
+- ~~unit test RelayFinder~~
 
 - ~~unit test advertise at engine level
   (unstubbed resolver/advertiser)~~

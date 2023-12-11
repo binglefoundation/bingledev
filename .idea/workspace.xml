@@ -8,16 +8,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- unit test resolver directl">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DdbAdvertiser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/DdbCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/DdbCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/Engine.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DdbResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DdbResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDBHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/ddb/DistributedDBHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/interfaces/ICommsConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockCommsConfig.kt" afterDir="false" />
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- an advertiser that uses a DDB endpoint (relay)">
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbAdvertiserUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbResolverUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbResolverUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +123,31 @@
       <recent name="org.bingle.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.EngineUnitTest.Responds to ping">
+  <component name="RunManager" selected="Gradle.DdbAdvertiserUnitTest.advertise updates with an endpoint advert">
+    <configuration name="DdbAdvertiserUnitTest.advertise updates with an endpoint advert" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.bingle.engine.DdbAdvertiserUnitTest.advertise updates with an endpoint advert&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="DdbResolverUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -177,7 +196,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EngineUnitTest.Responds to ping" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EngineUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -190,31 +209,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.EngineUnitTest.Responds to ping&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="RelayFinderTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;RelayFinderTest&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -249,11 +244,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.EngineUnitTest.Responds to ping" />
-        <item itemvalue="Gradle.Tests in 'bingledev.test'" />
-        <item itemvalue="Gradle.RelayFinderTest" />
+        <item itemvalue="Gradle.DdbAdvertiserUnitTest.advertise updates with an endpoint advert" />
         <item itemvalue="Gradle.DdbResolverUnitTest" />
         <item itemvalue="Gradle.DdbResolverUnitTest.can resolveIdToAdvertRecord" />
+        <item itemvalue="Gradle.Tests in 'bingledev.test'" />
+        <item itemvalue="Gradle.EngineUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -284,7 +279,7 @@
       <workItem from="1701634072746" duration="595000" />
       <workItem from="1701640201780" duration="44135000" />
       <workItem from="1701807842204" duration="33637000" />
-      <workItem from="1702235127621" duration="2524000" />
+      <workItem from="1702235127621" duration="14254000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -438,7 +433,23 @@
       <option name="project" value="LOCAL" />
       <updated>1702071161374</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="- an advertiser that uses a DDB endpoint (relay)">
+      <option name="closed" value="true" />
+      <created>1702244068633</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1702244068633</updated>
+    </task>
+    <task id="LOCAL-00021" summary="- an advertiser that uses a DDB endpoint (relay)">
+      <option name="closed" value="true" />
+      <created>1702244089564</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1702244089564</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,7 +482,8 @@
     <MESSAGE value="- implement DDB resolver&#10;- test at an engine level" />
     <MESSAGE value="- update gitignore" />
     <MESSAGE value="- unit test resolver directl" />
-    <option name="LAST_COMMIT_MESSAGE" value="- unit test resolver directl" />
+    <MESSAGE value="- an advertiser that uses a DDB endpoint (relay)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- an advertiser that uses a DDB endpoint (relay)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

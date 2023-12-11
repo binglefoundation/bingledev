@@ -8,6 +8,7 @@ import com.algorand.algosdk.transaction.TxGroup
 
 import com.algorand.algosdk.util.Encoder
 import org.apache.commons.codec.binary.Base64
+import org.bingle.engine.RelayInfo
 
 
 import org.bingle.interfaces.IKeyProvider
@@ -184,10 +185,10 @@ open class AlgoSwap(val swapConfig: SwapConfig, keyProvider: IKeyProvider?=null,
         }
     }
 
-    fun listRelaysWithIps(): List<Pair<String, InetSocketAddress?>> {
-        // TODO: We need IP from state here
+    fun listRelaysWithIps(): List<RelayInfo> {
+        // TODO: determine (from global) if we have a root relay and the IP address
         return localState(swapConfig.appId).mapNotNull {
-            if((it.value["RelayState"]?.toInt() ?: 0) > 0 ) Pair(it.key, null) else null
+            if((it.value["RelayState"]?.toInt() ?: 0) > 0 ) RelayInfo(it.key) else null
         }
     }
 
