@@ -10,7 +10,6 @@ import java.math.BigInteger
 import java.net.InetSocketAddress
 
 // TODO: Engine has chainAccess and id
-typealias RelayIdToAddress = Pair<String, InetSocketAddress>
 
 class RelayFinder internal constructor(
     val algoSwap: IChainAccess,

@@ -9,7 +9,6 @@ import org.bingle.command.BaseCommand
 import org.bingle.command.RelayCommand
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.engine.mocks.*
-import org.bingle.interfaces.ICommsConfig
 import org.bingle.interfaces.NatType
 import org.bingle.interfaces.ResolveLevel
 import org.junit.jupiter.api.Test
