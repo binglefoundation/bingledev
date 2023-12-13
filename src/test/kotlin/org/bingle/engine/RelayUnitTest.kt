@@ -35,7 +35,7 @@ class RelayUnitTest : BaseUnitTest() {
         every { mockEngine.triangleTest } returns TriangleTest(mockEngine)
         every { mockEngine.relay } returns relay
         every { mockEngine.keyProvider } returns mockKeyProvider
-        every { mockEngine.worker.initDDBApp(any()) } answers {}
+        every { mockEngine.ddbInitialize.becomeRelay(any()) } answers {}
         every { mockEngine.currentEndpoint = any() } answers {}
 
         every { mockCommsConfig.onState } returns null

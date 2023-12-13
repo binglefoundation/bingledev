@@ -12,7 +12,9 @@ import org.bingle.engine.ddb.DdbResolver
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 
-class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
+class MockCommsConfig(override val dtlsConnect: IDTLSConnect,
+                      override val registerIP: Boolean=false
+) : ICommsConfig {
     override fun makeKeyProvider(creds: Map<String, String>): IKeyProvider = MockKeyProvider()
 
     override fun makeNetworkChangeProvider(): INetworkChangeProvider {
@@ -35,8 +37,6 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect) : ICommsConfig {
         return DdbResolver(engineState)
     }
 
-    override val registerIP: Boolean
-        get() = TODO("Not yet implemented")
     override val purestakeApiKey: String?
         get() = TODO("Not yet implemented")
     override val port: Int = 100

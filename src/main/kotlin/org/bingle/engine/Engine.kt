@@ -2,9 +2,11 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
+import org.bingle.engine.ddb.DdbInitialize
 import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.*
 import java.net.InetSocketAddress
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingQueue
 
 class Engine(override val creds: Map<String, String>, override val config: ICommsConfig) : IEngineState {
@@ -38,6 +40,8 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override val responseSlots: MutableMap<String, ResponseSlot> = mutableMapOf()
 
     override lateinit var distributedDB: DistributedDB
+    override var ddbInitialize = DdbInitialize(this)
+    override var ddbWaitingForLoadLatch: CountDownLatch? = null
 
     override val commandRouter = CommandRouter(this)
 

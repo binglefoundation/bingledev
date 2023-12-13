@@ -4,6 +4,7 @@ import org.bingle.annotations.CommandHandler
 import org.bingle.command.BaseCommand
 import org.bingle.command.DdbCommand
 import org.bingle.engine.IEngineState
+import org.bingle.util.logDebug
 
 @CommandHandler
 fun ddbCommandUpdate(engineState: IEngineState, updateCommand: DdbCommand.Update): BaseCommand {
@@ -104,6 +105,7 @@ fun ddbDumpResolve(engineState: IEngineState, command: DdbCommand.DumpResolve) {
 
     // TODO: must have id
     engineState.distributedDB.records[command.record.id!!] = command.record
+    logDebug("ddbDumpResolve: got ${engineState.distributedDB.records.size}, expecting ${engineState.distributedDB.expectedRecords}")
     if (engineState.distributedDB.records.size == engineState.distributedDB.expectedRecords) {
         engineState.distributedDB.pendingUpdatesInLoad.forEach {
             ddbCommandUpdate(engineState, it)
@@ -114,7 +116,10 @@ fun ddbDumpResolve(engineState: IEngineState, command: DdbCommand.DumpResolve) {
         // Tell the server we have all data and can be attached to network
         engineState.sender.sendMessageToId(command.verifiedId, DdbCommand.Signon(engineState.distributedDB.myId), null)   // We are originating
 
-        engineState.distributedDB.state = DistributedDB.State.SERVER // Do we wait for a response
+        engineState.distributedDB.state = DistributedDB.State.SERVER // Do we wait for a response (TODO)
+
+        // release the initializer
+        engineState.ddbWaitingForLoadLatch?.countDown()
     }
 }
 

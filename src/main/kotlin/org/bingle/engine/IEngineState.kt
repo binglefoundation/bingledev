@@ -2,6 +2,7 @@ package org.bingle.engine
 
 import com.creatotronik.stun.StunResponse
 import org.bingle.command.BaseCommand
+import org.bingle.engine.ddb.DdbInitialize
 import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.*
 import java.net.InetSocketAddress
@@ -45,6 +46,8 @@ interface IEngineState {
     val responseSlots: MutableMap<String, ResponseSlot>
 
     var distributedDB: DistributedDB
+    val ddbInitialize: DdbInitialize
+    var ddbWaitingForLoadLatch: CountDownLatch?
 
     val commandRouter: CommandRouter
     val triangleTest: TriangleTest

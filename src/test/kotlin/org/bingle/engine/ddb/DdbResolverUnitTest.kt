@@ -1,4 +1,4 @@
-package org.bingle.engine
+package org.bingle.engine.ddb
 
 import io.mockk.every
 import io.mockk.mockk
@@ -6,7 +6,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.bingle.command.DdbCommand
 import org.bingle.command.data.AdvertRecord
 import org.bingle.dtls.NetworkSourceKey
-import org.bingle.engine.ddb.DdbResolver
+import org.bingle.engine.BaseUnitTest
+import org.bingle.engine.IEngineState
+import org.bingle.engine.PopulatedRelayInfo
 import org.bingle.engine.mocks.endpoint3
 import org.bingle.engine.mocks.endpointRelay
 import org.bingle.engine.mocks.id3

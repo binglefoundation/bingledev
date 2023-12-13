@@ -149,6 +149,8 @@ class Worker internal constructor(private val engine: IEngineState) {
             // TODO: move to own class
             logDebug("Worker::initComms setup stun handler")
 
+            // The stun thread runs any state changes from an IP change
+            // and deals with relay initialization including DDB
             engine.stunHandlerDone = false
             engine.stunResponseThread = Thread {
                 while (!engine.stunHandlerDone) {
@@ -289,23 +291,6 @@ class Worker internal constructor(private val engine: IEngineState) {
         engine.config.dtlsConnect.waitForStopped()
         engine.stunResponseThread.join()
         logDebug("Comms::stop done")
-    }
-
-    fun initDDBApp(endpoint: InetSocketAddress) {
-        val relayToUse = engine.relayFinder.find()
-        val relayPlan = if (relayToUse == null) {
-            val res = RelayPlan()
-            res.bootstrap(engine.id)
-            res
-        } else {
-            throw NotImplementedError("TODO: get relay plan from peer")
-        }
-
-        engine.distributedDB = DistributedDB(engine.id, relayPlan)
-
-        if (engine.config.registerIP) {
-            engine.chainAccess.registerIP(engine.id, endpoint)
-        }
     }
 
     //TODO: move to own class

@@ -29,7 +29,7 @@ class Relay(val engine: IEngineState) {
 
             if (engine.config.isRelay == true && engine.config.forceRelay == true) {
                 // Forced relay, normally direct
-                engine.worker.initDDBApp(endpoint) // TODO: this changes to its own thing
+                engine.ddbInitialize.becomeRelay(endpoint) // TODO: this changes to its own thing
                 advertiseAmRelay(endpoint, ResolveLevel.CONSISTENT)
             }
         } else if (engine.config.alwaysRelayWithId != null) {
@@ -59,7 +59,7 @@ class Relay(val engine: IEngineState) {
 
                         if (engine.config.isRelay == true && engine.config.forceRelay != true) {
                             // relay on a full cone NAT
-                            engine.worker.initDDBApp(endpoint)
+                            engine.ddbInitialize.becomeRelay(endpoint)
                             engine.relay.advertiseAmRelay(endpoint, resolveLevel)
                         }
                     }
@@ -79,7 +79,7 @@ class Relay(val engine: IEngineState) {
     fun adoptRelayForPublicEndpoint() {
         if (engine.config.isRelay == true && engine.config.forceRelay == true) {
             logDebug("Relay::adoptRelayForPublicEndpoint am relay on public endpoint")
-            engine.worker.initDDBApp(engine.currentEndpoint)
+            engine.ddbInitialize.becomeRelay(engine.currentEndpoint)
             advertiseAmRelay(engine.currentEndpoint, ResolveLevel.CONSISTENT)
         } else {
             advertiseResolution(

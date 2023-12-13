@@ -25,7 +25,7 @@ open class DdbCommand() : BaseCommand() {
     class GetEpoch(val epochId: Int) :
         DdbCommand()
 
-    class InitResolve(val senderId: String) : DdbCommand()
+    class InitResolve() : DdbCommand()
     class DumpResolve(val senderId: String, val record: AdvertRecord) :
         DdbCommand()
 

@@ -4,9 +4,11 @@ import com.creatotronik.stun.StunResponse
 import org.bingle.dtls.IDTLSConnect
 import org.bingle.engine.*
 import org.bingle.engine.IEngineState
+import org.bingle.engine.ddb.DdbInitialize
 import org.bingle.engine.ddb.DistributedDB
 import org.bingle.interfaces.*
 import java.net.InetSocketAddress
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.LinkedBlockingQueue
 
 class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
@@ -69,6 +71,8 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override var distributedDB: DistributedDB
         get() = TODO("Not yet implemented")
         set(value) {}
+    override var ddbInitialize = DdbInitialize(this)
+    override var ddbWaitingForLoadLatch: CountDownLatch? = null
 
     private val myCommandRouter = CommandRouter(this)
     override val commandRouter: CommandRouter
