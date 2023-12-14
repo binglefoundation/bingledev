@@ -41,7 +41,10 @@ class DdbAdvertiser(private val engineState: IEngineState) : IAdvertiser {
     private fun updateRecordToRelay(advertRecord: AdvertRecord, myId: String) {
         // TODO: sign
         val myCurrentRelay = engineState.relayFinder.find()
-            ?: throw RuntimeException("DdbAdvertiser::resolveIdToAdvertRecord with no relays found")
+        if(null == myCurrentRelay) {
+            logWarn("DdbAdvertiser::resolveIdToAdvertRecord with no relays found")
+            return // maybe no relays yet
+        }
 
         // TODO retries
         val queryResponse = engineState.sender.sendToNetworkForResponse(

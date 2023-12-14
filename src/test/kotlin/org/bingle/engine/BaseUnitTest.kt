@@ -28,7 +28,7 @@ open class BaseUnitTest {
         toId: String,
         toNsk: NetworkSourceKey,
         matchCommandClass: KClass<*>,
-        makeResponse: (args: List<Any?>) -> R?
+        makeResponse: ((args: List<Any?>) -> R?)? = null
     ){
         every {
             mockDtlsConnect.send(
@@ -36,7 +36,7 @@ open class BaseUnitTest {
                 any()
             )
         } answers answer@{
-            if (answerCommand<R>(it, makeResponse, toId)) return@answer true
+            if (makeResponse != null && answerCommand<R>(it, makeResponse, toId)) return@answer true
             true
         }
     }

@@ -3,10 +3,7 @@ package org.bingle.engine.mocks
 import org.bingle.blockchain.AlgoProviderConfig
 import org.bingle.command.TextMessageCommand
 import org.bingle.dtls.IDTLSConnect
-import org.bingle.engine.IEngineState
-import org.bingle.engine.Pingable
-import org.bingle.engine.Pinger
-import org.bingle.engine.StunResolver
+import org.bingle.engine.*
 import org.bingle.engine.ddb.DdbAdvertiser
 import org.bingle.engine.ddb.DdbResolver
 import org.bingle.interfaces.*
@@ -22,7 +19,7 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect,
     }
 
     override fun makeChainAccess(keyProvider: IKeyProvider): IChainAccess {
-        return MockChainAccess()
+        return MockChainAccess(relayInfos = listOf(RelayInfo(idRelay, endpointRelay, true)))
     }
 
     override fun makeAdvertiser(engineState: IEngineState): IAdvertiser {
@@ -41,9 +38,8 @@ class MockCommsConfig(override val dtlsConnect: IDTLSConnect,
         get() = TODO("Not yet implemented")
     override val port: Int = 100
     override val localToLoopback: Boolean = false
-    override val isRelay: Boolean = false
-    override val forceRelay: Boolean?
-        get() = false
+    override var isRelay: Boolean? = false
+    override var forceRelay: Boolean? = false
     override val disableListener: Boolean?
         get() = false
     override val useRelays: Boolean?

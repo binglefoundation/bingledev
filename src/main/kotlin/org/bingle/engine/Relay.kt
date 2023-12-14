@@ -29,7 +29,7 @@ class Relay(val engine: IEngineState) {
 
             if (engine.config.isRelay == true && engine.config.forceRelay == true) {
                 // Forced relay, normally direct
-                engine.ddbInitialize.becomeRelay(endpoint) // TODO: this changes to its own thing
+                engine.ddbInitialize.becomeRelay(endpoint)
                 advertiseAmRelay(endpoint, ResolveLevel.CONSISTENT)
             }
         } else if (engine.config.alwaysRelayWithId != null) {

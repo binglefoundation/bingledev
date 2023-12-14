@@ -18,7 +18,7 @@
 
 - ~~initialize DDB as a relay node~~
 - ~~unit test DDBInitialize for boot and join~~
-- test DDB handlers in engine
+- ~~test DDB handlers in engine~~
 - make jstun dependency own lib
 - ~~remove ISendableMessage~~
 - make stunResolver own module

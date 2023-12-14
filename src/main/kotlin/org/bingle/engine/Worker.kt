@@ -278,17 +278,19 @@ class Worker internal constructor(private val engine: IEngineState) {
     }
 
     fun stop() {
-        logDebug("Comms::stop stopping threads")
+        logDebug("Worker::stop stopping threads")
         initCommsThread.join()
+        logDebug("Worker::stop initCommsThread is done")
 
         engine.stunHandlerDone = true
         engine.stunHandlerQueue.add(StunResponse(StunResponseKind.STOP))
 
         engine.config.dtlsConnect.clearAll()
-
         engine.config.dtlsConnect.waitForStopped()
+        logDebug("Worker::stop dtlsConnect stopped")
+
         engine.stunResponseThread.join()
-        logDebug("Comms::stop done")
+        logDebug("Worker::stop done")
     }
 
     //TODO: move to own class
