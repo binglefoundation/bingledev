@@ -6,6 +6,7 @@ import org.bingle.util.logDebug
 import org.junit.jupiter.api.Test
 import java.net.DatagramPacket
 import java.net.DatagramSocket
+import java.net.SocketException
 import java.util.concurrent.CountDownLatch
 
 class StunIntegrationTest {
@@ -56,7 +57,10 @@ class StunIntegrationTest {
 
         stunProtocol.stopSender()
         finishedWithThis = true
-        datagramSocket.close()
+        try {
+            datagramSocket.close()
+        }
+        catch(_: SocketException) {}
         listenThread.join()
     }
 }

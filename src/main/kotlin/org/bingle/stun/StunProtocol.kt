@@ -8,6 +8,7 @@ import de.javawi.jstun.header.MessageHeader
 import de.javawi.jstun.header.MessageHeaderInterface
 import de.javawi.jstun.header.MessageHeaderParsingException
 import org.bingle.util.logDebug
+import org.bingle.util.logError
 import org.bingle.util.toByteArray
 import org.bingle.util.xor
 import java.net.DatagramPacket
@@ -78,7 +79,7 @@ class StunProtocol(private val stunServers: List<String>?) {
         val ec =
             messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.ErrorCode) as ErrorCode?
         if (ec != null) {
-            System.err.println("decodeStunResponse: request has error ${ec.responseCode}, ${ec.reason}")
+            logError("decodeStunResponse: request has error ${ec.responseCode}, ${ec.reason}")
             return null
         }
 
@@ -105,7 +106,7 @@ class StunProtocol(private val stunServers: List<String>?) {
             )
         }
 
-        System.err.println("decodeStunResponse: request has null MappedAddress and XorMappedAddress")
+        logError("decodeStunResponse: request has null MappedAddress and XorMappedAddress")
         return null
     }
 
@@ -131,7 +132,7 @@ class StunProtocol(private val stunServers: List<String>?) {
                             if (nextInterval > RETRY_LIMIT) nextInterval = RETRY_LIMIT
                             val nextSend = timePlusSeconds(nextInterval)
 
-                            println(
+                            logDebug(
                                 "sent request, interval=${nextInterval}, nextSend=${nextSend}"
                             )
                             serverRequestsOutstanding[it.key] = ServerRequestInfo(
@@ -180,14 +181,14 @@ class StunProtocol(private val stunServers: List<String>?) {
 
         val stunAddress = InetSocketAddress(server, port.toIntOrNull() ?: 3478)
         if (stunAddress.isUnresolved) {
-            System.err.println("${server} not found in DNS")
+            logError("${server} not found in DNS")
             return null
         }
 
         val packet = DatagramPacket(data, 0, data.size, stunAddress)
         socket.send(packet)
 
-        println("StunProtocol::sendRequest (${socket.localPort}) -Sent request to server ${serverAndPort}, trID=${sendMH.transactionID.toHexString()}")
+        logDebug("StunProtocol::sendRequest (${socket.localPort}) -Sent request to server ${serverAndPort}, trID=${sendMH.transactionID.toHexString()}")
 
         return sendMH.transactionID
     }
