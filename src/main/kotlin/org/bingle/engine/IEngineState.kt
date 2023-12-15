@@ -39,6 +39,7 @@ interface IEngineState {
     var resolver: IResolver
 
     // TODO: own class
+    val stunProcessor: StunProcessor
     val stunResolver: IStunResolver
     var stunResponseThread: Thread
     var stunHandlerDone: Boolean

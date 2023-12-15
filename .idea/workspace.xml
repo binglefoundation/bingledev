@@ -8,11 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- an advertiser that uses a DDB endpoint (relay)">
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbAdvertiserUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/BaseUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbResolverUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/DdbResolverUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/EngineUnitTest.kt" afterDir="false" />
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- move StunProcessor from worker to own class">
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +41,7 @@
       <list>
         <option value="Kotlin Annotation" />
         <option value="Kotlin File" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -122,9 +120,12 @@
       <recent name="org.bingle.dtls" />
       <recent name="org.bingle.interfaces" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.bingle.stun" />
+    </key>
   </component>
-  <component name="RunManager" selected="Gradle.DdbAdvertiserUnitTest.advertise updates with an endpoint advert">
-    <configuration name="DdbAdvertiserUnitTest.advertise updates with an endpoint advert" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
+    <configuration name="EngineUnitTest.Can start as a root relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -137,7 +138,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.DdbAdvertiserUnitTest.advertise updates with an endpoint advert&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as a root relay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -148,7 +149,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DdbResolverUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EngineUnitTest.Can start as initial root relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -161,7 +162,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.DdbResolverUnitTest&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as initial root relay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -172,7 +173,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="DdbResolverUnitTest.can resolveIdToAdvertRecord" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EngineUnitTest.Can start as second relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -185,7 +186,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.DdbResolverUnitTest.can resolveIdToAdvertRecord&quot;" />
+            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as second relay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -196,7 +197,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EngineUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StunIntegrationTest.can request and process STUN response from known servers" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -209,7 +210,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.EngineUnitTest&quot;" />
+            <option value="&quot;org.bingle.stun.StunIntegrationTest.can request and process STUN response from known servers&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -244,11 +245,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.DdbAdvertiserUnitTest.advertise updates with an endpoint advert" />
-        <item itemvalue="Gradle.DdbResolverUnitTest" />
-        <item itemvalue="Gradle.DdbResolverUnitTest.can resolveIdToAdvertRecord" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
-        <item itemvalue="Gradle.EngineUnitTest" />
+        <item itemvalue="Gradle.StunIntegrationTest.can request and process STUN response from known servers" />
+        <item itemvalue="Gradle.EngineUnitTest.Can start as second relay" />
+        <item itemvalue="Gradle.EngineUnitTest.Can start as initial root relay" />
+        <item itemvalue="Gradle.EngineUnitTest.Can start as a root relay" />
       </list>
     </recent_temporary>
   </component>
@@ -280,6 +281,7 @@
       <workItem from="1701640201780" duration="44135000" />
       <workItem from="1701807842204" duration="33637000" />
       <workItem from="1702235127621" duration="14254000" />
+      <workItem from="1702262954951" duration="52518000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -449,7 +451,87 @@
       <option name="project" value="LOCAL" />
       <updated>1702244089564</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="- unit test the DDBAdvertiser">
+      <option name="closed" value="true" />
+      <created>1702265524919</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1702265524919</updated>
+    </task>
+    <task id="LOCAL-00023" summary="- make RelayFinder follow the root then epoch based lookup&#10;- unit test RelayFinder">
+      <option name="closed" value="true" />
+      <created>1702337271460</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1702337271460</updated>
+    </task>
+    <task id="LOCAL-00024" summary="- initialize DDB as a relay node~~&#10;- unit test DDBInitialize for boot and join">
+      <option name="closed" value="true" />
+      <created>1702426364430</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1702426364430</updated>
+    </task>
+    <task id="LOCAL-00025" summary="- tidy some warnings">
+      <option name="closed" value="true" />
+      <created>1702433347307</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1702433347307</updated>
+    </task>
+    <task id="LOCAL-00026" summary="- test DDB handlers in engine">
+      <option name="closed" value="true" />
+      <created>1702585815553</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1702585815553</updated>
+    </task>
+    <task id="LOCAL-00027" summary="- add integration test for Stun">
+      <option name="closed" value="true" />
+      <created>1702605507952</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1702605507952</updated>
+    </task>
+    <task id="LOCAL-00028" summary="- improve logs">
+      <option name="closed" value="true" />
+      <created>1702606080529</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1702606080529</updated>
+    </task>
+    <task id="LOCAL-00029" summary="- use released JSTUN without XOR">
+      <option name="closed" value="true" />
+      <created>1702609219469</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1702609219469</updated>
+    </task>
+    <task id="LOCAL-00030" summary="- use released JSTUN without XOR">
+      <option name="closed" value="true" />
+      <created>1702609361851</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1702609361851</updated>
+    </task>
+    <task id="LOCAL-00031" summary="- move StunProcessor from worker to own class">
+      <option name="closed" value="true" />
+      <created>1702618536244</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1702618536244</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,7 +565,16 @@
     <MESSAGE value="- update gitignore" />
     <MESSAGE value="- unit test resolver directl" />
     <MESSAGE value="- an advertiser that uses a DDB endpoint (relay)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- an advertiser that uses a DDB endpoint (relay)" />
+    <MESSAGE value="- unit test the DDBAdvertiser" />
+    <MESSAGE value="- make RelayFinder follow the root then epoch based lookup&#10;- unit test RelayFinder" />
+    <MESSAGE value="- initialize DDB as a relay node~~&#10;- unit test DDBInitialize for boot and join" />
+    <MESSAGE value="- tidy some warnings" />
+    <MESSAGE value="- test DDB handlers in engine" />
+    <MESSAGE value="- add integration test for Stun" />
+    <MESSAGE value="- improve logs" />
+    <MESSAGE value="- use released JSTUN without XOR" />
+    <MESSAGE value="- move StunProcessor from worker to own class" />
+    <option name="LAST_COMMIT_MESSAGE" value="- move StunProcessor from worker to own class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -498,6 +589,11 @@
           <line>67</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/RelayFinder.kt</url>
+          <line>74</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -507,6 +603,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bingledev$Tests_in__bingledev_test_.ic" NAME="Tests in 'bingledev.test' Coverage Results" MODIFIED="1701663141716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bingledev$RelayFinderTest.ic" NAME="RelayFinderTest Coverage Results" MODIFIED="1702337177363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bingledev$SenderUnitTest.ic" NAME="SenderUnitTest Coverage Results" MODIFIED="1699742705015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bingledev$WorkerUnitTest.ic" NAME="WorkerUnitTest Coverage Results" MODIFIED="1700351204750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

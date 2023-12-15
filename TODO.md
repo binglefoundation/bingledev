@@ -21,4 +21,6 @@
 - ~~test DDB handlers in engine~~
 - ~~make jstun dependency own lib (revert to released version)~~
 - ~~remove ISendableMessage~~
-- make stunResolver own module
+- ~~make stunResolver own module (StunProcessor)~~
+- unit test StunProcessor
+- 

@@ -27,6 +27,7 @@ class Engine(override val creds: Map<String, String>, override val config: IComm
     override val triangleTest = TriangleTest(this)
 
     override lateinit var resolver: IResolver
+    override val stunProcessor = StunProcessor(this)
 
     // TODO: own class
     override val stunResolver = config.makeStunResolver()

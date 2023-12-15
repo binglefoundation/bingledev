@@ -10,7 +10,10 @@ import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
 import org.bingle.integration.StunServers
-import org.bingle.interfaces.*
+import org.bingle.interfaces.CommsState
+import org.bingle.interfaces.IChainAccess
+import org.bingle.interfaces.NatType
+import org.bingle.interfaces.RegisterAction
 import org.bingle.util.logDebug
 import org.bingle.util.logError
 import org.bingle.util.logWarn
@@ -18,7 +21,6 @@ import java.io.InputStream
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.UnknownHostException
-import java.util.concurrent.TimeUnit
 
 class Worker internal constructor(private val engine: IEngineState) {
     private lateinit var initCommsThread: Thread
@@ -135,25 +137,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                 engine.relay.adoptRelayForPublicEndpoint()
             }
 
-            // TODO: move to own class
-            logDebug("Worker::initComms setup stun handler")
-
-            // The stun thread runs any state changes from an IP change
-            // and deals with relay initialization including DDB
-            engine.stunHandlerDone = false
-            engine.stunResponseThread = Thread {
-                while (!engine.stunHandlerDone) {
-                    val stunResponse = engine.stunHandlerQueue.poll(10, TimeUnit.MINUTES)
-                    if (stunResponse?.kind == StunResponseKind.STOP) break
-
-                    if (stunResponse != null) {
-                        // logDebug("Comms: calling handleStunResponse for ${stunResponse}")
-                        handleStunResponse(stunResponse, engine.config.onState)
-                        // logDebug("Comms: done with ${stunResponse}")
-                    }
-                }
-            }
-            engine.stunResponseThread.start()
+            engine.stunProcessor.runResponseThread()
 
             try {
                 logDebug("Worker::initComms create certs")
@@ -283,53 +267,4 @@ class Worker internal constructor(private val engine: IEngineState) {
         engine.stunResponseThread.join()
         logDebug("Worker::stop done")
     }
-
-    //TODO: move to own class
-    private fun handleStunResponse(stunResponse: StunResponse?, onState: CommsStateHandler?) {
-        if (stunResponse == null) {
-            logDebug("Worker::handleStunResponse Got null stun response")
-            return
-        }
-
-        try {
-            engine.stunResolver.addResponse(stunResponse)
-            val (resolveLevel, endpoint) = engine.stunResolver.analyse()
-            // logDebug("Worker::handleStunResponse Got stun response ${stunResponse}, state=${state} resolveLevel=${resolveLevel}, endpoint=${endpoint}, currentEndpoint=${currentEndpoint}")
-
-            if (endpoint == null || (engine.state == CommsState.ADVERTISED && (endpoint == engine.currentEndpoint )) || engine.state == CommsState.RELAY_ADVERTISED) {
-                // logDebug("Worker::handleStunResponse - no sig change")
-                onState?.invoke(engine.state, resolveLevel, null, null)
-                return
-            }
-
-            logDebug("Worker::handleStunResponse - change, need processing endpoint=${endpoint} currentEndpoint=??? state=${engine.state}")
-
-            if (resolveLevel < ResolveLevel.CONSISTENT) {
-                logDebug("Worker::handleStunResponse Resolved at ${resolveLevel} ${endpoint}")
-                if (resolveLevel > ResolveLevel.SINGLE) {
-                    onState?.invoke(
-                        engine.state,
-                        resolveLevel,
-                        RegisterAction.INCONSISTENT_STUN_RESPONSE,
-                        NatType.SYMMETRIC
-                    )
-                } else {
-                    onState?.invoke(engine.state, resolveLevel, RegisterAction.AWAIT_MULTIPLE_STUN_RESPONSE, null)
-                    return
-                }
-            }
-
-            engine.state = CommsState.BOUND
-            onState?.invoke(engine.state, resolveLevel, RegisterAction.STUN_RESOLVED, null)
-
-            // val thatComms = this -> not needed?
-            engine.relay.adoptRelayState(endpoint, resolveLevel)
-        } catch (ex: Exception) {
-            System.err.println("Worker::handleStunResponse threw $ex in handler, response poss not processed")
-            ex.printStackTrace(System.err)
-        }
-    }
-
-
-
 }

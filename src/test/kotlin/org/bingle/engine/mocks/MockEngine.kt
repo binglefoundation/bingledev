@@ -56,6 +56,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override var pinger: Pinger = Pinger(this, config.requestPingables, config.onAvailability)
 
     override var resolver: IResolver = MockResolver()
+    override val stunProcessor = StunProcessor(this)
     override val stunResolver: IStunResolver
         get() = TODO("Not yet implemented")
 
