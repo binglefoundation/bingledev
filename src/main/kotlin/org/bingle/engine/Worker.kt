@@ -9,6 +9,7 @@ import org.bingle.command.BaseCommand
 import org.bingle.dtls.DTLSParameters
 import org.bingle.dtls.JavaResourceUtil
 import org.bingle.dtls.NetworkSourceKey
+import org.bingle.integration.StunServers
 import org.bingle.interfaces.*
 import org.bingle.util.logDebug
 import org.bingle.util.logError
@@ -21,16 +22,6 @@ import java.util.concurrent.TimeUnit
 
 class Worker internal constructor(private val engine: IEngineState) {
     private lateinit var initCommsThread: Thread
-
-    // TODO: move to own class / make configurable
-    private val stunServers = listOf(
-        "stun4.l.google.com:19302",
-        "stun.gmx.net:3478",
-        "stun.freeswitch.org:3478",
-        "stun.skydrone.aero:3478",
-        "stun.voipwise.com:3478",
-        "stun.voip.blackberry.com:3478"
-    )
 
     private fun failNoId() {
 
@@ -209,7 +200,7 @@ class Worker internal constructor(private val engine: IEngineState) {
                         // TODO: moves to own class
                         engine.stunHandlerQueue.put(stunResponse)
                     },
-                    stunServers = if (engine.config.publicEndpoint == null) stunServers else null,
+                    stunServers = if (engine.config.publicEndpoint == null) StunServers.known() else null,
                     serverEncryptionCert = certCreator.serverEncryptionCert,
                     serverEncryptionKey = certCreator.serverEncryptionKey,
                     serverSigningCert = certCreator.serverSigningCert,
