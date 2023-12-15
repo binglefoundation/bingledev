@@ -25,7 +25,12 @@ class StunIntegrationTest {
             while(!finishedWithThis) {
                 val buffer = ByteArray(128)
                 val packet = DatagramPacket(buffer, buffer.size)
-                datagramSocket.receive(packet)
+                try {
+                    datagramSocket.receive(packet)
+                }
+                catch(_: SocketException) {
+                    break
+                }
                 logDebug("Got packet from ${packet.address} length ${packet.length}")
 
                 if (stunProtocol.isStunMessage(packet.data)) {

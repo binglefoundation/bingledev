@@ -3,17 +3,17 @@ package org.bingle.stun
 
 import com.creatotronik.stun.StunResponse
 import com.creatotronik.stun.StunResponseKind
-import de.javawi.jstun.attribute.*
+import de.javawi.jstun.attribute.ChangeRequest
+import de.javawi.jstun.attribute.ErrorCode
+import de.javawi.jstun.attribute.MappedAddress
+import de.javawi.jstun.attribute.MessageAttributeInterface
 import de.javawi.jstun.header.MessageHeader
 import de.javawi.jstun.header.MessageHeaderInterface
 import de.javawi.jstun.header.MessageHeaderParsingException
 import org.bingle.util.logDebug
 import org.bingle.util.logError
-import org.bingle.util.toByteArray
-import org.bingle.util.xor
 import java.net.DatagramPacket
 import java.net.DatagramSocket
-import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.util.*
 import java.util.Calendar.SECOND
@@ -72,9 +72,16 @@ class StunProtocol(private val stunServers: List<String>?) {
 
         val ma =
             messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.MappedAddress) as MappedAddress?
-        val xma =
-            messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.XorMappedAddress) as XorMappedAddress?
+        // We dont accept XorMappedAddress entries, there seems to be a set of stun servers that dont respond
+        // with these
+        // No fundamental reason except that JSTUN doesnt support this
 
+       // val messageHeaderKlass = messageHeader.javaClass
+     //   val messageHeaderMa = messageHeaderKlass.getDeclaredField("ma")
+     //   val treeMap = messageHeaderMa.get(messageHeader) as TreeMap<*, *>
+
+//        val xma = treeMap.get(StunMessageAttributeInterface.MessageAttributeType.XorMappedAddress as Enum<*>)
+//            as MappedAddress
 
         val ec =
             messageHeader.getMessageAttribute(MessageAttributeInterface.MessageAttributeType.ErrorCode) as ErrorCode?
@@ -91,20 +98,20 @@ class StunProtocol(private val stunServers: List<String>?) {
             )
         }
 
-        if (xma != null) {
-            val addressBytes = xma.address.bytes
-            val decodedAddressBytes = when (addressBytes.size) {
-                4 -> addressBytes.xor(MAGIC_COOKIE.toByteArray())
-                16 -> addressBytes.xor(MAGIC_COOKIE.toByteArray() + trID)
-                else -> throw RuntimeException("${addressBytes.size} bytes unexpected asa address size")
-            }
-            val decodedPort = xma.port xor (MAGIC_COOKIE / 65536)
-            return StunResponse(
-                StunResponseKind.XOR,
-                request.server,
-                InetSocketAddress(InetAddress.getByAddress(decodedAddressBytes), decodedPort)
-            )
-        }
+//        if (xma != null) {
+//            val addressBytes = xma.address.bytes
+//            val decodedAddressBytes = when (addressBytes.size) {
+//                4 -> addressBytes.xor(MAGIC_COOKIE.toByteArray())
+//                16 -> addressBytes.xor(MAGIC_COOKIE.toByteArray() + trID)
+//                else -> throw RuntimeException("${addressBytes.size} bytes unexpected asa address size")
+//            }
+//            val decodedPort = xma.port xor (MAGIC_COOKIE / 65536)
+//            return StunResponse(
+//                StunResponseKind.XOR,
+//                request.server,
+//                InetSocketAddress(InetAddress.getByAddress(decodedAddressBytes), decodedPort)
+//            )
+//        }
 
         logError("decodeStunResponse: request has null MappedAddress and XorMappedAddress")
         return null
@@ -199,3 +206,4 @@ class StunProtocol(private val stunServers: List<String>?) {
         return tim.time
     }
 }
+

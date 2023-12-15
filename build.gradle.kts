@@ -23,8 +23,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.76")
     implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
 
-    // TODO: relocate or incorporate
-    implementation(files("../thirdparty/JSTUN/target/jstun-0.7.6-XOR.jar"))
+    implementation("de.javawi.jstun:jstun:0.7.4")
 
     implementation("io.github.classgraph:classgraph:4.8.165")
 
