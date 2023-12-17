@@ -33,9 +33,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
 
     override var id: String = id1
     override val config: ICommsConfig = MockCommsConfig(mockDtlsConnect)
-    override var state: CommsState
-        get() = TODO("Not yet implemented")
-        set(value) {}
+    override var state: CommsState = CommsState.NONE
     override val worker: Worker
         get() = TODO("Not yet implemented")
     override val sender: Sender
@@ -57,8 +55,7 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
 
     override var resolver: IResolver = MockResolver()
     override val stunProcessor = StunProcessor(this)
-    override val stunResolver: IStunResolver
-        get() = TODO("Not yet implemented")
+    override val stunResolver: IStunResolver = StunResolver()
 
     override lateinit var stunResponseThread: Thread
 
@@ -79,6 +76,6 @@ class MockEngine(mockDtlsConnect: IDTLSConnect) : IEngineState {
     override val commandRouter: CommandRouter
         get() = myCommandRouter
     override val triangleTest: TriangleTest = TriangleTest(this)
-    override val relay = Relay(this)
+    override var relay = Relay(this)
 
 }
