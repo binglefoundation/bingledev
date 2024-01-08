@@ -27,11 +27,13 @@
 
 ## Simulator testing
 
-- write sim test for 2 nodes, root relays, single message
-- implement engine wrapper
+- ~~write sim test for 2 nodes, root relays, single message~~
+- ~~implement engine wrapper~~
 - implement stun/address binding mocks
-- implement operation scheduling
-- implement config of engines
+- ~~generate tests certificate and use id in sim dtls~~
+- ~~implement operation scheduling~~
+- ~~implement config of engines~~
+- ~~implement message expectations~~
 - implement message deliver measurement
 - write test with 4 nodes, root relays, becoming second relay
 - write test with 4 nodes, becoming 2/3 relay

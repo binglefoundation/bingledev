@@ -33,6 +33,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.24.2")
     // https://mvnrepository.com/artifact/io.mockk/mockk
     testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("com.lordcodes.turtle:turtle:0.5.0")
 }
 
 tasks.test {

@@ -1,31 +1,30 @@
-package org.bingle.engine.mocks
+package org.bingle.simulated.simulator
 
 import com.algorand.algosdk.crypto.Address
+import org.bingle.blockchain.AlgoAssetAccess
 import org.bingle.engine.RelayInfo
 import org.bingle.interfaces.IChainAccess
+import org.bingle.interfaces.IKeyProvider
 import java.net.InetSocketAddress
 
-class MockChainAccess(
-        private val addressToUsername: Map<String, String> = mapOf(
-            id1 to mockUser1,
-            id2 to mockUser2,
-            id3 to mockUser3,
-            idRelay to mockUserRelay,
-        ),
-        val relayInfos: List<RelayInfo> = listOf(RelayInfo(idRelay, endpointRelay, true))
-        ): IChainAccess {
+class SimulatedChainAccess(keyProvider: IKeyProvider, val username: String) : IChainAccess {
+    val algoChainAccess = AlgoAssetAccess(keyProvider)
 
-
-    private var relayState: Byte? = null
+    init {
+        addressToUsername.put( algoChainAccess.address!!, username)
+    }
 
     override val passphrase: String?
-        get() = TODO("Not yet implemented")
+        get() = algoChainAccess.passphrase
+
     override var address: String?
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() = algoChainAccess.address
+        set(value) {
+            TODO("Cant reset address")
+        }
 
     override fun createAddress(b: Boolean, newKey: Boolean): Address {
-        TODO("Not yet implemented")
+        return algoChainAccess.createAddress(b, newKey)
     }
 
     override fun assetUsername(): String? {
@@ -35,18 +34,17 @@ class MockChainAccess(
     override fun <T, S> retrying(block: (that: S) -> T): T =
         block.invoke(this as S)
 
+
     override fun findUsernameByAddress(address: String): String? {
         return addressToUsername[address]
     }
 
     override fun findIdByUsername(username: String): String? {
-        return addressToUsername.filterValues {
-            it === username
-        }.keys.first()
+        TODO("Not yet implemented")
     }
 
     override fun listRelaysWithIps(): List<RelayInfo> {
-        return relayInfos
+        TODO("Not yet implemented")
     }
 
     override fun registerIP(address: String, ip: InetSocketAddress): Boolean {
@@ -62,11 +60,18 @@ class MockChainAccess(
     }
 
     override fun setRelayState(relayState: Byte): Boolean {
-        this.relayState = relayState
-        return true
+        return true // TODO: we should emulate fully?
     }
 
-    override fun privateKeyBytes()= ByteArray(32) { (1 + it).toByte() }
+    override fun privateKeyBytes(): ByteArray {
+        return algoChainAccess.privateKeyBytes()
+    }
 
-    override fun publicKeyBytes() = ByteArray(32) { (33 - it).toByte() }
+    override fun publicKeyBytes(): ByteArray {
+        return algoChainAccess.publicKeyBytes()
+    }
+
+    companion object {
+        val addressToUsername = mutableMapOf<String, String>()
+    }
 }

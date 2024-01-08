@@ -8,7 +8,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- move StunProcessor from worker to own class" />
+    <list default="true" id="21b32a38-9155-4718-b920-8b42173c8156" name="Changes" comment="- extended plan">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/util/DateUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/IdUtilsTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/Scenarios.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/EngineWrapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedChainAccess.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedCommsConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedKeyProvider.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedNetwork.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedNetworkNode.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/Simulator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/TextMessageCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/command/TextMessageCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IdUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/bingle/engine/IdUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/org/bingle/engine/mocks/MockChainAccess.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +67,11 @@
         <option value="Bingle Foundation &lt;bingle.foundation@gmail.com&gt;" />
       </list>
     </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -73,7 +95,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sim-tests&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/richardparratt/dev/bingledev/src/main/kotlin/org/bingle/going&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -101,6 +123,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="org.bingle.simulated.simulator" />
       <recent name="org.bingle.engine.mocks" />
       <recent name="org.bingle.engine" />
     </key>
@@ -122,8 +145,8 @@
       <recent name="org.bingle.stun" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'bingledev.test'">
-    <configuration name="EngineUnitTest.Can start as a root relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Scenarios.2 nodes, root relays, single message">
+    <configuration name="IdUtilsTest.Extracts from CN in issuer string" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -136,7 +159,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as a root relay&quot;" />
+            <option value="&quot;org.bingle.engine.IdUtilsTest.Extracts from CN in issuer string&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -147,7 +170,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EngineUnitTest.Can start as initial root relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Scenarios.2 nodes, root relays, single message" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -160,7 +183,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as initial root relay&quot;" />
+            <option value="&quot;org.bingle.simulated.Scenarios.2 nodes, root relays, single message&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -171,7 +194,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EngineUnitTest.Can start as second relay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StunProcessorUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -184,7 +207,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.engine.EngineUnitTest.Can start as second relay&quot;" />
+            <option value="&quot;org.bingle.engine.StunProcessorUnitTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -195,7 +218,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="StunIntegrationTest.can request and process STUN response from known servers" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StunProcessorUnitTest.calls adoptRelayState with INCONSISTENT after stun responses are inconsistent" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -208,7 +231,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.bingle.stun.StunIntegrationTest.can request and process STUN response from known servers&quot;" />
+            <option value="&quot;org.bingle.engine.StunProcessorUnitTest.calls adoptRelayState with INCONSISTENT after stun responses are inconsistent&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -243,11 +266,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Scenarios.2 nodes, root relays, single message" />
+        <item itemvalue="Gradle.IdUtilsTest.Extracts from CN in issuer string" />
         <item itemvalue="Gradle.Tests in 'bingledev.test'" />
-        <item itemvalue="Gradle.StunIntegrationTest.can request and process STUN response from known servers" />
-        <item itemvalue="Gradle.EngineUnitTest.Can start as second relay" />
-        <item itemvalue="Gradle.EngineUnitTest.Can start as initial root relay" />
-        <item itemvalue="Gradle.EngineUnitTest.Can start as a root relay" />
+        <item itemvalue="Gradle.StunProcessorUnitTest.calls adoptRelayState with INCONSISTENT after stun responses are inconsistent" />
+        <item itemvalue="Gradle.StunProcessorUnitTest" />
       </list>
     </recent_temporary>
   </component>
@@ -279,7 +302,11 @@
       <workItem from="1701640201780" duration="44135000" />
       <workItem from="1701807842204" duration="33637000" />
       <workItem from="1702235127621" duration="14254000" />
-      <workItem from="1702262954951" duration="53121000" />
+      <workItem from="1702262954951" duration="72651000" />
+      <workItem from="1703388392371" duration="1624000" />
+      <workItem from="1704421541787" duration="10777000" />
+      <workItem from="1704579677475" duration="3751000" />
+      <workItem from="1704740744218" duration="4239000" />
     </task>
     <task id="LOCAL-00001" summary="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name">
       <option name="closed" value="true" />
@@ -537,7 +564,31 @@
       <option name="project" value="LOCAL" />
       <updated>1702618594849</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="- unit test StunProcessor">
+      <option name="closed" value="true" />
+      <created>1702852593658</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1702852593658</updated>
+    </task>
+    <task id="LOCAL-00034" summary="- unit test StunProcessor">
+      <option name="closed" value="true" />
+      <created>1702852671655</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1702852671655</updated>
+    </task>
+    <task id="LOCAL-00035" summary="- extended plan">
+      <option name="closed" value="true" />
+      <created>1702853666814</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1702853666814</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -555,8 +606,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name" />
-    <MESSAGE value="- Converting commands to follow a pattern that is a simple class that can be converted to Map and Json, and derives the type from the class name&#10;- Now builds and passes unit tests" />
     <MESSAGE value="- Test ping through Engine" />
     <MESSAGE value="- With tidy" />
     <MESSAGE value="- Plan TODO" />
@@ -580,7 +629,9 @@
     <MESSAGE value="- improve logs" />
     <MESSAGE value="- use released JSTUN without XOR" />
     <MESSAGE value="- move StunProcessor from worker to own class" />
-    <option name="LAST_COMMIT_MESSAGE" value="- move StunProcessor from worker to own class" />
+    <MESSAGE value="- unit test StunProcessor" />
+    <MESSAGE value="- extended plan" />
+    <option name="LAST_COMMIT_MESSAGE" value="- extended plan" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -600,6 +651,16 @@
           <line>74</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/EngineWrapper.kt</url>
+          <line>29</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/test/kotlin/org/bingle/simulated/simulator/SimulatedNetwork.kt</url>
+          <line>35</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -608,7 +669,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/bingledev$Tests_in__bingledev_test_.ic" NAME="Tests in 'bingledev.test' Coverage Results" MODIFIED="1701663141716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bingledev$Tests_in__bingledev_test_.ic" NAME="Tests in 'bingledev.test' Coverage Results" MODIFIED="1702852385613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bingledev$RelayFinderTest.ic" NAME="RelayFinderTest Coverage Results" MODIFIED="1702337177363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bingledev$SenderUnitTest.ic" NAME="SenderUnitTest Coverage Results" MODIFIED="1699742705015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bingledev$WorkerUnitTest.ic" NAME="WorkerUnitTest Coverage Results" MODIFIED="1700351204750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
